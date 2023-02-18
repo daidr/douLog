@@ -53,7 +53,6 @@ router.beforeEach((to, from, next) => {
     toggleDecoration(false)
     const _loadingEl = getTransitionContainer(LoadingEl.value)
     const _slotEl = getTransitionContainer(SlotEl.value)
-    console.log(SlotEl.value)
 
     writeBound(_loadingEl, _toWrapperStyle)
     if (_slotEl && _slotEl.nodeName != '#comment') {
@@ -400,19 +399,6 @@ const onAfterLeave = el => {
   >
     <slot />
   </Transition>
-
-  <!-- <NuxtPage
-    ref="SlotEl"
-    :transition="{
-      css: false,
-      onBeforeEnter,
-      onEnter,
-      onBeforeLeave,
-      onLeave,
-      onAfterEnter,
-      onAfterLeave,
-    }"
-  /> -->
   <div ref="LoadingEl" class="loading">
     <div class="loading-container">
       <div></div>
