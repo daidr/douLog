@@ -1,4 +1,6 @@
 export const CONFIG = {
+  name: '戴兜',
+  enName: 'DaiDR',
   siteName: '戴兜的小屋',
   description: 'Coding the world.',
   keywords: [

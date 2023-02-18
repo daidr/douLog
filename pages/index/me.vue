@@ -1,4 +1,6 @@
 <script setup>
+import { CONFIG } from '~~/config/base'
+
 useHead({
   title: '我',
 })
@@ -23,8 +25,10 @@ useHead({
           ></circle>
         </svg>
       </div>
-      <div class="name">戴兜 <span>@DaiDR</span></div>
-      <div class="motto">Coding the world.</div>
+      <div class="name">
+        {{ CONFIG.name }} <span>@{{ CONFIG.enName }}</span>
+      </div>
+      <div class="motto">{{ CONFIG.description }}</div>
       <UiSocialMediaNav class="socialmedia-wrapper" />
     </div>
   </UiCardWrapper>
