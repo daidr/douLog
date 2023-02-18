@@ -2,14 +2,14 @@
 import { CONFIG } from '@/config/base'
 
 const themeColorList = [
-  '#2196f3',
-  '#f44336',
-  '#9c27b0',
-  '#4caf50',
-  '#3f51b5',
-  '#795548',
-  '#607d8b',
-  '#009688',
+  '#b1dafb',
+  '#fcbcb9',
+  '#dbb3e3',
+  '#c0e3c2',
+  '#bcc2e5',
+  '#d0c4bf',
+  '#c7d2d5',
+  '#a6dad5',
 ]
 
 const randomThemeColorIndex = useState('randomThemeColorIndex', () =>
