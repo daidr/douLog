@@ -1,0 +1,79 @@
+@import 'theme';
+
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, sans-serif !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#__nuxt {
+  @apply fixed top-0 left-0 bottom-0 right-0;
+  overflow: hidden;
+}
+
+.y-scroll-box {
+  @apply overflow-y-scroll;
+}
+
+.transition-router {
+  @apply transition-all;
+
+  @supports (-webkit-touch-callout: none) {
+    .y-scroll-box {
+      @apply overflow-hidden;
+    }
+  }
+}
+
+::selection {
+  @apply bg-primary text-primary-extralight;
+}
+
+@keyframes backshake {
+  0% {
+    transform: rotate(8deg);
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+  75% {
+    transform: rotate(-8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.transition-page-wrapper {
+  @apply "transform-gpu translate-z-200vh z-91";
+  @apply backface-hidden;
+}
+
+.transition-extra-wrapper {
+  @apply transform-gpu;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-duration: 800ms;
+  @apply opacity-100 scale-100 translate-x-0 translate-z-150vh z-90;
+  @apply origin-top-left;
+}
+
+body.hide-extra-wrapper {
+  .transition-extra-wrapper {
+    @apply opacity-0 scale-90 translate-x-50;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}

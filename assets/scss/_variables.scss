@@ -1,0 +1,30 @@
+@function getColorValue($color) {
+  @return #{red($color)} #{green($color)} #{blue($color)};
+}
+
+@mixin spread-theme-map($map: ()) {
+  @each $key, $value in $map {
+    #{"--"+$key}: $value;
+  }
+}
+
+@function theme-primary-map($primary-color: #2196f3) {
+  @return (
+    color-primary: getColorValue($primary-color),
+    color-primary-medium: getColorValue(mix($primary-color, white, 70%)),
+    color-primary-light: getColorValue(mix($primary-color, white, 35%)),
+    color-primary-extralight: getColorValue(mix($primary-color, white, 15%))
+  );
+}
+
+@function theme-default-map() {
+  @return (
+    color-white: getColorValue(white),
+    color-black: getColorValue(black),
+    color-blue: getColorValue(#4eabfc),
+    color-green: getColorValue(#5ec72b),
+    color-gray: getColorValue(#666666),
+    color-gray-light: getColorValue(#b4b4b4),
+    color-gray-dark: getColorValue(#333333)
+  );
+}

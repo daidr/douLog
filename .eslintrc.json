@@ -1,0 +1,14 @@
+{
+    "extends": [
+        "@nuxt",
+        "plugin:prettier/recommended"
+    ],
+    "rules": {
+        "vue/multi-word-component-names": 0,
+        "vue/max-attributes-per-line": 0,
+        "vue/first-attribute-linebreak": 0,
+        "prettier/prettier": [
+            "warn"
+        ]
+    }
+}
