@@ -14,7 +14,7 @@ useHead({
             cx="86"
             cy="86"
             r="80"
-            stroke-width="12"
+            stroke-width="10"
             class="stroke-primary-light"
             fill="none"
             stroke-linecap="round"
