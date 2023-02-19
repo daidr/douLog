@@ -10,7 +10,6 @@ useHead({
   <UiCardWrapper>
     <div class="wrapper">
       <div class="avatar">
-        <UiLazyImage src="/images/avatar.png" alt="AVATAR" />
         <svg view-box="0 0 172 172" width="172px" height="172px">
           <circle
             cx="86"
@@ -24,6 +23,7 @@ useHead({
             transform="rotate(-38 86 86)"
           ></circle>
         </svg>
+        <UiLazyImage src="/images/avatar.png" alt="AVATAR" />
       </div>
       <div class="name">
         {{ CONFIG.name }} <span>@{{ CONFIG.enName }}</span>
@@ -42,13 +42,23 @@ useHead({
   .avatar {
     @apply select-none;
     @apply "w-40 h-40";
-    @apply "rounded-full";
     @apply relative;
 
-    img {
-      @apply "w-full h-full";
-      @apply "rounded-full";
-      @apply "object-cover";
+    :deep(.lazy-image) {
+      width: 192px;
+      height: 192px;
+      transform: translate(-16px, -32px);
+      clip-path: path('M 22 0 L 22 107 A 6 6 0 0 0 170 120 L 170 0 Z');
+
+      img {
+        @apply transform-gpu transition-transform scale-80 translate-y-16px;
+        @apply duration-650;
+        transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
+
+        &:hover {
+          @apply scale-105 translate-y-0;
+        }
+      }
     }
 
     svg {
