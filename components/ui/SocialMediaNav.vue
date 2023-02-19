@@ -4,6 +4,7 @@ import IconRss from '~icons/uil/rss'
 import IconWeibo from '~icons/icon-park-outline/weibo'
 import IconBilibili from '~icons/icon-park-outline/tv-one'
 import IconGithub from '~icons/icon-park-outline/github-one'
+import IconHeart from '~icons/uil/heart'
 
 const urls = [
   {
@@ -30,6 +31,11 @@ const urls = [
     url: 'https://github.com/daidr',
     icon: IconGithub,
     name: 'GitHub',
+  },
+  {
+    url: 'https://sponsor.daidr.me',
+    icon: IconHeart,
+    name: '赞助',
   },
 ]
 </script>
