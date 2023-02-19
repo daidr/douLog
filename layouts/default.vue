@@ -1,5 +1,25 @@
+<script setup>
+const randomBackground = useState('randomBackground', () => {
+  const randomIndex = Math.floor(Math.random() * 2)
+  return randomIndex
+})
+
+const UiBackgroundGeometric = defineAsyncComponent(() =>
+  import('@/components/ui/Background/Geometric.vue')
+)
+
+const UiBackgroundLifeGame = defineAsyncComponent(() =>
+  import('@/components/ui/Background/LifeGame.vue')
+)
+</script>
+
 <template>
   <div class="main-wrapper">
+    <Component
+      :is="
+        randomBackground === 0 ? UiBackgroundGeometric : UiBackgroundLifeGame
+      "
+    />
     <slot />
     <SiteFooter />
   </div>
@@ -11,6 +31,5 @@
   @apply h-full;
   transform-style: preserve-3d;
   perspective-origin: 150% 150%;
-  background-image: url(/images/bg.svg);
 }
 </style>

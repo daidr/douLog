@@ -16,6 +16,8 @@ const randomThemeColorIndex = useState('randomThemeColorIndex', () =>
   Math.floor(Math.random() * themeColorList.length)
 )
 
+provide('themeColor', themeColorList[randomThemeColorIndex.value])
+
 useHead({
   bodyAttrs: {
     class: 'theme-' + (randomThemeColorIndex.value + 1),
