@@ -67,7 +67,7 @@ useHead({
   @apply "w-full h-full";
   @apply "fixed top-0 left-0";
   @apply overflow-x-hidden;
-  @apply "pb-15 md:pb-18";
+  @apply "pb-18 md:pb-21";
 
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--color-primary) / 0.8)
