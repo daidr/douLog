@@ -78,7 +78,7 @@ useHead({
   .friends-container {
     @apply h-full;
     @apply "grid grid-cols-1 gap-3";
-    @apply px-3 py-5px;
+    @apply px-3 py-6px;
     scrollbar-width: thin;
     scrollbar-color: rgb(var(--color-primary) / 0.8)
       rgb(var(--color-primary-extralight));
@@ -103,7 +103,6 @@ useHead({
       @apply bg-primary-extralight;
       @apply rounded-2xl p-2;
       @apply cursor-pointer relative;
-      @apply transition-all;
 
       &::before {
         content: '';

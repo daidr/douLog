@@ -185,6 +185,8 @@ useHead({
             @apply w-266px;
             @apply border-1 border-gray-200;
             @apply cursor-pointer;
+            @apply duration-500;
+            transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
 
             .project-image {
               @apply w-250px h-145px;
