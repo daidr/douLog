@@ -43,12 +43,13 @@ const { stop } = useIntersectionObserver(
 
 <template>
   <div ref="LazyImageContainerEl" class="lazy-image">
-    <img
+    <nuxt-img
       v-if="targetIsVisible"
       :class="{
         loaded,
         'no-animation': noAnimation,
       }"
+      format="webp"
       :src="src"
       :alt="alt"
       @load="onLoad"
