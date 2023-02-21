@@ -19,6 +19,9 @@ const randomThemeColorIndex = useState('randomThemeColorIndex', () =>
 provide('themeColor', themeColorList[randomThemeColorIndex.value])
 
 useHead({
+  htmlAttrs: {
+    lang: 'zh-CN',
+  },
   bodyAttrs: {
     class: 'theme-' + (randomThemeColorIndex.value + 1),
   },
