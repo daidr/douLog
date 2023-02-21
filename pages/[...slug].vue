@@ -28,9 +28,9 @@ useHead({
           <div class="btn-group">
             <RouterLink to="/" class="link-btn">去首页</RouterLink>
             <ClientOnly>
-              <a v-if="showBackBtn" class="link-btn" @click="back()">
+              <span v-if="showBackBtn" class="link-btn" @click="back()">
                 去上一页
-              </a>
+              </span>
             </ClientOnly>
           </div>
         </div>
