@@ -72,7 +72,7 @@ const path = (d: string) => {
     img {
       @apply transform-gpu transition-transform;
       //   @apply  scale-130 translate-y-[calc(var(--custom-size)/20)];
-      @apply scale-135 translate-y-[calc(-1*var(--custom-size)/10)];
+      @apply scale-125 translate-y-[calc(-1*var(--custom-size)/15)];
       @apply duration-650 pointer-events-none;
       transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
     }
