@@ -1,10 +1,6 @@
 <script setup>
 import { forceReflow } from '@/utils/_'
 
-import IconBear from '~icons/icon-park-outline/bear'
-import IconNoteBook from '~icons/icon-park-outline/notebook'
-import IconExperimentOne from '~icons/icon-park-outline/experiment-one'
-
 const containerEl = ref()
 const contentEl = ref()
 const MainMenuEl = ref()
