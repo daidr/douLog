@@ -1,10 +1,6 @@
 <script setup>
 import { BlockDefination } from '@/config/projects'
 
-import IconBear from '~icons/icon-park-outline/bear'
-import IconNoteBook from '~icons/icon-park-outline/notebook'
-import IconExperimentOne from '~icons/icon-park-outline/experiment-one'
-
 useHead({
   title: '实验室',
 })
@@ -14,18 +10,7 @@ useHead({
   <div class="projects-page-wrapper y-scroll-box">
     <div class="limit-wrapper">
       <div class="main-menu-wrapper transition-page-wrapper">
-        <NuxtLink to="/" class="menu-item">
-          <IconBear />
-          我
-        </NuxtLink>
-        <NuxtLink to="/friends" class="menu-item">
-          <IconNoteBook />
-          朋友们
-        </NuxtLink>
-        <NuxtLink to="/projects" class="menu-item">
-          <IconExperimentOne />
-          实验室
-        </NuxtLink>
+        <SiteMainNav />
       </div>
       <div class="block-wrapper-group transition-extra-wrapper">
         <div
@@ -101,55 +86,10 @@ useHead({
     @apply "rounded-4xl";
     @apply "bg-white";
     @apply "flex justify-center space-x-3";
-    @apply "py-5 w-full sm:w-320px";
+    @apply "py-5 w-full sm:w-340px";
     @apply "select-none";
     @apply "shadow-2xl shadow-primary/30";
     @apply z-90 translate-z-150vh;
-
-    .menu-item {
-      @apply relative;
-      @apply text-primary/70 font-semibold text-lg;
-      @apply cursor-pointer z-0;
-      @apply transition-all duration-300;
-      @apply flex items-center;
-
-      svg {
-        @apply text-0em;
-        @apply mr-0;
-        @apply transition-all;
-      }
-
-      &::before {
-        content: '';
-        @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
-        @apply rounded-xl;
-        @apply bg-primary-extralight;
-        @apply transition-all;
-      }
-
-      &:hover,
-      &.router-link-exact-active {
-        @apply px-3;
-
-        &::before {
-          @apply h-full;
-        }
-
-        svg {
-          @apply text-0.9em mr-1;
-        }
-      }
-
-      &:hover {
-        svg {
-          animation: backshake 0.5s linear;
-        }
-      }
-
-      &.router-link-exact-active {
-        @apply pointer-events-none;
-      }
-    }
   }
 
   .block-wrapper-group {

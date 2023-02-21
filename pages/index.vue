@@ -93,18 +93,7 @@ const onAfterLeave = el => {
   <div class="transition-page-wrapper">
     <div ref="containerEl" class="index-page-container">
       <div ref="MainMenuEl" class="main-menu-wrapper">
-        <NuxtLink to="/" class="menu-item">
-          <IconBear />
-          我
-        </NuxtLink>
-        <NuxtLink to="/friends" class="menu-item">
-          <IconNoteBook />
-          朋友们
-        </NuxtLink>
-        <NuxtLink to="/projects" class="menu-item">
-          <IconExperimentOne />
-          实验室
-        </NuxtLink>
+        <SiteMainNav />
       </div>
       <div ref="contentEl" class="content-wrapper">
         <NuxtPage
@@ -145,51 +134,6 @@ const onAfterLeave = el => {
       transition-property: transform, border-radius;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 300ms;
-
-      .menu-item {
-        @apply relative;
-        @apply text-primary/70 font-semibold text-lg;
-        @apply cursor-pointer z-0;
-        @apply transition-all duration-300;
-        @apply flex items-center;
-
-        svg {
-          @apply text-0em;
-          @apply mr-0;
-          @apply transition-all;
-        }
-
-        &::before {
-          content: '';
-          @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
-          @apply rounded-xl;
-          @apply bg-primary-extralight;
-          @apply transition-all;
-        }
-
-        &:hover,
-        &.router-link-exact-active {
-          @apply px-3;
-
-          &::before {
-            @apply h-full;
-          }
-
-          svg {
-            @apply text-0.9em mr-1;
-          }
-        }
-
-        &:hover {
-          svg {
-            animation: backshake 0.5s linear;
-          }
-        }
-
-        &.router-link-exact-active {
-          @apply pointer-events-none;
-        }
-      }
     }
 
     .content-wrapper {
