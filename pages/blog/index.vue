@@ -73,7 +73,7 @@ const mdAndSmaller = breakpoints.smallerOrEqual('md')
     @apply p-3;
     // 其实应该用gap-y更好，但是flex布局gap-y兼容性不太好
     @apply space-y-3;
-    @apply max-w-1300px;
+    @apply max-w-1000px;
     margin: 0 auto;
   }
 
@@ -111,6 +111,10 @@ const mdAndSmaller = breakpoints.smallerOrEqual('md')
         }
       }
     }
+  }
+
+  .block-wrapper-group {
+    @apply w-full;
   }
 }
 </style>
