@@ -10,6 +10,7 @@ importers:
       '@iconify-json/uil': ^1.1.4
       '@nuxt/eslint-config': ^0.1.1
       '@nuxt/image-edge': 1.0.0-27919678.2f5b64b
+      '@types/qs': ^6.9.7
       '@vueuse/core': ^9.12.0
       '@vueuse/nuxt': ^9.12.0
       eslint: ^8.34.0
@@ -30,6 +31,7 @@ importers:
       '@iconify-json/uil': 1.1.4
       '@nuxt/eslint-config': 0.1.1_eslint@8.34.0
       '@nuxt/image-edge': 1.0.0-27919678.2f5b64b_rollup@3.15.0
+      '@types/qs': 6.9.7
       '@vueuse/core': 9.12.0_vue@3.2.47
       '@vueuse/nuxt': 9.12.0_f3ihav77uh5kt43saqmj5dlhti
       eslint: 8.34.0
@@ -2296,6 +2298,10 @@ packages:
     dependencies:
       '@types/node': 18.13.0
     dev: false
+
+  /@types/qs/6.9.7:
+    resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
+    dev: true
 
   /@types/resolve/1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
