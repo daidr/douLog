@@ -10,4 +10,7 @@ export default defineNuxtConfig({
     'unplugin-icons/nuxt',
   ],
   css: ['~/assets/scss/global.scss', '~/assets/fonts/BEYNO/font.css'],
+  runtimeConfig: {
+    apiEntry: process.env.NUXT_BLOG_API_ENTRY || 'https://daidr.me',
+  },
 })
