@@ -77,3 +77,11 @@ body.hide-extra-wrapper {
 .fade-leave-to {
   @apply opacity-0;
 }
+
+.wp-smiley {
+  @apply inline-block;
+  height: 1em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
