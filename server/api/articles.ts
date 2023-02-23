@@ -1,4 +1,10 @@
 import qs from 'qs'
+import LRU from 'lru-cache'
+
+const CACHED = new LRU({
+  max: 1000,
+  ttl: 1000 * 60 * 30,
+})
 
 const { apiEntry } = useRuntimeConfig()
 
@@ -24,6 +30,12 @@ export default defineEventHandler(async event => {
 
   if (isNaN(page) || page < 1) {
     page = 1
+  }
+
+  const cacheKey = `api-articles-${page}`
+
+  if (CACHED.has(cacheKey)) {
+    return CACHED.get(cacheKey) as IArticleList
   }
 
   const query = qs.stringify(
@@ -52,7 +64,7 @@ export default defineEventHandler(async event => {
     baseURL: apiEntry,
   })) as any
 
-  return result.map((item: any) => ({
+  const _result = result.map((item: any) => ({
     id: item.id,
     link: item.link,
     title: item.title.rendered,
@@ -66,4 +78,8 @@ export default defineEventHandler(async event => {
     format: item.format,
     date: item.post_date,
   })) as IArticleList
+
+  CACHED.set(cacheKey, _result)
+
+  return _result
 })

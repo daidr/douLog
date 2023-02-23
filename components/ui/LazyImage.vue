@@ -49,7 +49,6 @@ const { stop } = useIntersectionObserver(
         loaded,
         'no-animation': noAnimation,
       }"
-      format="webp"
       :src="src"
       :alt="alt"
       @load="onLoad"
