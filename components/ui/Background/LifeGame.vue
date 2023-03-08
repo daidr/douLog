@@ -50,7 +50,7 @@ const themeColor = inject('themeColor')
 function run(cells, ctx) {
   timer = setTimeout(
     run,
-    150,
+    200,
     (function (cells) {
       if (isDisabled.value) return cells
       const cellColorList = []
@@ -150,7 +150,7 @@ function randomInt(range, offset = 0) {
 
 <style scoped lang="scss">
 canvas {
-  @apply pointer-events-none opacity-10;
+  @apply pointer-events-none opacity-15;
   @apply transition-opacity duration-800;
   @apply fixed left-0 top-0 -z-1;
 
