@@ -39,7 +39,7 @@ defineProps({
   @apply text-primary/70 font-semibold text-lg;
   @apply cursor-pointer z-0;
   @apply transition-all duration-300;
-  @apply flex items-center;
+  @apply flex items-center whitespace-nowrap;
 
   svg {
     @apply text-0em;
