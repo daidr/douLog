@@ -99,7 +99,10 @@ watch(
 
     &:last-child {
       a:hover {
-        @apply rounded-b-3xl;
+        @apply rounded-br-3xl;
+      }
+      a.level-0:hover {
+        @apply rounded-bl-3xl;
       }
     }
   }

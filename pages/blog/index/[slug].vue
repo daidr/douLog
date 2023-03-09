@@ -69,6 +69,7 @@ const setActiveTitle = (title: string | null) => {
     @apply w-full bg-white px-5 py-5 md:px-8 md:py-8 w-full;
     @apply rounded-4xl space-y-5;
     @apply shadow-2xl shadow-primary/30;
+    @apply max-w-856px;
 
     .title {
       @apply text-3xl md:text-4xl font-extrabold;
@@ -100,7 +101,17 @@ const setActiveTitle = (title: string | null) => {
 
   .sidebar {
     @apply pl-4 flex-shrink-0 w-80;
-    @apply hidden lg:block;
+    @apply block;
+  }
+
+  @media (max-width: 1200px) {
+    .sidebar {
+      @apply hidden;
+    }
+
+    .article-wrapper {
+      @apply max-w-[unset];
+    }
   }
 }
 </style>
