@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IArticleItem } from '~~/server/api/article/[id]'
 import IconTime from '~icons/icon-park-outline/time'
+import { ICatalogItem } from '~~/components/common/ArticleRender.vue'
 
 const slug = useRoute().params.slug as string
 
@@ -14,6 +15,16 @@ const { data: article } = await useFetch<IArticleItem | string>(
 
 if (article.value === 'not found') {
   navigateTo('/404', { replace: true })
+}
+
+const catalogList = ref([] as ICatalogItem[])
+const generateCatalog = (payload: ICatalogItem[]) => {
+  catalogList.value = payload
+}
+
+const activeTitleId = ref('')
+const setActiveTitle = (title: string | null) => {
+  activeTitleId.value = title || ''
 }
 </script>
 
@@ -33,14 +44,19 @@ if (article.value === 'not found') {
       <div v-if="article.image" class="article-image">
         <UiLazyImage :src="article.image" />
       </div>
-      <CommonArticleRender :article-html="article.content" />
+      <CommonArticleRender
+        :article-html="article.content"
+        @generate-catalog="generateCatalog"
+        @active-title="setActiveTitle"
+      />
     </div>
 
-    <div class="sidebar">
-      <nav class="side-catalog">
-        <div class="side-catalog-title">目录</div>
-        <div class="side-catalog-list"></div>
-      </nav>
+    <div v-if="catalogList.length" class="sidebar">
+      <CommonArticleCatalog
+        v-if="catalogList.length"
+        :catalog="catalogList"
+        :active-title="activeTitleId"
+      />
     </div>
   </div>
 </template>
@@ -85,11 +101,6 @@ if (article.value === 'not found') {
   .sidebar {
     @apply pl-4 flex-shrink-0 w-80;
     @apply hidden lg:block;
-    .side-catalog {
-      @apply w-full bg-white px-5 md:px-8 py-4 w-full sticky top-4;
-      @apply rounded-4xl;
-      @apply shadow-2xl shadow-primary/30;
-    }
   }
 }
 </style>
