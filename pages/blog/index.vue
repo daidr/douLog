@@ -9,11 +9,15 @@ useHead({
 const breakpoints = useBreakpoints(breakpointsTailwind)
 
 const mdAndSmaller = breakpoints.smallerOrEqual('md')
+
+const route = useRoute()
+
+const isInArticlePage = computed(() => route.path.match(/\/blog\/\d+/))
 </script>
 
 <template>
   <div class="articles-page-wrapper y-scroll-box">
-    <div class="limit-wrapper">
+    <div class="limit-wrapper" :class="{ wider: isInArticlePage }">
       <div class="header-wrapper transition-page-wrapper">
         <div class="main-menu-wrapper">
           <SiteMainNav />
@@ -75,6 +79,12 @@ const mdAndSmaller = breakpoints.smallerOrEqual('md')
     @apply space-y-3;
     @apply max-w-1000px;
     margin: 0 auto;
+
+    transition: max-width 0.3s ease-in-out;
+
+    &.wider {
+      @apply max-w-1400px;
+    }
   }
 
   .header-wrapper {
