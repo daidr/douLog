@@ -57,6 +57,7 @@ export default defineEventHandler(async event => {
         'next_post_title',
         'total_comments',
         '_links.wp:term',
+        '_links.wp:featuredmedia',
         'format',
       ],
       _embed: ['wp:term'],
@@ -69,12 +70,16 @@ export default defineEventHandler(async event => {
       baseURL: apiEntry,
     })) as any
 
+    console.log(JSON.stringify(result))
+
     const _result = {
       id: result.id,
       link: result.link,
       title: result.title.rendered,
       content: result.content.rendered,
-      image: replaceMediaCDN(result.post_full_image),
+      image: result._links['wp:featuredmedia']
+        ? replaceMediaCDN(result.post_full_image)
+        : null,
       commentCount: result.total_comments,
       viewCount: result.pageviews,
       categoryName: result.category_name,

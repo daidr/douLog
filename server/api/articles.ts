@@ -55,6 +55,7 @@ export default defineEventHandler(async event => {
         'previous_post_id',
         'total_comments',
         '_links.wp:term',
+        '_links.wp:featuredmedia',
         'format',
       ],
       _embed: ['wp:term'],
@@ -72,7 +73,9 @@ export default defineEventHandler(async event => {
     link: item.link,
     title: item.title.rendered,
     excerpt: item.excerpt.rendered,
-    image: replaceMediaCDN(item.post_medium_image),
+    image: item._links['wp:featuredmedia']
+      ? replaceMediaCDN(item.post_medium_image)
+      : null,
     commentCount: item.total_comments,
     viewCount: item.pageviews,
     categoryName: item.category_name,
