@@ -7,7 +7,7 @@ defineProps<{ article: IArticleListItem }>()
 </script>
 
 <template>
-  <a class="article-item" target="_blank" :href="article.link">
+  <NuxtLink class="article-item" :to="`/blog/${article.id}`">
     <div class="left">
       <h3 class="title">{{ article.title }}</h3>
       <div class="details">
@@ -34,7 +34,7 @@ defineProps<{ article: IArticleListItem }>()
     <div v-if="article.image" class="right">
       <UiLazyImage :src="article.image" />
     </div>
-  </a>
+  </NuxtLink>
 </template>
 
 <style lang="scss" scoped>
