@@ -1,5 +1,6 @@
 import qs from 'qs'
 import LRU from 'lru-cache'
+import { replaceMediaCDN } from '~~/utils/mediaCDN'
 
 const CACHED = new LRU({
   max: 1000,
@@ -73,7 +74,7 @@ export default defineEventHandler(async event => {
       link: result.link,
       title: result.title.rendered,
       content: result.content.rendered,
-      image: result.post_full_image,
+      image: replaceMediaCDN(result.post_full_image),
       commentCount: result.total_comments,
       viewCount: result.pageviews,
       categoryName: result.category_name,
