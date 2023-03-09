@@ -18,6 +18,7 @@ export default defineConfig({
           light: withOpacityValue('--color-primary-light'),
           medium: withOpacityValue('--color-primary-medium'),
           DEFAULT: withOpacityValue('--color-primary'),
+          dark: withOpacityValue('--color-primary-dark'),
         },
         gray: {
           light: withOpacityValue('--color-gray-light'),

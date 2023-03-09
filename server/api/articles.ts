@@ -1,9 +1,11 @@
 import qs from 'qs'
 import LRU from 'lru-cache'
+import { replaceMediaCDN } from '~~/utils/mediaCDN'
 
 const CACHED = new LRU({
   max: 1000,
   ttl: 1000 * 60 * 30,
+  allowStale: true,
 })
 
 const { apiEntry } = useRuntimeConfig()
@@ -26,7 +28,8 @@ export interface IArticleListItem {
 export type IArticleList = IArticleListItem[]
 
 export default defineEventHandler(async event => {
-  let page = parseInt(getQuery(event).page?.toString() || '1')
+  let page =
+    ((getQuery(event).page?.toString() || '1') as unknown as number) - 0
 
   if (isNaN(page) || page < 1) {
     page = 1
@@ -52,6 +55,7 @@ export default defineEventHandler(async event => {
         'previous_post_id',
         'total_comments',
         '_links.wp:term',
+        '_links.wp:featuredmedia',
         'format',
       ],
       _embed: ['wp:term'],
@@ -69,7 +73,9 @@ export default defineEventHandler(async event => {
     link: item.link,
     title: item.title.rendered,
     excerpt: item.excerpt.rendered,
-    image: item.post_medium_image,
+    image: item._links['wp:featuredmedia']
+      ? replaceMediaCDN(item.post_medium_image)
+      : null,
     commentCount: item.total_comments,
     viewCount: item.pageviews,
     categoryName: item.category_name,
