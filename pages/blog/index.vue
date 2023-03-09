@@ -83,7 +83,7 @@ const isInArticlePage = computed(() => route.path.match(/\/blog\/\d+/))
     transition: max-width 0.3s ease-in-out;
 
     &.wider {
-      @apply max-w-1400px;
+      @apply max-w-1200px;
     }
   }
 
