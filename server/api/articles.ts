@@ -4,6 +4,7 @@ import LRU from 'lru-cache'
 const CACHED = new LRU({
   max: 1000,
   ttl: 1000 * 60 * 30,
+  allowStale: true,
 })
 
 const { apiEntry } = useRuntimeConfig()
@@ -26,7 +27,8 @@ export interface IArticleListItem {
 export type IArticleList = IArticleListItem[]
 
 export default defineEventHandler(async event => {
-  let page = parseInt(getQuery(event).page?.toString() || '1')
+  let page =
+    ((getQuery(event).page?.toString() || '1') as unknown as number) - 0
 
   if (isNaN(page) || page < 1) {
     page = 1
