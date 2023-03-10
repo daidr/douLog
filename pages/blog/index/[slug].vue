@@ -17,6 +17,19 @@ if (article.value === 'not found') {
   navigateTo('/404', { replace: true })
 }
 
+const setIsInArticlePage = inject('setIsInArticlePage') as (
+  value: boolean
+) => void
+
+onMounted(() => {
+  setIsInArticlePage(true)
+})
+
+onActivated(async () => {
+  await nextTick()
+  setIsInArticlePage(true)
+})
+
 const catalogList = ref([] as ICatalogItem[])
 const generateCatalog = (payload: ICatalogItem[]) => {
   catalogList.value = payload
@@ -39,6 +52,9 @@ const showSidebar = computed(() => catalogList.value.length > 0)
           <div class="time">
             <IconTime />
             {{ article.date }}
+          </div>
+          <div class="origin">
+            <a :href="article.link" target="_blank">阅读原文</a>
           </div>
         </div>
       </div>
@@ -96,6 +112,10 @@ const showSidebar = computed(() => catalogList.value.length > 0)
           @apply mr-1;
         }
       }
+
+      .origin:hover {
+        @apply text-primary;
+      }
     }
 
     .article-image {
@@ -117,7 +137,7 @@ const showSidebar = computed(() => catalogList.value.length > 0)
     }
 
     .article-wrapper {
-      @apply max-w-[unset];
+      @apply max-w-[unset] !important;
     }
   }
 }

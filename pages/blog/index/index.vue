@@ -37,6 +37,30 @@ const loadMoreRef = ref(null) as Ref<HTMLDivElement | null>
 useIntersectionObserver(loadMoreRef, async ([{ isIntersecting }]) => {
   if (isIntersecting) requestFetch()
 })
+
+const toTop = inject('toTop') as () => void
+const toPrevTop = inject('toPrevTop') as () => void
+const setArticleScrollTop = inject('setArticleScrollTop') as () => void
+const setIsInArticlePage = inject('setIsInArticlePage') as (
+  value: boolean
+) => void
+
+onMounted(async () => {
+  setIsInArticlePage(false)
+  toPrevTop()
+})
+
+onActivated(async () => {
+  await nextTick()
+  setIsInArticlePage(false)
+  toPrevTop()
+})
+
+const onArticleItemClick = () => {
+  setIsInArticlePage(true)
+  setArticleScrollTop()
+  toTop()
+}
 </script>
 
 <template>
@@ -50,6 +74,7 @@ useIntersectionObserver(loadMoreRef, async ([{ isIntersecting }]) => {
         v-for="article of articles.filter(i => i.format === 'standard')"
         :key="article.id"
         :article="article"
+        @click="onArticleItemClick"
       />
       <div
         v-if="!isEnded"

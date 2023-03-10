@@ -10,9 +10,40 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 
 const mdAndSmaller = breakpoints.smallerOrEqual('md')
 
-const route = useRoute()
+const isInArticlePage = ref(false)
 
-const isInArticlePage = computed(() => route.path.match(/\/blog\/\d+/))
+const setIsInArticlePage = (state: boolean) => {
+  isInArticlePage.value = state
+}
+
+provide('setIsInArticlePage', setIsInArticlePage)
+
+const articleScrollTop = ref(0)
+
+const setArticleScrollTop = () => {
+  articleScrollTop.value =
+    document.querySelector('.articles-page-wrapper')?.scrollTop || 0
+}
+
+provide('setArticleScrollTop', setArticleScrollTop)
+
+const toTop = () => {
+  document.querySelector('.articles-page-wrapper')?.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  })
+}
+
+provide('toTop', toTop)
+
+const toPrevTop = () => {
+  document.querySelector('.articles-page-wrapper')?.scrollTo({
+    top: articleScrollTop.value,
+    behavior: 'auto',
+  })
+}
+
+provide('toPrevTop', toPrevTop)
 </script>
 
 <template>
@@ -40,7 +71,7 @@ const isInArticlePage = computed(() => route.path.match(/\/blog\/\d+/))
       </div>
 
       <div class="block-wrapper-group transition-extra-wrapper">
-        <NuxtPage />
+        <NuxtPage :keepalive="{ max: 4 }" />
       </div>
     </div>
   </div>
