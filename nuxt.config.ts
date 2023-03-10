@@ -49,6 +49,7 @@ export default defineNuxtConfig({
           'bash',
           'shell',
           'json',
+          'php',
         ],
         plugins: ['toolbar', 'copy-to-clipboard', 'show-language'],
         theme: 'okaidia',
