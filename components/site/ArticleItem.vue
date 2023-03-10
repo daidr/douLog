@@ -14,7 +14,7 @@ defineProps<{ article: IArticleListItem }>()
         <div class="detail-item">{{ article.date }}</div>
         <div v-if="article.tags.length" class="detail-item">
           <span
-            v-for="tag of article.tags.slice(0, 1)"
+            v-for="tag of article.tags.slice(0, 2)"
             :key="tag"
             class="tag-item"
             >#{{ tag }}</span
@@ -61,6 +61,14 @@ defineProps<{ article: IArticleListItem }>()
 
       .detail-item {
         @apply flex items-center space-x-1;
+
+        .tag-item {
+          @apply ml-2 !important;
+
+          &:first-child {
+            @apply ml-0 !important;
+          }
+        }
       }
     }
     .summary {
