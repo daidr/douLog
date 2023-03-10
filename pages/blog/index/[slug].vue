@@ -26,11 +26,13 @@ const activeTitleId = ref('')
 const setActiveTitle = (title: string | null) => {
   activeTitleId.value = title || ''
 }
+
+const showSidebar = computed(() => catalogList.value.length > 0)
 </script>
 
 <template>
   <div v-if="article && typeof article === 'object'" class="content-wrapper">
-    <div class="article-wrapper">
+    <div class="article-wrapper" :class="{ 'sidebar-limit': showSidebar }">
       <div class="header">
         <div class="title">{{ article.title }}</div>
         <div class="details">
@@ -51,7 +53,7 @@ const setActiveTitle = (title: string | null) => {
       />
     </div>
 
-    <div v-if="catalogList.length" class="sidebar">
+    <div v-if="showSidebar" class="sidebar">
       <CommonArticleCatalog
         v-if="catalogList.length"
         :catalog="catalogList"
@@ -69,7 +71,12 @@ const setActiveTitle = (title: string | null) => {
     @apply w-full bg-white px-5 py-5 md:px-8 md:py-8 w-full;
     @apply rounded-4xl space-y-5;
     @apply shadow-2xl shadow-primary/30;
-    @apply max-w-856px;
+
+    word-wrap: break-word;
+
+    &.sidebar-limit {
+      @apply max-w-856px;
+    }
 
     .title {
       @apply text-3xl md:text-4xl font-extrabold;
