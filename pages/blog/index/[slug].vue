@@ -40,7 +40,7 @@ const setActiveTitle = (title: string | null) => {
           </div>
         </div>
       </div>
-      <!-- <UiArticleAISummary /> -->
+      <UiArticleAISummary :article-id="article.id" />
       <div v-if="article.image" class="article-image">
         <UiLazyImage :src="article.image" />
       </div>
