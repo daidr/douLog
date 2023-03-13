@@ -69,7 +69,7 @@ if (props.showProcess && props.boundingEl) {
     @apply shadow-md shadow-primary/5 cursor-pointer;
     @apply transition-all;
     @apply rounded-2xl;
-    filter: drop-shadow(0 0 0.5px rgb(var(--color-primary-medium)));
+    filter: drop-shadow(0 0 1px rgb(var(--color-primary-light)));
 
     &:hover {
       @apply shadow-xl shadow-primary/15;
