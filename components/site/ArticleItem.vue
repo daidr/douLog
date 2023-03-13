@@ -14,7 +14,7 @@ defineProps<{ article: IArticleListItem }>()
         <div class="detail-item">{{ article.date }}</div>
         <div v-if="article.tags.length" class="detail-item">
           <span
-            v-for="tag of article.tags.slice(0, 2)"
+            v-for="tag of article.tags.slice(0, 1)"
             :key="tag"
             class="tag-item"
             >#{{ tag }}</span
@@ -40,13 +40,23 @@ defineProps<{ article: IArticleListItem }>()
 <style lang="scss" scoped>
 .article-item {
   @apply flex-col md:flex-row flex justify-between rounded-2xl p-2;
-  @apply duration-500 transition transform;
-  transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
+  @apply border-gray-200/60 border-1;
+  transition: border 0.5s linear, background-position-x 0.5s ease-out;
+
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--color-primary-extralight) / 0.5) 0%,
+    rgb(var(--color-primary-extralight) / 0.5) 45%,
+    transparent 65%,
+    transparent 100%
+  );
+
+  background-size: 300% 100%;
+  background-position-x: 100%;
 
   &:hover {
-    @apply -translate-y-2;
-    @apply bg-primary-extralight/50;
-    @apply shadow-lg shadow-primary/10;
+    @apply border-primary-light/80;
+    background-position-x: 0%;
   }
 
   .left {
@@ -62,13 +72,13 @@ defineProps<{ article: IArticleListItem }>()
       .detail-item {
         @apply flex items-center space-x-1;
 
-        .tag-item {
-          @apply ml-2 !important;
+        // .tag-item {
+        //   @apply ml-2 !important;
 
-          &:first-child {
-            @apply ml-0 !important;
-          }
-        }
+        //   &:first-child {
+        //     @apply ml-0 !important;
+        //   }
+        // }
       }
     }
     .summary {
