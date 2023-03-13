@@ -217,11 +217,11 @@ article.blog-article-wrapper {
 
   :deep(.table-container),
   :deep(.mdui-table-fluid) {
-    @apply border-2 border-primary-light;
+    @apply border-2 border-primary-light my-3;
     @apply rounded-8px overflow-y-hidden;
 
     table {
-      @apply m-0 border-none border-separate;
+      @apply mx-0 border-none border-separate;
       @apply relative w-full bg-white;
       border-spacing: 0;
 
@@ -265,6 +265,10 @@ article.blog-article-wrapper {
         @apply border-none;
       }
     }
+  }
+
+  :deep(img) {
+    @apply my-3;
   }
 }
 </style>
