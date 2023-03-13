@@ -76,8 +76,24 @@ const showSidebar = computed(() => catalogList.value.length > 0)
         :active-title="activeTitleId"
       />
     </div>
+
+    <ClientOnly>
+      <Teleport to="body">
+        <SiteToTopButton
+          :show-process="true"
+          scroll-el=".articles-page-wrapper"
+          bounding-el=".blog-article-wrapper"
+        />
+      </Teleport>
+    </ClientOnly>
   </div>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'ArticlePage',
+}
+</script>
 
 <style lang="scss" scoped>
 .content-wrapper {
