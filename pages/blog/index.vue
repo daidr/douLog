@@ -71,7 +71,11 @@ provide('toPrevTop', toPrevTop)
       </div>
 
       <div class="block-wrapper-group transition-extra-wrapper">
-        <NuxtPage :keepalive="{ max: 4 }" />
+        <router-view v-slot="{ Component }">
+          <keep-alive :exclude="['ArticlePage']">
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
       </div>
     </div>
   </div>
