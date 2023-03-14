@@ -14,9 +14,12 @@ const toTop = () => {
   })
 }
 
-const pathTotalLength = 148
-const pathThresholdValue = -pathTotalLength + 1
-const pathCurrentLength = ref(-148)
+const pathTotalLength = ref(148)
+const pathCurrentLength = ref(0)
+
+const setPathTotalLength = (length: number) => {
+  pathTotalLength.value = length
+}
 
 const { y: scrollY } = useScroll(
   document.querySelector(props.scrollEl) as HTMLElement
@@ -33,8 +36,12 @@ if (props.showProcess && props.boundingEl) {
       document.querySelector(props.scrollEl)?.clientHeight || 0
 
     pathCurrentLength.value =
-      -pathTotalLength +
-      (-newVal / (totalHeight - clientHeight)) * pathTotalLength
+      (newVal / (totalHeight - clientHeight) + 1) * pathTotalLength.value
+    if (pathCurrentLength.value > pathTotalLength.value - 1) {
+      pathCurrentLength.value = pathTotalLength.value - 1
+    } else if (pathCurrentLength.value < 0) {
+      pathCurrentLength.value = 0
+    }
   }, 10)
 
   watch(y, scrollThrottle, { immediate: true })
@@ -46,10 +53,17 @@ if (props.showProcess && props.boundingEl) {
     <div v-if="scrollY > 5" class="to-top-wrapper">
       <div class="to-top-button" @click="toTop">
         <svg v-if="showProcess" class="process-bar" view-box="0 0 48 48">
-          <path
-            :class="{ hide: pathCurrentLength <= pathThresholdValue }"
-            :style="{ strokeDashoffset: pathCurrentLength }"
-            d="M45.467,14.3C45.467,11.117 44.203,8.065 41.952,5.815C39.702,3.564 36.649,2.3 33.467,2.3C27.506,2.3 20.323,2.3 14.363,2.3C11.18,2.3 8.128,3.564 5.878,5.815C3.627,8.065 2.363,11.117 2.363,14.3C2.363,20.315 2.363,27.58 2.363,33.596C2.363,36.778 3.627,39.831 5.878,42.081C8.128,44.332 11.18,45.596 14.363,45.596C20.323,45.596 27.506,45.596 33.467,45.596C36.649,45.596 39.702,44.332 41.952,42.081C44.203,39.831 45.467,36.778 45.467,33.596C45.467,27.58 45.467,20.315 45.467,14.3Z"
+          <UiStrokedRoundedRect
+            :class="{ hide: pathCurrentLength >= pathTotalLength - 1 }"
+            :style="{
+              strokeDashoffset: pathCurrentLength,
+              strokeDasharray: `${pathTotalLength}px ${pathTotalLength}px`,
+            }"
+            :set-path-total-length="setPathTotalLength"
+            :width="48"
+            :height="48"
+            :stroke-width="5"
+            :radius="16"
           />
         </svg>
         <IconArrowUp />
@@ -86,12 +100,9 @@ if (props.showProcess && props.boundingEl) {
       @apply w-full h-full;
 
       path {
-        @apply stroke-primary stroke-5 fill-none;
+        @apply stroke-primary fill-none;
         // path端点圆角
         @apply stroke-cap-round transition-colors;
-        transform-origin: center;
-        transform: rotate(-90deg);
-        stroke-dasharray: 200px 148px;
 
         &.hide {
           @apply opacity-0;
