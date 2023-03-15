@@ -244,4 +244,11 @@ export const FriendsList = [
     avatar: 'paugram.com.png',
     color: '#69595A',
   },
+  {
+    name: '飞鸟记',
+    motto: '记录「技术」与「温度」',
+    url: 'https://blog.aflybird.cn/',
+    avatar: 'blog.aflybird.cn.png',
+    color: '#CCCCDE',
+  },
 ]
