@@ -14,7 +14,17 @@ const props = defineProps<{
 const WARN_ICON =
   '<svg xmlns="http://www.w3.org/2000/svg" class="mdui-icon" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a1 1 0 1 0 1 1a1 1 0 0 0-1-1Zm10.67 1.47l-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51a1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg>'
 
+const encodeHtmlAttr = (str: string) => {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
 const _articleHtml = computed(() => {
+  let headingIndex = 0
   return (
     props.articleHtml
       // 替换警告图标
@@ -29,6 +39,19 @@ const _articleHtml = computed(() => {
           return `<div class="table-container">${p1}</div>`
         }
       )
+      // 将所有script标签替换为blog-dynamic-inject标签
+      .replaceAll(/(<script[\s\S]*?<\/script>)/g, (_: any, p1: any) => {
+        return `<blog-dynamic-inject data-element="${encodeHtmlAttr(
+          p1
+        )}"></blog-dynamic-inject>`
+      })
+      // 为所有heading标签添加id
+      .replaceAll(
+        /(<h(\d) ([\s\S]*?)>([\s\S]*?)<\/h\d>)/g,
+        (_: any, _p1: any, p2: any, p3: any, p4: any) => {
+          return `<h${p2} id="ah-${headingIndex++}" ${p3}>${p4}</h${p2}>`
+        }
+      )
   )
 })
 
@@ -36,7 +59,9 @@ const emit = defineEmits<{
   (event: 'generate-catalog', payload: ICatalogItem[]): void
   (event: 'active-title', payload: string | null): void
 }>()
+
 const onScroll = throttleAndDebounce(checkActiveTitle, 100)
+
 onMounted(() => {
   const articleContent = document.querySelector('.blog-article-wrapper')
   const articlePageWrapper = document.querySelector('.articles-page-wrapper')
@@ -63,7 +88,19 @@ onMounted(() => {
     articlePageWrapper!.addEventListener('scroll', onScroll)
   }
   Prism.highlightAll()
+  injectElement()
 })
+
+function injectElement() {
+  if (typeof window === 'undefined') return
+  const elements = document.querySelectorAll('blog-dynamic-inject')
+  elements.forEach(item => {
+    const element = item.getAttribute('data-element')
+    console.log(element)
+    item.append(document.createRange().createContextualFragment(element!))
+    item.remove()
+  })
+}
 
 onUnmounted(() => {
   const articlePageWrapper = document.querySelector('.articles-page-wrapper')
@@ -97,7 +134,7 @@ function checkActiveTitle() {
   }
 }
 function getTitleTop(title: HTMLHeadingElement): number {
-  return title.offsetTop - 10
+  return title.offsetTop + 130
 }
 function isTitleActive(
   index: number,
