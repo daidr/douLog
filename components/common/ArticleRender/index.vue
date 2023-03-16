@@ -171,19 +171,13 @@ function bindImageViewer() {
   }
 
   {
-    const viewer = new Viewer(
-      document.querySelector('.blog-article-wrapper')!,
-      {
-        inline: false,
-        fullscreen: false,
-        viewed() {
-          viewer.zoomTo(1)
-        },
-        filter: (image: HTMLImageElement) => {
-          return !image.classList.contains('wp-smiley')
-        },
-      }
-    )
+    new Viewer(document.querySelector('.blog-article-wrapper')!, {
+      inline: false,
+      fullscreen: false,
+      filter: (image: HTMLImageElement) => {
+        return !image.classList.contains('wp-smiley')
+      },
+    })
   }
 }
 </script>
