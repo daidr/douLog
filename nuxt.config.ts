@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     ],
     registerType: 'autoUpdate',
     workbox: {
+      globPatterns: [],
       runtimeCaching: [
         {
           urlPattern: /^https:\/\/cdn\.daidr\.me\/.*/i,
