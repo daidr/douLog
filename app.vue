@@ -51,6 +51,24 @@ useHead({
       href: '/pwa/safari-pinned-tab.svg',
       color: '#5d5bd5',
     },
+    {
+      rel: 'dns-prefetch',
+      href: 'https://cdn.jdaidr.me',
+    },
+    {
+      rel: 'dns-prefetch',
+      href: 'https://i.loli.net',
+    },
+    {
+      rel: 'preconnect',
+      crossorigin: 'anonymous',
+      href: 'https://cdn.jdaidr.me',
+    },
+    {
+      rel: 'preconnect',
+      crossorigin: 'anonymous',
+      href: 'https://i.loli.net',
+    },
   ],
   titleTemplate: titleChunk => {
     return titleChunk ? `${titleChunk} - ${CONFIG.siteName}` : CONFIG.siteName

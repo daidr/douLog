@@ -25,14 +25,6 @@ export default defineNuxtConfig({
     workbox: {
       runtimeCaching: [
         {
-          urlPattern: /^https:\/\/vitals\.vercel-analytics\.com\/.*/i,
-          handler: 'NetworkOnly',
-        },
-        {
-          urlPattern: /^https:\/\/api\.daidr\.me\/.*/i,
-          handler: 'NetworkOnly',
-        },
-        {
           urlPattern: /^https:\/\/cdn\.daidr\.me\/.*/i,
           handler: 'CacheFirst',
           options: {
