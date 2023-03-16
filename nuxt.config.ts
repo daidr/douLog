@@ -68,6 +68,8 @@ export default defineNuxtConfig({
       short_name: 'DouLOG',
       description: 'Coding the world.',
       theme_color: '#ffffff',
+      scope: '/',
+      start_url: '/',
       icons: [
         {
           src: '/pwa/android-chrome-192x192.png',
