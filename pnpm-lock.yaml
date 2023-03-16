@@ -28,6 +28,7 @@ importers:
       qs: ^6.11.1
       sass: ^1.59.2
       unplugin-icons: ^0.15.3
+      viewerjs: ^1.11.3
       vite-plugin-prismjs: ^0.0.8
     devDependencies:
       '@commitlint/cli': 17.4.4
@@ -54,6 +55,7 @@ importers:
       qs: 6.11.1
       sass: 1.59.2
       unplugin-icons: 0.15.3
+      viewerjs: 1.11.3
       vite-plugin-prismjs: 0.0.8_prismjs@1.29.0
 
   packages/vagmi:
@@ -11566,6 +11568,10 @@ packages:
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
+
+  /viewerjs/1.11.3:
+    resolution: {integrity: sha512-efG3U61Umuj/1x6JAtdvnY9m407C/RkrkFilsMcLEWKDivpjNU3/FeL+feCY1Vkur9aQeBJ+z6K4CCPP7hv6vA==}
+    dev: true
 
   /vite-node/0.29.2_ogh2wwho6udthbgvzgsr4xoony:
     resolution: {integrity: sha512-5oe1z6wzI3gkvc4yOBbDBbgpiWiApvuN4P55E8OI131JGrSuo4X3SOZrNmZYo4R8Zkze/dhi572blX0zc+6SdA==}

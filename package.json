@@ -35,6 +35,7 @@
     "qs": "^6.11.1",
     "sass": "^1.59.2",
     "unplugin-icons": "^0.15.3",
+    "viewerjs": "^1.11.3",
     "vite-plugin-prismjs": "^0.0.8"
   },
   "lint-staged": {

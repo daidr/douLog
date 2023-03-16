@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Prism from 'prismjs'
+import Viewer from 'viewerjs'
+import 'viewerjs/dist/viewer.css'
 
 export interface ICatalogItem {
   key: string
@@ -89,6 +91,7 @@ onMounted(() => {
   }
   Prism.highlightAll()
   injectElement()
+  bindImageViewer()
 })
 
 function injectElement() {
@@ -153,6 +156,35 @@ function isTitleActive(
     return [true, title.id]
   }
   return [false, null]
+}
+
+function bindImageViewer() {
+  if (typeof window === 'undefined') return
+  {
+    // 如果img标签外层有a标签，则去除a标签
+    const images = document.querySelectorAll('.blog-article-wrapper img')
+    images.forEach(img => {
+      if (img.parentElement?.tagName.toLowerCase() === 'a') {
+        img.parentElement.replaceWith(img)
+      }
+    })
+  }
+
+  {
+    const viewer = new Viewer(
+      document.querySelector('.blog-article-wrapper')!,
+      {
+        inline: false,
+        fullscreen: false,
+        viewed() {
+          viewer.zoomTo(1)
+        },
+        filter: (image: HTMLImageElement) => {
+          return !image.classList.contains('wp-smiley')
+        },
+      }
+    )
+  }
 }
 </script>
 
@@ -306,6 +338,10 @@ article.blog-article-wrapper {
 
   :deep(img) {
     @apply my-3;
+  }
+
+  :deep(img:not(.wp-smiley)) {
+    @apply cursor-pointer;
   }
 }
 </style>
