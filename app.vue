@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { CONFIG } from '@/config/base'
 
-import { VitePwaManifest } from './.nuxt/components'
-
 const themeColorList = [
   '#b1dafb',
   '#fcbcb9',
