@@ -53,7 +53,7 @@ useHead({
     },
     {
       rel: 'dns-prefetch',
-      href: 'https://cdn.jdaidr.me',
+      href: 'https://cdn.daidr.me',
     },
     {
       rel: 'dns-prefetch',
@@ -62,7 +62,7 @@ useHead({
     {
       rel: 'preconnect',
       crossorigin: 'anonymous',
-      href: 'https://cdn.jdaidr.me',
+      href: 'https://cdn.daidr.me',
     },
     {
       rel: 'preconnect',
