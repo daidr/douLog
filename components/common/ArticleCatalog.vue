@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import type { ICatalogItem } from './ArticleRender.vue'
+import type { ICatalogItem } from './ArticleRender/index.vue'
 const props = defineProps<{
   catalog: ICatalogItem[]
   activeTitle: string

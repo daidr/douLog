@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IArticleItem } from '~~/server/api/article/[id]'
 import IconTime from '~icons/icon-park-outline/time'
-import { ICatalogItem } from '~~/components/common/ArticleRender.vue'
+import type { ICatalogItem } from '~~/components/common/ArticleRender/index.vue'
 
 const slug = useRoute().params.slug as string
 
@@ -21,13 +21,14 @@ const setIsInArticlePage = inject('setIsInArticlePage') as (
   value: boolean
 ) => void
 
-onMounted(() => {
-  setIsInArticlePage(true)
-})
+setIsInArticlePage(true)
 
-onActivated(async () => {
+onMounted(async () => {
+  if (!window) return
+  const _hash = location.hash
+  location.hash = ''
   await nextTick()
-  setIsInArticlePage(true)
+  location.hash = _hash
 })
 
 const catalogList = ref([] as ICatalogItem[])
