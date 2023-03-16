@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Prism from 'prismjs'
 import Viewer from 'viewerjs'
-import 'viewerjs/dist/viewer.css'
+import 'viewerjs/dist/viewer.min.css'
 
 export interface ICatalogItem {
   key: string
