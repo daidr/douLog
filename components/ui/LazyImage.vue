@@ -51,6 +51,7 @@ const { stop } = useIntersectionObserver(
       }"
       :src="src"
       :alt="alt"
+      crossorigin="anonymous"
       @load="onLoad"
     />
   </div>
