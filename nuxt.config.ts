@@ -154,9 +154,6 @@ export default defineNuxtConfig({
         tls: {},
       },
     },
-    prerender: {
-      crawlLinks: true,
-    },
   },
   vite: {
     plugins: [
