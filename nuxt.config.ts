@@ -61,7 +61,7 @@ export default defineNuxtConfig({
         },
         // /api/articles 接口，缓存 30 分钟，返回过期数据再重新请求
         {
-          urlPattern: /^https:\/\/im\.daidr\.me\/api\/articles.*/i,
+          urlPattern: /\/api\/articles.*/i,
           handler: 'StaleWhileRevalidate',
           options: {
             cacheName: 'api-articles-cache',
@@ -76,7 +76,7 @@ export default defineNuxtConfig({
         },
         // /api/article/\d+ 接口，缓存 30 分钟，返回过期数据再重新请求
         {
-          urlPattern: /^https:\/\/im\.daidr\.me\/api\/article\/\d+.*/i,
+          urlPattern: /\/api\/article\/\d+.*/i,
           handler: 'StaleWhileRevalidate',
           options: {
             cacheName: 'api-article-cache',
@@ -91,7 +91,7 @@ export default defineNuxtConfig({
         },
         // /api/summary 接口，缓存 1 小时，返回过期数据再重新请求
         {
-          urlPattern: /^https:\/\/im\.daidr\.me\/api\/summary.*/i,
+          urlPattern: /\/api\/summary.*/i,
           handler: 'StaleWhileRevalidate',
           options: {
             cacheName: 'api-summary-cache',
