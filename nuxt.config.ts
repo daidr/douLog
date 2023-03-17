@@ -27,7 +27,7 @@ export default defineNuxtConfig({
       type: 'module',
     },
     workbox: {
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+      globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
       runtimeCaching: [
         // 阿里云CDN，缓存优先，存30天
         {
