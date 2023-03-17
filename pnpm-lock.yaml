@@ -12,6 +12,7 @@ importers:
       '@nuxt/image-edge': 1.0.0-27968280.9739e4d
       '@types/prismjs': ^1.26.0
       '@types/qs': ^6.9.7
+      '@vercel/analytics': ^0.1.11
       '@vite-pwa/nuxt': ^0.0.7
       '@vueuse/core': ^9.13.0
       '@vueuse/nuxt': ^9.13.0
@@ -40,6 +41,7 @@ importers:
       '@nuxt/image-edge': 1.0.0-27968280.9739e4d_rollup@2.79.1
       '@types/prismjs': 1.26.0
       '@types/qs': 6.9.7
+      '@vercel/analytics': 0.1.11_react@18.2.0
       '@vite-pwa/nuxt': 0.0.7_lfxtdvtb6sxtdxdmzwcvn3a3om
       '@vueuse/core': 9.13.0_vue@3.2.47
       '@vueuse/nuxt': 9.13.0_ax7mrarjjew6fnvrqrc4rzxtlu
@@ -704,7 +706,7 @@ packages:
       '@babel/helper-annotate-as-pure': 7.18.6
       '@babel/helper-environment-visitor': 7.18.9
       '@babel/helper-wrap-function': 7.20.5
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -843,7 +845,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.20.12
-      '@babel/helper-create-class-features-plugin': 7.20.12_@babel+core@7.20.12
+      '@babel/helper-create-class-features-plugin': 7.21.0_@babel+core@7.20.12
       '@babel/helper-plugin-utils': 7.20.2
     transitivePeerDependencies:
       - supports-color
@@ -973,7 +975,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.20.12
-      '@babel/helper-create-class-features-plugin': 7.20.12_@babel+core@7.20.12
+      '@babel/helper-create-class-features-plugin': 7.21.0_@babel+core@7.20.12
       '@babel/helper-plugin-utils': 7.20.2
     transitivePeerDependencies:
       - supports-color
@@ -1299,7 +1301,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-compilation-targets': 7.20.7_@babel+core@7.20.12
-      '@babel/helper-function-name': 7.19.0
+      '@babel/helper-function-name': 7.21.0
       '@babel/helper-plugin-utils': 7.20.2
     dev: true
 
@@ -1330,7 +1332,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.20.12
-      '@babel/helper-module-transforms': 7.20.11
+      '@babel/helper-module-transforms': 7.21.2
       '@babel/helper-plugin-utils': 7.20.2
     transitivePeerDependencies:
       - supports-color
@@ -1358,7 +1360,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-hoist-variables': 7.18.6
-      '@babel/helper-module-transforms': 7.20.11
+      '@babel/helper-module-transforms': 7.21.2
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/helper-validator-identifier': 7.19.1
     transitivePeerDependencies:
@@ -1372,7 +1374,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.20.12
-      '@babel/helper-module-transforms': 7.20.11
+      '@babel/helper-module-transforms': 7.21.2
       '@babel/helper-plugin-utils': 7.20.2
     transitivePeerDependencies:
       - supports-color
@@ -1632,7 +1634,7 @@ packages:
       '@babel/plugin-transform-unicode-escapes': 7.18.10_@babel+core@7.20.12
       '@babel/plugin-transform-unicode-regex': 7.18.6_@babel+core@7.20.12
       '@babel/preset-modules': 0.1.5_@babel+core@7.20.12
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
       babel-plugin-polyfill-corejs2: 0.3.3_@babel+core@7.20.12
       babel-plugin-polyfill-corejs3: 0.6.0_@babel+core@7.20.12
       babel-plugin-polyfill-regenerator: 0.4.1_@babel+core@7.20.12
@@ -1651,7 +1653,7 @@ packages:
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6_@babel+core@7.20.12
       '@babel/plugin-transform-dotall-regex': 7.18.6_@babel+core@7.20.12
-      '@babel/types': 7.20.7
+      '@babel/types': 7.21.3
       esutils: 2.0.3
     dev: true
 
@@ -4272,6 +4274,14 @@ packages:
       hookable: 5.4.2
       unhead: 1.1.21
       vue: 3.2.47
+    dev: true
+
+  /@vercel/analytics/0.1.11_react@18.2.0:
+    resolution: {integrity: sha512-mj5CPR02y0BRs1tN3oZcBNAX9a8NxsIUl9vElDPcqxnMfP0RbRc9fI9Ud7+QDg/1Izvt5uMumsr+6YsmVHcyuw==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
     dev: true
 
   /@vercel/nft/0.22.6:
@@ -9434,7 +9444,6 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
-    dev: false
 
   /loupe/2.3.6:
     resolution: {integrity: sha512-RaPMZKiMy8/JruncMU5Bt6na1eftNoo++R4Y+N2FrxkDVTrGvcyzFTsaGif4QTeKESheMGegbhw6iUAq+5A8zA==}
@@ -11261,7 +11270,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}

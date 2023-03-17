@@ -19,6 +19,7 @@
     "@nuxt/image-edge": "1.0.0-27968280.9739e4d",
     "@types/prismjs": "^1.26.0",
     "@types/qs": "^6.9.7",
+    "@vercel/analytics": "^0.1.11",
     "@vite-pwa/nuxt": "^0.0.7",
     "@vueuse/core": "^9.13.0",
     "@vueuse/nuxt": "^9.13.0",
