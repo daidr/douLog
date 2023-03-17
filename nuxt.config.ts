@@ -22,10 +22,14 @@ export default defineNuxtConfig({
       '/pwa/safari-pinned-tab.svg',
     ],
     registerType: 'autoUpdate',
+    devOptions: {
+      enabled: true,
+      type: 'module',
+    },
     workbox: {
-      navigateFallback: '/',
       globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
       runtimeCaching: [
+        // 阿里云CDN，缓存优先，存30天
         {
           urlPattern: /^https:\/\/cdn\.daidr\.me\/.*/i,
           handler: 'CacheFirst',
@@ -33,13 +37,14 @@ export default defineNuxtConfig({
             cacheName: 'cdn-image-cache',
             expiration: {
               maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 10,
+              maxAgeSeconds: 60 * 60 * 24 * 30,
             },
             cacheableResponse: {
               statuses: [0, 200],
             },
           },
         },
+        // sm.ms 图床，缓存优先，存30天
         {
           urlPattern: /^https:\/\/i\.loli\.net\/.*/i,
           handler: 'CacheFirst',
@@ -48,6 +53,51 @@ export default defineNuxtConfig({
             expiration: {
               maxEntries: 100,
               maxAgeSeconds: 60 * 60 * 24 * 30,
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        // /api/articles 接口，缓存 30 分钟，返回过期数据再重新请求
+        {
+          urlPattern: /^https:\/\/im\.daidr\.me\/api\/articles.*/i,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'api-articles-cache',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 30,
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        // /api/article/\d+ 接口，缓存 30 分钟，返回过期数据再重新请求
+        {
+          urlPattern: /^https:\/\/im\.daidr\.me\/api\/article\/\d+.*/i,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'api-article-cache',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 30,
+            },
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+          },
+        },
+        // /api/summary 接口，缓存 1 小时，返回过期数据再重新请求
+        {
+          urlPattern: /^https:\/\/im\.daidr\.me\/api\/summary.*/i,
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'api-summary-cache',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60,
             },
             cacheableResponse: {
               statuses: [0, 200],
@@ -102,6 +152,9 @@ export default defineNuxtConfig({
         db: process.env.NUXT_BLOG_REDIS_DB || 0,
         tls: {},
       },
+    },
+    prerender: {
+      crawlLinks: true,
     },
   },
   vite: {
