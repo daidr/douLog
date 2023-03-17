@@ -156,6 +156,7 @@ export default defineNuxtConfig({
     },
     prerender: {
       crawlLinks: true,
+      ignore: ['/blog'],
     },
   },
   vite: {
