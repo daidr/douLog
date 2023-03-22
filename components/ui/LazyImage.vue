@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
-import { ref } from 'vue'
 
 defineProps({
   src: {
@@ -51,7 +50,7 @@ const { stop } = useIntersectionObserver(
       }"
       :src="src"
       :alt="alt"
-      crossorigin="anonymous"
+      :crossorigin="isDev() ? undefined : 'anonymous'"
       @load="onLoad"
     />
   </div>
