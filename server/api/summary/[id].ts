@@ -1,5 +1,3 @@
-import qs from 'qs'
-import { replaceMediaCDN } from '~~/utils/mediaCDN'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 
 const returnLimit = 400
