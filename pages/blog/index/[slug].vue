@@ -3,6 +3,10 @@ import type { IArticleItem } from '~~/server/api/article/[id]'
 import IconTime from '~icons/icon-park-outline/time'
 import type { ICatalogItem } from '~~/components/common/ArticleRender/index.vue'
 
+definePageMeta({
+  isInArticlePage: true,
+})
+
 const slug = useRoute().params.slug as string
 
 if (!/^\d+$/.test(slug)) {
@@ -16,12 +20,6 @@ const { data: article } = await useFetch<IArticleItem | string>(
 if (article.value === 'not found') {
   navigateTo('/404', { replace: true })
 }
-
-const setIsInArticlePage = inject('setIsInArticlePage') as (
-  value: boolean
-) => void
-
-setIsInArticlePage(true)
 
 onMounted(async () => {
   if (!window) return

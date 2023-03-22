@@ -6,17 +6,17 @@ useHead({
   title: '博客',
 })
 
+definePageMeta({
+  isInArticlePage: false,
+})
+
 const breakpoints = useBreakpoints(breakpointsTailwind)
 
 const mdAndSmaller = breakpoints.smallerOrEqual('md')
 
-const isInArticlePage = ref(false)
+const route = useRoute()
 
-const setIsInArticlePage = (state: boolean) => {
-  isInArticlePage.value = state
-}
-
-provide('setIsInArticlePage', setIsInArticlePage)
+const isInArticlePage = computed(() => route.meta.isInArticlePage)
 
 const articleScrollTop = ref(0)
 

@@ -2,6 +2,10 @@
 import IconAlarm from '~icons/icon-park-outline/alarm'
 import { CONFIG } from '~~/config/base'
 
+definePageMeta({
+  isInArticlePage: false,
+})
+
 const isFetching = ref(false)
 const isEnded = ref(false)
 
@@ -41,23 +45,17 @@ useIntersectionObserver(loadMoreRef, async ([{ isIntersecting }]) => {
 const toTop = inject('toTop') as () => void
 const toPrevTop = inject('toPrevTop') as () => void
 const setArticleScrollTop = inject('setArticleScrollTop') as () => void
-const setIsInArticlePage = inject('setIsInArticlePage') as (
-  value: boolean
-) => void
 
 onMounted(async () => {
-  setIsInArticlePage(false)
   toPrevTop()
 })
 
 onActivated(async () => {
   await nextTick()
-  setIsInArticlePage(false)
   toPrevTop()
 })
 
 const onArticleItemClick = () => {
-  setIsInArticlePage(true)
   setArticleScrollTop()
   toTop()
 }
