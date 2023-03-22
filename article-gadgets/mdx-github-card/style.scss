@@ -1,0 +1,139 @@
+.wp-block-mdx-github {
+  @apply bg-[#414141] min-h-110px rounded-xl;
+  @apply flex items-center justify-center;
+
+  .wp-block-mdx-github__error {
+    @apply text-white/50;
+    @apply text-lg md:text-2xl font-bold;
+  }
+
+  &.wp-block-mdx-github--loaded {
+    @apply items-start justify-start flex-col relative;
+    @apply px-5 py-5 md:(px-10 py-5);
+
+    .wp-block-mdx-github__badge {
+      @apply absolute top-0 right-0 select-none;
+      @apply flex items-center text-sm sm:text-base;
+      @apply bg-white/15 text-white/60;
+      @apply px-1 md:(px-2 py-0.5) rounded-tr-xl rounded-bl-xl;
+
+      svg {
+        @apply mr-0.5;
+      }
+    }
+
+    .wp-block-mdx-github__path {
+      @apply flex items-center text-2xl sm:text-3xl text-white/50;
+
+      p {
+        @apply my-0;
+      }
+
+      a {
+        @apply relative text-white/90;
+        text-decoration: none;
+
+        &::after {
+          content: '';
+          @apply absolute bottom-0 left-0 right-0 bg-current;
+          @apply h-3px rounded-full;
+          @apply transform-gpu scale-x-0 origin-left transition-transform;
+        }
+
+        &:hover::after {
+          @apply scale-x-100;
+        }
+
+        &:nth-child(1) {
+          @apply text-white/50;
+        }
+
+        &:nth-child(2) {
+          @apply font-bold;
+        }
+      }
+    }
+
+    .wp-block-mdx-github__description {
+      @apply text-base md:text-lg text-white/90;
+      @apply mt-2;
+    }
+
+    .wp-block-mdx-github__homepage a {
+      @apply relative text-white/90;
+      text-decoration: none;
+
+      &::after {
+        content: '';
+        @apply absolute bottom-0 left-0 right-0 bg-current;
+        @apply h-2px rounded-full;
+        @apply transform-gpu scale-x-0 origin-left transition-transform;
+      }
+
+      &:hover::after {
+        @apply scale-x-100;
+      }
+    }
+
+    .wp-block-mdx-github__stats {
+      @apply text-sm md:text-base text-white/70 select-none;
+      @apply flex items-center space-x-3;
+      @apply mt-6;
+
+      .wp-block-mdx-github__stats__item {
+        @apply flex items-center;
+
+        svg {
+          @apply mr-1;
+        }
+      }
+    }
+
+    .wp-block-mdx-github__link a {
+      @apply absolute bottom-5 right-5 select-none text-lg md:text-xl;
+      @apply text-white/30;
+
+      &:hover {
+        @apply text-white/50;
+      }
+    }
+  }
+
+  .wp-block-mdx-github__loading {
+    @apply w-11 h-12 flex justify-between items-center;
+
+    i {
+      @apply block w-2 h-12 bg-white/70 rounded-full;
+      animation: wp-block-mdx-github__loading 1.5s ease-in-out infinite;
+      transform: scaleY(0.3);
+    }
+
+    i:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    i:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    i:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    i:nth-child(4) {
+      animation-delay: 0.8s;
+    }
+  }
+}
+
+@keyframes wp-block-mdx-github__loading {
+  0% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0.3);
+  }
+}

@@ -2,6 +2,8 @@
 import Prism from 'prismjs'
 import Viewer from 'viewerjs'
 import 'viewerjs/dist/viewer.min.css'
+import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
+import '~~/article-gadgets/mdx-github-card/style.scss'
 
 export interface ICatalogItem {
   key: string
@@ -92,6 +94,7 @@ onMounted(() => {
   Prism.highlightAll()
   injectElement()
   bindImageViewer()
+  initMdxGitCards()
 })
 
 function injectElement() {
