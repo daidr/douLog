@@ -1,6 +1,6 @@
 .wp-block-mdx-github {
   @apply bg-[#414141] min-h-110px rounded-xl;
-  @apply flex items-center justify-center;
+  @apply flex items-center justify-center mt-3;
 
   .wp-block-mdx-github__error {
     @apply text-white/50;
