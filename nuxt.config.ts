@@ -131,6 +131,8 @@ export default defineNuxtConfig({
   css: ['~/assets/scss/global.scss', '~/assets/fonts/BEYNO/font.css'],
   runtimeConfig: {
     apiEntry: process.env.NUXT_BLOG_API_ENTRY || 'https://daidr.me',
+    GithubAPIEntry:
+      process.env.NUXT_GITHUB_API_ENTRY || 'https://api.github.com',
     openAIKey: process.env.NUXT_BLOG_OPENAI_KEY || '',
   },
   nitro: {
