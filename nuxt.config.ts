@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     ],
     registerType: 'autoUpdate',
     devOptions: {
-      enabled: true,
+      enabled: false,
       type: 'module',
     },
     workbox: {
