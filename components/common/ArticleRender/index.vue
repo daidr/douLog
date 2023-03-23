@@ -243,8 +243,10 @@ article.blog-article-wrapper {
     @apply text-primary-medium;
   }
 
-  :deep(.wp-block-code) {
+  :deep(.code-toolbar pre) {
+    @apply bg-primary-dark m-0;
     @apply rounded-none sm:rounded-2xl;
+    @apply <sm:-mx-5 mt-2;
   }
 
   :deep(code:not([class*='language-'])) {
@@ -275,14 +277,6 @@ article.blog-article-wrapper {
     .copy-to-clipboard-button {
       @apply cursor-pointer text-base;
     }
-  }
-
-  :deep(.code-toolbar) {
-    @apply <sm:-mx-5;
-  }
-
-  :deep(.wp-block-code) {
-    @apply bg-primary-dark;
   }
 
   :deep(.table-container),
