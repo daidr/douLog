@@ -244,7 +244,7 @@ article.blog-article-wrapper {
   }
 
   :deep(.wp-block-code) {
-    @apply rounded-2xl;
+    @apply rounded-none sm:rounded-2xl;
   }
 
   :deep(code:not([class*='language-'])) {
@@ -275,6 +275,10 @@ article.blog-article-wrapper {
     .copy-to-clipboard-button {
       @apply cursor-pointer text-base;
     }
+  }
+
+  :deep(.code-toolbar) {
+    @apply <sm:-mx-5;
   }
 
   :deep(.wp-block-code) {
