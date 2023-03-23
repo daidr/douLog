@@ -16,7 +16,7 @@ const { data: summary } = await useFetch<string>(
 
 if (summary.value === 'no cache') {
   isLoading.value = true
-  const { pending, data: _summary } = useLazyFetch(
+  const { pending, data: _summary } = useLazyFetch<string>(
     `/api/summary/${props.articleId}`
   )
 
