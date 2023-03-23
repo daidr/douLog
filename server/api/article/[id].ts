@@ -8,6 +8,7 @@ export interface IArticleItem {
   link: string
   title: string
   content: string
+  excerpt: string
   image: string
   commentCount: number
   viewCount: number
@@ -34,6 +35,7 @@ export default cachedEventHandler(
           'id',
           'link',
           'title',
+          'excerpt',
           'content',
           'post_full_image',
           'post_date',
@@ -66,6 +68,7 @@ export default cachedEventHandler(
         link: result.link,
         title: result.title.rendered,
         content: result.content.rendered,
+        excerpt: result.excerpt.rendered,
         image: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_full_image)
           : null,

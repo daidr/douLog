@@ -21,6 +21,41 @@ if (article.value === 'not found') {
   navigateTo('/404', { replace: true })
 }
 
+if (article.value && typeof article.value === 'object') {
+  const _metas = []
+  if (article.value.tags) {
+    _metas.push({
+      hid: 'keywords',
+      name: 'keywords',
+      content: article.value.tags.join(','),
+    })
+  }
+  if (article.value.image) {
+    _metas.push({
+      hid: 'og:image',
+      property: 'og:image',
+      content: article.value.image,
+    })
+  }
+  if (article.value.excerpt) {
+    _metas.push({
+      hid: 'description',
+      name: 'description',
+      content: article.value.excerpt,
+    })
+    _metas.push({
+      hid: 'og:description',
+      property: 'og:description',
+      content: article.value.excerpt,
+    })
+  }
+
+  useHead({
+    title: article.value.title,
+    meta: _metas,
+  })
+}
+
 onMounted(async () => {
   if (!window) return
   const _hash = location.hash
