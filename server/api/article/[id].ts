@@ -1,5 +1,6 @@
 import qs from 'qs'
 import { replaceMediaCDN } from '~~/utils/mediaCDN'
+import minifyHtml from '~~/utils/minifyHtml'
 
 const { apiEntry } = useRuntimeConfig()
 
@@ -67,7 +68,7 @@ export default cachedEventHandler(
         id: result.id,
         link: result.link,
         title: result.title.rendered,
-        content: result.content.rendered,
+        content: minifyHtml(result.content.rendered),
         excerpt: result.excerpt.rendered,
         image: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_full_image)
