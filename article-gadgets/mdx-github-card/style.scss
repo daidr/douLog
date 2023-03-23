@@ -31,17 +31,11 @@
 
       a {
         @apply relative text-white/90;
-        text-decoration: none;
+        @apply underline-transparent;
+        transition: text-decoration 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 
-        &::after {
-          content: '';
-          @apply absolute bottom-0 left-0 right-0 bg-current;
-          @apply h-3px rounded-full;
-          @apply transform-gpu scale-x-0 origin-left transition-transform;
-        }
-
-        &:hover::after {
-          @apply scale-x-100;
+        &:hover {
+          @apply underline-current;
         }
 
         &:nth-child(1) {
@@ -61,17 +55,10 @@
 
     .wp-block-mdx-github__homepage a {
       @apply relative text-white/90;
-      text-decoration: none;
+      @apply underline-transparent;
 
-      &::after {
-        content: '';
-        @apply absolute bottom-0 left-0 right-0 bg-current;
-        @apply h-2px rounded-full;
-        @apply transform-gpu scale-x-0 origin-left transition-transform;
-      }
-
-      &:hover::after {
-        @apply scale-x-100;
+      &:hover {
+        @apply underline-current;
       }
     }
 
