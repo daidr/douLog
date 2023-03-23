@@ -27,7 +27,6 @@ export default defineNuxtConfig({
       type: 'module',
     },
     workbox: {
-      navigateFallback: '/',
       globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
       runtimeCaching: [
         // 阿里云CDN，缓存优先，存30天
@@ -114,6 +113,7 @@ export default defineNuxtConfig({
       theme_color: '#ffffff',
       scope: '/',
       start_url: '/',
+      display: 'standalone',
       icons: [
         {
           src: '/pwa/android-chrome-192x192.png',
