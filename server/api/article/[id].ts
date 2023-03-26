@@ -27,7 +27,10 @@ export default cachedEventHandler(
   async event => {
     const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
     if (isNaN(articleID)) {
-      return 'not found'
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'ID should be an integer',
+      })
     }
 
     const query = qs.stringify(
@@ -87,7 +90,10 @@ export default cachedEventHandler(
 
       return _result
     } catch (e) {
-      return 'not found'
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'not found',
+      })
     }
   },
   {
