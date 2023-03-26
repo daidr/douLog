@@ -90,6 +90,7 @@ export default cachedEventHandler(
 
       return _result
     } catch (e) {
+      console.error(e)
       throw createError({
         statusCode: 400,
         statusMessage: 'not found',
