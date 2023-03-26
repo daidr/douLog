@@ -17,7 +17,7 @@ const { data: article } = await useFetch<IArticleItem | string>(
   `/api/article/${slug}`
 )
 
-if (article.value === 'not found') {
+if (article.value === 'not found' || !article.value) {
   navigateTo('/404', { replace: true })
 }
 
