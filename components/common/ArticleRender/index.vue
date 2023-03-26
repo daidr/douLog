@@ -33,7 +33,7 @@ const _articleHtml = computed(() => {
     props.articleHtml
       // 替换警告图标
       .replaceAll(
-        '<i class="mdui-icon material-icons">warning</i> <br/>',
+        '<i class="mdui-icon material-icons">warning</i><br>',
         WARN_ICON
       )
       // 让表格包裹一个容器
