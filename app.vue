@@ -98,6 +98,7 @@ useHead({
 </script>
 
 <template>
+  <CommonWappalyzerCheat />
   <NuxtLayout>
     <VitePwaManifest />
     <RouterView v-slot="{ Component }">

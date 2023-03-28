@@ -1,0 +1,29 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Server",
+          "value": "Netlify"
+        },
+        {
+          "key": "X-NF-Request-ID",
+          "value": "233"
+        },
+        {
+          "key": "host-header",
+          "value": "Newspack"
+        },
+        {
+          "key": "x-powered-by",
+          "value": "Next.js"
+        },
+        {
+          "key": "X-Akamai-Transformed",
+          "value": "233"
+        }
+      ]
+    }
+  ]
+}
