@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
+  app: {
+    rootId: '__daidr_app',
+    buildAssetsDir: '/_doulog/',
+  },
   modules: [
     // '@nuxt/image-edge',
     '@vueuse/nuxt',
@@ -134,6 +138,9 @@ export default defineNuxtConfig({
     GithubAPIEntry:
       process.env.NUXT_GITHUB_API_ENTRY || 'https://api.github.com',
     openAIKey: process.env.NUXT_BLOG_OPENAI_KEY || '',
+    app: {
+      buildAssetsDir: '/_doulog/',
+    },
   },
   nitro: {
     storage: {
