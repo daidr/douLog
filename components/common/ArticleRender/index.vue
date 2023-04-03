@@ -333,10 +333,23 @@ article.blog-article-wrapper {
 
   :deep(img) {
     @apply my-3;
+    @apply rounded-2xl;
   }
 
   :deep(img:not(.wp-smiley)) {
     @apply cursor-pointer;
+  }
+
+  :deep(figure) {
+    @apply m-0;
+
+    img {
+      @apply m-0;
+    }
+  }
+
+  :deep(.wp-block-gallery.has-nested-images) {
+    @apply flex gap-2 flex-col sm:flex-row;
   }
 }
 </style>
