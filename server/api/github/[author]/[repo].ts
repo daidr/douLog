@@ -36,7 +36,11 @@ export default cachedEventHandler(
         homepage: result.homepage,
       } as IGithubRepoInfo
     } catch (e) {
-      return 'not found'
+      console.error(e)
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'not found',
+      })
     }
   },
   {

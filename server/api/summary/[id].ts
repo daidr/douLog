@@ -94,7 +94,7 @@ export default defineEventHandler(async event => {
 
   try {
     const article = await $fetch(`/api/article/${articleID}`)
-    if (article === 'not found') {
+    if (!article) {
       return 'not found'
     }
 
@@ -109,7 +109,7 @@ export default defineEventHandler(async event => {
         return 'no cache'
       }
 
-      articleSummary = await getSummary(article.content, lang)
+      articleSummary = (await getSummary(article.content, lang)) || ''
 
       if (articleSummary) {
         await useStorage().setItem(cacheKey, articleSummary)
