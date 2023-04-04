@@ -254,8 +254,10 @@ article.blog-article-wrapper {
   }
 
   :deep(.toolbar) {
-    @apply top-[0.5em] right-[0.5em] text-base;
+    @apply top-1 right-1 text-base;
     @apply flex items-start justify-end space-x-1;
+    @apply bg-white/95 p-1;
+    @apply rounded-xl;
 
     .toolbar-item {
       @apply flex items-start select-none;
@@ -265,17 +267,19 @@ article.blog-article-wrapper {
       }
 
       & > * {
-        @apply bg-white shadow-none text-primary-medium/80;
+        @apply bg-transparent shadow-none text-primary-medium/80;
+        @apply transition-colors;
 
         &:hover,
         &:focus {
-          @apply text-primary;
+          @apply text-white bg-primary;
         }
       }
     }
 
     .copy-to-clipboard-button {
       @apply cursor-pointer text-base;
+      @apply rounded-lg;
     }
   }
 
