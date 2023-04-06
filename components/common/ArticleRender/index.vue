@@ -67,8 +67,12 @@ const emit = defineEmits<{
 const onScroll = throttleAndDebounce(checkActiveTitle, 100)
 
 onMounted(() => {
+  // 文章容器
   const articleContent = document.querySelector('.blog-article-wrapper')
+  // 文章滚动容器
   const articlePageWrapper = document.querySelector('.articles-page-wrapper')
+
+  // 文章目录级别限制
   let minTitleLevel = 6
   if (articleContent) {
     const title = articleContent.querySelectorAll('h1, h2, h3, h4, h5, h6')
@@ -87,13 +91,27 @@ onMounted(() => {
       }
       titleList.push(titleItem)
     })
+
+    // 生成目录
     emit('generate-catalog', titleList)
+
+    // 判断当前激活的标题
     requestAnimationFrame(checkActiveTitle)
+
+    // 监听滚动事件
     articlePageWrapper!.addEventListener('scroll', onScroll)
   }
+
+  // 代码高亮
   Prism.highlightAll()
+
+  // 解析并注入 iframe 等短代码
   injectElement()
+
+  // 绑定灯箱
   bindImageViewer()
+
+  // 解析 Github 卡片短代码
   initMdxGitCards()
 })
 
