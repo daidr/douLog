@@ -9,7 +9,7 @@ defineProps<{ article: IArticleListItem }>()
 <template>
   <NuxtLink class="article-item" :to="`/blog/${article.id}`">
     <div class="left">
-      <h3 class="title">{{ article.title }}</h3>
+      <h3 class="title" v-html="article.title"></h3>
       <div class="details">
         <div class="detail-item">{{ article.date }}</div>
         <div v-if="article.tags.length" class="detail-item">

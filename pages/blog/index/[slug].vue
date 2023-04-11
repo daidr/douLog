@@ -81,7 +81,7 @@ const showSidebar = computed(() => catalogList.value.length > 0)
   <div v-if="article && typeof article === 'object'" class="content-wrapper">
     <div class="article-wrapper" :class="{ 'sidebar-limit': showSidebar }">
       <div class="header">
-        <div class="title">{{ article.title }}</div>
+        <div class="title" v-html="article.title"></div>
         <div class="details">
           <div class="time">
             <IconTime />
