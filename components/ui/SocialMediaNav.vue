@@ -1,10 +1,10 @@
 <script setup>
 import IconHome from '~icons/uil/home-alt'
-import IconRss from '~icons/uil/rss'
-import IconWeibo from '~icons/icon-park-outline/weibo'
+import IconChannel from '~icons/uil/channel'
 import IconBilibili from '~icons/icon-park-outline/tv-one'
 import IconGithub from '~icons/icon-park-outline/github-one'
 import IconHeart from '~icons/uil/heart'
+import IconSubway from '~icons/uil/subway'
 
 const urls = [
   {
@@ -13,14 +13,9 @@ const urls = [
     name: '博客',
   },
   {
-    url: 'https://daidr.me/feed',
-    icon: IconRss,
-    name: '博客feed',
-  },
-  {
-    url: 'https://weibo.com/keaidaidou',
-    icon: IconWeibo,
-    name: '微博',
+    url: 'https://daidr.xlog.app',
+    icon: IconChannel,
+    name: 'xLog',
   },
   {
     url: 'https://space.bilibili.com/28124496',
@@ -36,6 +31,11 @@ const urls = [
     url: 'https://sponsor.daidr.me',
     icon: IconHeart,
     name: '赞助',
+  },
+  {
+    url: 'https://www.travellings.cn/go.html',
+    icon: IconSubway,
+    name: '开往',
   },
 ]
 </script>

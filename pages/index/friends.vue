@@ -1,6 +1,7 @@
 <script setup>
 import { FriendsList } from '@/config/friends.js'
 import { shuffle } from '@/utils/_'
+import IconSubway from '~icons/uil/subway'
 
 const FriendsListShuffled = useState('FriendsListShuffled', () =>
   shuffle(FriendsList)
@@ -30,6 +31,19 @@ useHead({
         <div v-if="showBottomShadow" class="bottom-shadow"></div>
       </Transition>
       <div class="friends-container y-scroll-box" @scroll.passive="onScroll">
+        <a
+          href="https://www.travellings.cn/go.html"
+          target="_blank"
+          class="friend-item"
+        >
+          <div class="avatar avatar-icon">
+            <IconSubway />
+          </div>
+          <div class="detail">
+            <div class="name">开往</div>
+            <div class="motto">试试运气~</div>
+          </div>
+        </a>
         <a
           v-for="item of FriendsListShuffled"
           :key="item.url"
@@ -129,6 +143,10 @@ useHead({
           &:deep(img) {
             @apply rounded-xl;
           }
+        }
+
+        &.avatar-icon {
+          @apply bg-primary-medium text-white flex items-center justify-center text-3xl;
         }
       }
 
