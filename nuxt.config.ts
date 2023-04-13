@@ -5,12 +5,14 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
+  experimental: {
+    renderJsonPayloads: true
+  },
   app: {
     rootId: '__daidr_app',
     buildAssetsDir: '/_doulog/',
   },
   modules: [
-    // '@nuxt/image-edge',
     '@vueuse/nuxt',
     'nuxt-windicss',
     'unplugin-icons/nuxt',
