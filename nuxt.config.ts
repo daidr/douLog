@@ -1,6 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-import prismjs from 'vite-plugin-prismjs'
-
 export default defineNuxtConfig({
   typescript: {
     shim: false,
@@ -172,22 +169,6 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    plugins: [
-      prismjs({
-        languages: [
-          'javascript',
-          'typescript',
-          'css',
-          'markup',
-          'bash',
-          'shell',
-          'json',
-          'php',
-        ],
-        plugins: ['toolbar', 'copy-to-clipboard', 'show-language'],
-        theme: 'okaidia',
-        css: true,
-      }),
-    ],
+    plugins: [],
   },
 })

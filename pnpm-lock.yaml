@@ -22,9 +22,6 @@ devDependencies:
   '@types/jsdom':
     specifier: ^21.1.1
     version: 21.1.1
-  '@types/prismjs':
-    specifier: ^1.26.0
-    version: 1.26.0
   '@types/qs':
     specifier: ^6.9.7
     version: 6.9.7
@@ -49,6 +46,9 @@ devDependencies:
   eslint-plugin-prettier:
     specifier: ^4.2.1
     version: 4.2.1(eslint-config-prettier@8.8.0)(eslint@8.38.0)(prettier@2.8.7)
+  highlight.js:
+    specifier: ^11.7.0
+    version: 11.7.0
   html-minifier:
     specifier: ^4.0.0
     version: 4.0.0
@@ -76,9 +76,6 @@ devDependencies:
   prettier:
     specifier: ^2.8.7
     version: 2.8.7
-  prismjs:
-    specifier: ^1.29.0
-    version: 1.29.0
   qs:
     specifier: ^6.11.1
     version: 6.11.1
@@ -91,9 +88,6 @@ devDependencies:
   viewerjs:
     specifier: ^1.11.3
     version: 1.11.3
-  vite-plugin-prismjs:
-    specifier: ^0.0.8
-    version: 0.0.8(prismjs@1.29.0)
 
 packages:
 
@@ -2376,10 +2370,6 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
 
-  /@types/prismjs@1.26.0:
-    resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
-    dev: true
-
   /@types/qs@6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
     dev: true
@@ -3121,14 +3111,6 @@ packages:
       '@babel/helper-define-polyfill-provider': 0.3.3(@babel/core@7.21.4)
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /babel-plugin-prismjs@2.1.0(prismjs@1.29.0):
-    resolution: {integrity: sha512-ehzSKYfeAz4U78zi/sfwsjDPlq0LvDKxNefcZTJ/iKBu+plsHsLqZhUeGf1+82LAcA35UZGbU6ksEx2Utphc/g==}
-    peerDependencies:
-      prismjs: ^1.18.0
-    dependencies:
-      prismjs: 1.29.0
     dev: true
 
   /balanced-match@1.0.2:
@@ -4979,6 +4961,11 @@ packages:
   /he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+    dev: true
+
+  /highlight.js@11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
+    engines: {node: '>=12.0.0'}
     dev: true
 
   /hookable@5.5.3:
@@ -7297,11 +7284,6 @@ packages:
     engines: {node: ^14.13.1 || >=16.0.0}
     dev: true
 
-  /prismjs@1.29.0:
-    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
-    engines: {node: '>=6'}
-    dev: true
-
   /process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
     dev: true
@@ -8787,17 +8769,6 @@ packages:
       vscode-languageserver: 7.0.0
       vscode-languageserver-textdocument: 1.0.8
       vscode-uri: 3.0.7
-    dev: true
-
-  /vite-plugin-prismjs@0.0.8(prismjs@1.29.0):
-    resolution: {integrity: sha512-mBPPMS/hwVUArdqCtp/oajZT7iq1qwJDDCciNZ3R5+Q5tQUuUHXtDKuZHYnklPLElNbENf2FyuOtC4FrgxQRAA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@babel/core': 7.21.4
-      babel-plugin-prismjs: 2.1.0(prismjs@1.29.0)
-    transitivePeerDependencies:
-      - prismjs
-      - supports-color
     dev: true
 
   /vite-plugin-pwa@0.14.7(vite@4.2.1)(workbox-build@6.5.4)(workbox-window@6.5.4):
