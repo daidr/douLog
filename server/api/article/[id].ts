@@ -33,6 +33,34 @@ export interface IArticleItem {
   date: string
 }
 
+const encodeHtmlAttr = (str: string) => {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+const preHandleArticleContent = (html: string) => {
+  return (
+    html
+      // 修改script标签
+      .replaceAll(/(<script[\s\S]*?<\/script>)/g, (_: any, p1: any) => {
+        return `<blog-dynamic-inject data-element="${encodeHtmlAttr(
+          p1
+        )}"></blog-dynamic-inject>`
+      })
+      // 让表格包裹一个容器
+      .replaceAll(
+        /(<table id="tablepress-\d+" class="tablepress tablepress-id-\d+">[\s\S]*<\/table>)/g,
+        (_: any, p1: any) => {
+          return `<div class="table-container">${p1}</div>`
+        }
+      )
+  )
+}
+
 const handleArticleHeading = (html: string) => {
   const dom = new JSDOM(html)
   const { document } = dom.window
