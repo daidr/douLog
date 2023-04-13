@@ -46,10 +46,18 @@ if (summary.value === 'no cache') {
         <IconInfo />
       </div>
       <div class="content">
-        灵感来自
-        <a href="https://xlog.app/" target="_blank"
-          ><img src="@/assets/images/xlog.svg" /> xLog</a
-        >
+        <div>
+          灵感来自
+          <a href="https://xlog.app/" target="_blank"
+            ><img src="@/assets/images/xlog.svg" /> xLog</a
+          >
+        </div>
+        <div>
+          基于
+          <a href="https://chat.openai.com/" target="_blank"
+            ><img src="@/assets/images/openai.svg" /> ChatGPT</a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -73,7 +81,7 @@ if (summary.value === 'no cache') {
 
     .content {
       @apply absolute whitespace-nowrap right-0 top-7;
-      @apply flex;
+      @apply flex flex-col;
       @apply py-2 px-5 bg-white shadow-lg shadow-black/5 border-1 rounded-lg;
       @apply pointer-events-none opacity-0 transform-gpu transition duration-500 translate-y-1;
 
@@ -89,7 +97,7 @@ if (summary.value === 'no cache') {
         }
 
         img {
-          @apply w-0.8em h-0.8em mr-1;
+          @apply w-0.9em h-0.9em mr-1;
         }
       }
     }

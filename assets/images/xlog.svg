@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+<svg data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 128.81 128.17">
     <defs>
         <style>
@@ -12,7 +12,7 @@
             <stop offset=".99" stop-color="#f9cb28" />
         </linearGradient>
     </defs>
-    <g id="b">
+    <g>
         <g>
             <path
                 d="M56.32,100.47c0,15.98-11.84,27.61-27.85,27.61S.33,116.45,.33,100.47s11.83-27.45,28.08-27.45,27.91,11.63,27.91,27.45Z" />
