@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Prism from 'prismjs'
 import Viewer from 'viewerjs'
 import 'viewerjs/dist/viewer.min.css'
 import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
 import '~~/article-gadgets/mdx-github-card/style.scss'
+import './hljs-light.scss'
 
 const props = defineProps<{
   articleHtml: string
@@ -71,9 +71,6 @@ onMounted(() => {
   // 监听滚动事件
   articlePageWrapper!.addEventListener('scroll', onScroll)
 
-  // 代码高亮
-  Prism.highlightAll()
-
   // 解析并注入 iframe 等短代码
   injectElement()
 
@@ -81,7 +78,37 @@ onMounted(() => {
   bindImageViewer()
 
   injectCustomPlugins()
+
+  injectCodeToolbar()
 })
+
+function injectCodeToolbar() {
+  if (typeof window === 'undefined') return
+  const codeBlocks = document.querySelectorAll('.hljs-toolbar-wrapper')
+  codeBlocks.forEach(item => {
+    const toolbar = document.createElement('div')
+    toolbar.className = 'code-toolbar'
+    const copyBtn = document.createElement('div')
+    copyBtn.className = 'code-copy-btn'
+    copyBtn.innerText = '复制'
+    let timer: NodeJS.Timeout
+    copyBtn.addEventListener('click', () => {
+      const text = item.children[0].textContent || ''
+      navigator.clipboard.writeText(text)
+      clearTimeout(timer)
+      copyBtn.innerText = '已复制'
+      timer = setTimeout(() => {
+        copyBtn.innerText = '复制'
+      }, 1000)
+    })
+    const codeLangText = document.createElement('div')
+    codeLangText.className = 'code-lang-text'
+    codeLangText.innerText = item.children[0].getAttribute('lang') || '❌'
+    toolbar.append(copyBtn)
+    toolbar.append(codeLangText)
+    item.append(toolbar)
+  })
+}
 
 function injectCustomPlugins() {
   if (typeof window === 'undefined') return
@@ -95,7 +122,6 @@ function injectElement() {
   const elements = document.querySelectorAll('blog-dynamic-inject')
   elements.forEach(item => {
     const element = item.getAttribute('data-element')
-    console.log(element)
     item.append(document.createRange().createContextualFragment(element!))
     item.remove()
   })
@@ -244,44 +270,8 @@ article.blog-article-wrapper {
     @apply text-primary-medium;
   }
 
-  :deep(.code-toolbar pre) {
-    @apply bg-primary-dark m-0;
-    @apply rounded-none sm:rounded-2xl;
-    @apply <sm:-mx-5 mt-2;
-  }
-
-  :deep(code:not([class*='language-'])) {
+  :deep(code:not([class='hljs-code'])) {
     @apply bg-primary/10 px-1 rounded-md text-primary;
-  }
-
-  :deep(.toolbar) {
-    @apply top-1 right-1 text-base;
-    @apply flex items-start justify-end space-x-1;
-    @apply bg-white/95 p-1;
-    @apply rounded-xl;
-
-    .toolbar-item {
-      @apply flex items-start select-none;
-
-      & > span {
-        @apply pointer-events-none;
-      }
-
-      & > * {
-        @apply bg-transparent shadow-none text-primary-medium/80;
-        @apply transition-colors;
-
-        &:hover,
-        &:focus {
-          @apply text-white bg-primary;
-        }
-      }
-    }
-
-    .copy-to-clipboard-button {
-      @apply cursor-pointer text-base;
-      @apply rounded-lg;
-    }
   }
 
   :deep(.table-container),

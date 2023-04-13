@@ -24,9 +24,6 @@ useHead({
   },
   bodyAttrs: {
     class: 'theme-' + (randomThemeColorIndex.value + 1),
-    'data-prismjs-copy': '复制',
-    'data-prismjs-copy-error': '复制出错',
-    'data-prismjs-copy-success': '已复制',
   },
   link: [
     {

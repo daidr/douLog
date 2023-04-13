@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { replaceMediaCDN } from '~~/utils/mediaCDN'
 import minifyHtml from '~~/utils/minifyHtml'
+import hljs from 'highlight.js'
 
 import { JSDOM } from 'jsdom'
 
@@ -59,6 +60,49 @@ const handleArticleHeading = (html: string) => {
   }
 }
 
+const handleArticleCodeHighlight = (html: string) => {
+  const dom = new JSDOM(html)
+  const { document } = dom.window
+  // 获取所有 pre 标签
+  let preList = [...document.querySelectorAll('pre')]
+  // 过滤掉子标签不是 code 的 pre 标签
+  preList = preList.filter(
+    item => item.children.length === 1 && item.children[0].tagName === 'CODE'
+  )
+  if (preList.length === 0) return html
+  // 获取所有语言
+  const langList = preList.map(item => {
+    const lang = /language-(\w*)/.exec(item.children[0].className) || []
+    return lang[1]
+  })
+
+  for (let i = 0; i < preList.length; i++) {
+    const str = preList[i].textContent || ''
+    let lang = langList[i] || ''
+    switch (lang) {
+      case 'markup':
+        lang = 'html'
+        break
+    }
+    if (lang && hljs.getLanguage(lang)) {
+      const _result = hljs.highlight(str, {
+        language: lang,
+        ignoreIllegals: true,
+      })
+      preList[i].outerHTML =
+        `<div class="hljs-toolbar-wrapper"><pre class="hljs" lang="${lang}"><code class="hljs-code">` +
+        _result.value +
+        '</code></pre></div>'
+    } else {
+      preList[
+        i
+      ].outerHTML = `<div class="hljs-toolbar-wrapper"><pre class="hljs" lang="❌"><code class="hljs-code">${str}</code></pre></div>`
+    }
+  }
+
+  return dom.serialize()
+}
+
 export default cachedEventHandler(
   async event => {
     const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
@@ -103,7 +147,9 @@ export default cachedEventHandler(
         }
       )) as any
 
-      const { html, titleList } = handleArticleHeading(result.content.rendered)
+      const { html, titleList } = handleArticleHeading(
+        handleArticleCodeHighlight(result.content.rendered)
+      )
 
       const _result = {
         id: result.id,
