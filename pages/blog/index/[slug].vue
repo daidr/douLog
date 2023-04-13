@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { IArticleItem } from '~~/server/api/article/[id]'
 import IconTime from '~icons/icon-park-outline/time'
-import type { ICatalogItem } from '~~/components/common/ArticleRender/index.vue'
 
 definePageMeta({
   isInArticlePage: true,
@@ -13,11 +12,9 @@ if (!/^\d+$/.test(slug)) {
   navigateTo('/404', { replace: true })
 }
 
-const { data: article } = await useFetch<IArticleItem | string>(
-  `/api/article/${slug}`
-)
+const { data: article } = await useFetch<IArticleItem>(`/api/article/${slug}`)
 
-if (article.value === 'not found' || !article.value) {
+if (!article.value) {
   navigateTo('/404', { replace: true })
 }
 
@@ -64,10 +61,9 @@ onMounted(async () => {
   location.hash = _hash
 })
 
-const catalogList = ref([] as ICatalogItem[])
-const generateCatalog = (payload: ICatalogItem[]) => {
-  catalogList.value = payload
-}
+const catalogList = computed(() => {
+  return article.value?.titleList || []
+})
 
 const activeTitleId = ref('')
 const setActiveTitle = (title: string | null) => {
@@ -98,7 +94,6 @@ const showSidebar = computed(() => catalogList.value.length > 0)
       </div>
       <CommonArticleRender
         :article-html="article.content"
-        @generate-catalog="generateCatalog"
         @active-title="setActiveTitle"
       />
     </div>

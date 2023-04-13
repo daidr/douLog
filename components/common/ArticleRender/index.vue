@@ -5,12 +5,6 @@ import 'viewerjs/dist/viewer.min.css'
 import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
 import '~~/article-gadgets/mdx-github-card/style.scss'
 
-export interface ICatalogItem {
-  key: string
-  title: string
-  level: number
-}
-
 const props = defineProps<{
   articleHtml: string
 }>()
@@ -60,47 +54,22 @@ const _articleHtml = computed(() => {
 })
 
 const emit = defineEmits<{
-  (event: 'generate-catalog', payload: ICatalogItem[]): void
   (event: 'active-title', payload: string | null): void
 }>()
 
 const onScroll = throttleAndDebounce(checkActiveTitle, 100)
 
+const ArticleContentWrapperRef = ref<HTMLElement | null>(null)
+
 onMounted(() => {
-  // 文章容器
-  const articleContent = document.querySelector('.blog-article-wrapper')
   // 文章滚动容器
   const articlePageWrapper = document.querySelector('.articles-page-wrapper')
 
-  // 文章目录级别限制
-  let minTitleLevel = 6
-  if (articleContent) {
-    const title = articleContent.querySelectorAll('h1, h2, h3, h4, h5, h6')
-    const titleList: ICatalogItem[] = []
-    title.forEach(item => {
-      const level = Number(item.tagName.replace('H', ''))
-      if (level < minTitleLevel) minTitleLevel = level
-    })
-    let tagIndex = 0
-    title.forEach(item => {
-      const level = Number(item.tagName.replace('H', ''))
-      const titleItem: ICatalogItem = {
-        key: (item.id = `ah-${tagIndex++}`),
-        title: (item as HTMLElement).innerText,
-        level: level - minTitleLevel,
-      }
-      titleList.push(titleItem)
-    })
+  // 判断当前激活的标题
+  requestAnimationFrame(checkActiveTitle)
 
-    // 生成目录
-    emit('generate-catalog', titleList)
-
-    // 判断当前激活的标题
-    requestAnimationFrame(checkActiveTitle)
-
-    // 监听滚动事件
-    articlePageWrapper!.addEventListener('scroll', onScroll)
-  }
+  // 监听滚动事件
+  articlePageWrapper!.addEventListener('scroll', onScroll)
 
   // 代码高亮
   Prism.highlightAll()
@@ -111,9 +80,15 @@ onMounted(() => {
   // 绑定灯箱
   bindImageViewer()
 
+  injectCustomPlugins()
+})
+
+function injectCustomPlugins() {
+  if (typeof window === 'undefined') return
+
   // 解析 Github 卡片短代码
   initMdxGitCards()
-})
+}
 
 function injectElement() {
   if (typeof window === 'undefined') return
@@ -131,29 +106,33 @@ onUnmounted(() => {
   articlePageWrapper!.removeEventListener('scroll', onScroll)
 })
 
+let titles = [] as HTMLHeadingElement[]
+
 function checkActiveTitle() {
-  const articleContent = document.querySelector('.blog-article-wrapper')
+  if (!ArticleContentWrapperRef.value) return
   const articlePageWrapper = document.querySelector('.articles-page-wrapper')
-  if (articleContent) {
-    const titles = [
-      ...articleContent.querySelectorAll('h1, h2, h3, h4, h5, h6'),
+  if (titles.length === 0) {
+    titles = [
+      ...ArticleContentWrapperRef.value.querySelectorAll(
+        'h1, h2, h3, h4, h5, h6'
+      ),
     ] as HTMLHeadingElement[]
-    const scrollY = articlePageWrapper?.scrollTop || 0
-    const innerHeight = articlePageWrapper!.clientHeight
-    const offsetHeight = articlePageWrapper!.scrollHeight
-    const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
-    if (titles.length && isBottom) {
-      emit('active-title', titles[titles.length - 1].id)
+  }
+  const scrollY = articlePageWrapper?.scrollTop || 0
+  const innerHeight = articlePageWrapper!.clientHeight
+  const offsetHeight = articlePageWrapper!.scrollHeight
+  const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
+  if (titles.length && isBottom) {
+    emit('active-title', titles[titles.length - 1].id)
+    return
+  }
+  for (let i = 0; i < titles.length; i++) {
+    const title = titles[i]
+    const nextTitle = titles[i + 1]
+    const [isActive, id] = isTitleActive(i, title, nextTitle)
+    if (isActive) {
+      emit('active-title', id)
       return
-    }
-    for (let i = 0; i < titles.length; i++) {
-      const title = titles[i]
-      const nextTitle = titles[i + 1]
-      const [isActive, id] = isTitleActive(i, title, nextTitle)
-      if (isActive) {
-        emit('active-title', id)
-        return
-      }
     }
   }
 }
@@ -204,7 +183,11 @@ function bindImageViewer() {
 </script>
 
 <template>
-  <article class="blog-article-wrapper" v-html="_articleHtml"></article>
+  <article
+    ref="ArticleContentWrapperRef"
+    class="blog-article-wrapper"
+    v-html="_articleHtml"
+  ></article>
 </template>
 
 <style lang="scss" scoped>
