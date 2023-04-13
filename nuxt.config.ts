@@ -165,6 +165,11 @@ export default defineNuxtConfig({
         tls: {},
       },
     },
+    devStorage: {
+      cache: {
+        driver: 'memory',
+      },
+    },
   },
   vite: {
     plugins: [
