@@ -4,6 +4,9 @@
   @apply m-0 text-base;
   @apply rounded-none sm:rounded-2xl;
   @apply <sm:-mx-5 mt-2;
+  & * {
+    font-family: Consolas, Monaco, monospace !important;
+  }
 }
 
 .hljs-toolbar-wrapper {
