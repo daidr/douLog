@@ -45,6 +45,6 @@ export default cachedEventHandler(
   },
   {
     swr: true,
-    maxAge: 60 * 30,
+    maxAge: 60 * 10,
   }
 )
