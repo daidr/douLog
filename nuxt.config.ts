@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     shim: false,
   },
   experimental: {
-    renderJsonPayloads: true
+    renderJsonPayloads: true,
   },
   app: {
     rootId: '__daidr_app',
@@ -65,7 +65,7 @@ export default defineNuxtConfig({
             },
           },
         },
-        // /api/articles 接口，缓存 30 分钟，返回过期数据再重新请求
+        // /api/articles 接口，缓存 10 分钟，返回过期数据再重新请求
         {
           urlPattern: /\/api\/articles.*/i,
           handler: 'StaleWhileRevalidate',
@@ -73,14 +73,14 @@ export default defineNuxtConfig({
             cacheName: 'api-articles-cache',
             expiration: {
               maxEntries: 100,
-              maxAgeSeconds: 60 * 30,
+              maxAgeSeconds: 60,
             },
             cacheableResponse: {
               statuses: [0, 200],
             },
           },
         },
-        // /api/article/\d+ 接口，缓存 30 分钟，返回过期数据再重新请求
+        // /api/article/\d+ 接口，缓存 10 分钟，返回过期数据再重新请求
         {
           urlPattern: /\/api\/article\/\d+.*/i,
           handler: 'StaleWhileRevalidate',
@@ -88,7 +88,7 @@ export default defineNuxtConfig({
             cacheName: 'api-article-cache',
             expiration: {
               maxEntries: 100,
-              maxAgeSeconds: 60 * 30,
+              maxAgeSeconds: 60 * 10,
             },
             cacheableResponse: {
               statuses: [0, 200],
