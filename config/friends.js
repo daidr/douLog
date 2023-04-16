@@ -251,4 +251,11 @@ export const FriendsList = [
     avatar: 'blog.aflybird.cn.png',
     color: '#CCCCDE',
   },
+  {
+    name: 'Golden Sheep',
+    motto: '须知小花的产生,是为了在你的心旁逗留一瞬！',
+    url: 'https://www.glodensheep.top/',
+    avatar: 'www.glodensheep.top.png',
+    color: '#AD393C',
+  },
 ]
