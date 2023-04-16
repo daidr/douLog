@@ -73,7 +73,7 @@ const urls = [
       @apply absolute -top-6px -left-6px -right-6px -bottom-6px -z-1;
       @apply rounded-full;
       @apply border-4px border-primary-extralight;
-      @apply transition;
+      @apply transition motion-reduce:transition-none;
       @apply transform-gpu scale-50 opacity-0;
       @apply pointer-events-none;
     }
@@ -88,7 +88,7 @@ const urls = [
       @apply absolute -bottom-10 left-1/2;
       @apply text-sm text-center text-primary-extralight whitespace-nowrap;
       @apply bg-primary-medium px-2 py-1;
-      @apply transition duration-300;
+      @apply transition duration-300 motion-reduce:transition-none;
       @apply transform-gpu -translate-x-1/2 -translate-y-20px opacity-0;
       @apply pointer-events-none;
       @apply rounded-xl;

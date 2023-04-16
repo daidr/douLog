@@ -55,12 +55,25 @@ router.beforeEach((to, from, next) => {
     const _slotEl = getTransitionContainer(SlotEl.value)
 
     writeBound(_loadingEl, _toWrapperStyle)
-    if (_slotEl && _slotEl.nodeName != '#comment') {
-      writeBound(_slotEl, _fromWrapperStyle)
-      _fromWrapperStyle.set = true
-      toAnimation(_slotEl, _toWrapperStyle, _fromWrapperStyle)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (_slotEl && _slotEl.nodeName != '#comment') {
+        writeBound(_slotEl, _fromWrapperStyle)
+        _fromWrapperStyle.set = true
+        toAnimationWithoutAnimation(_slotEl, _toWrapperStyle, _fromWrapperStyle)
+      }
+      fromAnimationWithoutAnimation(
+        _loadingEl,
+        _fromWrapperStyle,
+        _toWrapperStyle
+      )
+    } else {
+      if (_slotEl && _slotEl.nodeName != '#comment') {
+        writeBound(_slotEl, _fromWrapperStyle)
+        _fromWrapperStyle.set = true
+        toAnimation(_slotEl, _toWrapperStyle, _fromWrapperStyle)
+      }
+      fromAnimation(_loadingEl, _fromWrapperStyle, _toWrapperStyle)
     }
-    fromAnimation(_loadingEl, _fromWrapperStyle, _toWrapperStyle)
   }, 100)
   next()
 })
@@ -79,17 +92,60 @@ router.afterEach((to, from) => {
   }
   if (!enableTransition.value) {
     const delta = Date.now() - startLoadingTime
-    setTimeout(() => {
+    // 检查是否需要动画
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const _loadingEl = getTransitionContainer(LoadingEl.value)
       const _slotEl = getTransitionContainer(SlotEl.value)
       writeBound(_loadingEl, _fromWrapperStyle)
       writeBound(_slotEl, _toWrapperStyle)
       _fromWrapperStyle.set = true
-      toAnimation(_loadingEl, _toWrapperStyle, _fromWrapperStyle, true)
-      fromAnimation(_slotEl, _fromWrapperStyle, _toWrapperStyle, true)
-    }, Math.max(1300 - delta, 0))
+      toAnimationWithoutAnimation(
+        _loadingEl,
+        _toWrapperStyle,
+        _fromWrapperStyle,
+        true
+      )
+      fromAnimationWithoutAnimation(
+        _slotEl,
+        _fromWrapperStyle,
+        _toWrapperStyle,
+        true
+      )
+    } else {
+      setTimeout(() => {
+        const _loadingEl = getTransitionContainer(LoadingEl.value)
+        const _slotEl = getTransitionContainer(SlotEl.value)
+        writeBound(_loadingEl, _fromWrapperStyle)
+        writeBound(_slotEl, _toWrapperStyle)
+        _fromWrapperStyle.set = true
+        toAnimation(_loadingEl, _toWrapperStyle, _fromWrapperStyle, true)
+        fromAnimation(_slotEl, _fromWrapperStyle, _toWrapperStyle, true)
+      }, Math.max(1300 - delta, 0))
+    }
   }
 })
+
+const fromAnimationWithoutAnimation = (el, fromBound) => {
+  if (!fromBound.set) {
+    el.style.opacity = '1'
+    return
+  }
+  el.style.opacity = ''
+  SlotEl.value.classList.remove('transition-router')
+  SlotEl.value.style.transitionDuration = ''
+  SlotEl.value.style.willChange = ''
+  enableTransition.value = true
+  toggleDecoration(true)
+}
+
+const toAnimationWithoutAnimation = el => {
+  el.style.opacity = 1
+  SlotEl.value.classList.remove('transition-router')
+  SlotEl.value.style.transitionDuration = ''
+  SlotEl.value.style.willChange = ''
+  enableTransition.value = true
+  toggleDecoration(true)
+}
 
 const fromAnimation = (el, fromBound, selfBound, clear) => {
   if (!fromBound.set) {
@@ -246,6 +302,9 @@ const toWrapperStyle = reactive({
 })
 
 const onBeforeEnter = el => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
   if (enableTransition.value) {
     toggleDecoration(false)
   }
@@ -267,6 +326,10 @@ const onBeforeEnter = el => {
 }
 
 const onEnter = (el, done) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    done()
+    return
+  }
   el = getTransitionContainer(el)
   if (!fromWrapperStyle.set) {
     done()
@@ -322,6 +385,9 @@ const onEnter = (el, done) => {
 }
 
 const onAfterEnter = el => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
   el = getTransitionContainer(el)
   el.classList.remove('transition-router')
   el.style.transitionDuration = ''
@@ -332,6 +398,9 @@ const onAfterEnter = el => {
 }
 
 const onBeforeLeave = el => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
   // 克隆
   const fromWrapper = el
 
@@ -341,6 +410,10 @@ const onBeforeLeave = el => {
 }
 
 const onLeave = (el, done) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    done()
+    return
+  }
   el = getTransitionContainer(el)
   if (!enableTransition.value) {
     setTimeout(() => {
@@ -378,6 +451,9 @@ const onLeave = (el, done) => {
 }
 
 const onAfterLeave = el => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
   if (enableTransition.value) {
     toggleDecoration(true)
   }

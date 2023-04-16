@@ -17,7 +17,7 @@
 }
 
 .transition-router {
-  @apply transition-all;
+  @apply transition-all motion-reduce:transition-none;
 
   @supports (-webkit-touch-callout: none) {
     .y-scroll-box {
@@ -58,6 +58,7 @@
   transition-property: opacity, transform;
   transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
   transition-duration: 800ms;
+  @apply motion-reduce:transition-none;
   @apply opacity-100 scale-100 translate-x-0 translate-z-150vh z-90;
   @apply origin-top-left;
 }

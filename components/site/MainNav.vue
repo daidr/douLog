@@ -71,6 +71,7 @@ defineProps({
   &:hover {
     svg {
       animation: backshake 0.5s linear;
+      @apply motion-reduce:animate-none;
     }
   }
 

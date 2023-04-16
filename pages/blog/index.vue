@@ -116,6 +116,7 @@ provide('toPrevTop', toPrevTop)
     margin: 0 auto;
 
     transition: max-width 0.3s ease-in-out;
+    @apply motion-reduce:transition-none;
 
     &.wider {
       @apply max-w-1200px;

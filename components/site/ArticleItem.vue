@@ -42,6 +42,7 @@ defineProps<{ article: IArticleListItem }>()
   @apply flex-col md:flex-row flex justify-between rounded-2xl p-2;
   @apply border-gray-200/60 border-1;
   transition: border 0.5s linear, background-position-x 0.5s ease-out;
+  @apply motion-reduce:transition-none;
 
   background-image: linear-gradient(
     90deg,
