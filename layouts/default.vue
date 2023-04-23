@@ -8,18 +8,19 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
   import('@/components/ui/Background/Geometric.vue')
 )
 
-const UiBackgroundLifeGame = defineAsyncComponent(() =>
-  import('@/components/ui/Background/LifeGame.vue')
-)
+// const UiBackgroundLifeGame = defineAsyncComponent(() =>
+//   import('@/components/ui/Background/LifeGame.vue')
+// )
 </script>
 
 <template>
   <div class="main-wrapper">
-    <Component
+    <!-- <Component
       :is="
         randomBackground === 0 ? UiBackgroundGeometric : UiBackgroundLifeGame
       "
-    />
+    /> -->
+    <Component :is="UiBackgroundGeometric" />
     <slot />
     <SiteFooter />
   </div>
