@@ -1,7 +1,7 @@
 <script setup>
 import IconHome from '~icons/uil/home-alt'
 import IconChannel from '~icons/uil/channel'
-import Twitter from '~icons/icon-park-outline/twitter'
+import IconTwitter from '~icons/icon-park-outline/twitter'
 import IconGithub from '~icons/icon-park-outline/github-one'
 import IconHeart from '~icons/uil/heart'
 import IconSubway from '~icons/uil/subway'
