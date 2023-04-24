@@ -1,7 +1,7 @@
 <script setup>
 import IconHome from '~icons/uil/home-alt'
 import IconChannel from '~icons/uil/channel'
-import IconBilibili from '~icons/icon-park-outline/tv-one'
+import Twitter from '~icons/icon-park-outline/twitter'
 import IconGithub from '~icons/icon-park-outline/github-one'
 import IconHeart from '~icons/uil/heart'
 import IconSubway from '~icons/uil/subway'
@@ -18,9 +18,9 @@ const urls = [
     name: 'xLog',
   },
   {
-    url: 'https://space.bilibili.com/28124496',
-    icon: IconBilibili,
-    name: 'B站',
+    url: 'https://twitter.com/imdaidr',
+    icon: IconTwitter,
+    name: 'Twitter',
   },
   {
     url: 'https://github.com/daidr',
