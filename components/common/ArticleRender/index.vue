@@ -170,7 +170,7 @@ function bindImageViewer() {
       '.blog-article-wrapper img:not(.wp-smiley)'
     )
     mediumZoom(images, {
-      container: '.articles-page-wrapper',
+      background: 'rgba(255, 255, 255, 0.6)',
     })
   }
 }
