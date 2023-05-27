@@ -38,8 +38,7 @@
     "prettier": "^2.8.7",
     "qs": "^6.11.1",
     "sass": "^1.62.0",
-    "unplugin-icons": "^0.16.1",
-    "viewerjs": "^1.11.3"
+    "unplugin-icons": "^0.16.1"
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
@@ -50,5 +49,8 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "dependencies": {
+    "medium-zoom": "^1.0.8"
   }
 }

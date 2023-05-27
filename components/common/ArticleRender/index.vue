@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import Viewer from 'viewerjs'
-import 'viewerjs/dist/viewer.min.css'
 import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
+import mediumZoom from 'medium-zoom'
 import '~~/article-gadgets/mdx-github-card/style.scss'
 import './hljs-light.scss'
 
@@ -167,12 +166,11 @@ function bindImageViewer() {
   }
 
   {
-    new Viewer(document.querySelector('.blog-article-wrapper')!, {
-      inline: false,
-      fullscreen: false,
-      filter: (image: HTMLImageElement) => {
-        return !image.classList.contains('wp-smiley')
-      },
+    const images = document.querySelectorAll(
+      '.blog-article-wrapper img:not(.wp-smiley)'
+    )
+    mediumZoom(images, {
+      container: '.articles-page-wrapper',
     })
   }
 }

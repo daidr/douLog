@@ -1,5 +1,10 @@
 lockfileVersion: '6.0'
 
+dependencies:
+  medium-zoom:
+    specifier: ^1.0.8
+    version: 1.0.8
+
 devDependencies:
   '@commitlint/cli':
     specifier: ^17.5.1
@@ -85,9 +90,6 @@ devDependencies:
   unplugin-icons:
     specifier: ^0.16.1
     version: 0.16.1
-  viewerjs:
-    specifier: ^1.11.3
-    version: 1.11.3
 
 packages:
 
@@ -6021,6 +6023,10 @@ packages:
     resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==}
     dev: true
 
+  /medium-zoom@1.0.8:
+    resolution: {integrity: sha512-CjFVuFq/IfrdqesAXfg+hzlDKu6A2n80ZIq0Kl9kWjoHh9j1N9Uvk5X0/MmN0hOfm5F9YBswlClhcwnmtwz7gA==}
+    dev: false
+
   /memory-fs@0.5.0:
     resolution: {integrity: sha512-jA0rdU5KoQMC0e6ppoNRtpp6vjFq6+NY7r8hywnC7V+1Xj/MtHwGIbB1QaK/dunyjWteJzmkpd7ooeWg10T7GA==}
     engines: {node: '>=4.3.0 <5.0.0 || >=5.10'}
@@ -8692,10 +8698,6 @@ packages:
     dependencies:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
-    dev: true
-
-  /viewerjs@1.11.3:
-    resolution: {integrity: sha512-efG3U61Umuj/1x6JAtdvnY9m407C/RkrkFilsMcLEWKDivpjNU3/FeL+feCY1Vkur9aQeBJ+z6K4CCPP7hv6vA==}
     dev: true
 
   /vite-node@0.30.1(@types/node@18.15.11)(sass@1.62.0):
