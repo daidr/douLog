@@ -171,6 +171,7 @@ function bindImageViewer() {
     )
     mediumZoom(images, {
       background: 'rgba(255, 255, 255, 0.6)',
+      margin: 16,
     })
   }
 }
