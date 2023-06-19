@@ -258,4 +258,11 @@ export const FriendsList = [
     avatar: 'www.glodensheep.top.png',
     color: '#AD393C',
   },
+  {
+    name: '陆陆侠的生活',
+    motto: '安安~这里是陆陆侠的生活',
+    url: 'https://llx.life/',
+    avatar: 'llx.life.png',
+    color: '#F0C0CF',
+  },
 ]
