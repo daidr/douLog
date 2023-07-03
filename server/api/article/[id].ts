@@ -176,7 +176,9 @@ export default cachedEventHandler(
       )) as any
 
       const { html, titleList } = handleArticleHeading(
-        handleArticleCodeHighlight(result.content.rendered)
+        handleArticleCodeHighlight(
+          preHandleArticleContent(result.content.rendered)
+        )
       )
 
       const _result = {
