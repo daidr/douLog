@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   },
   experimental: {
     renderJsonPayloads: true,
+    viewTransition: true,
   },
   app: {
     rootId: '__daidr_app',
