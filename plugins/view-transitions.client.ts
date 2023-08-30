@@ -1,6 +1,6 @@
 import { useRouter } from '#app/composables/router'
 import { defineNuxtPlugin } from '#app/nuxt'
-import { wait } from '~~/utils/_'
+// import { wait } from '~~/utils/_'
 
 function getNavigationType(fromName: string, toName: string) {
   if (fromName === 'blog-index-slug' && toName === 'blog-index') {
@@ -105,7 +105,7 @@ export default defineNuxtPlugin(nuxtApp => {
   })
 
   nuxtApp.hook('page:finish', async () => {
-    await wait(100)
+    // await wait(100)
     finishTransition?.()
     finishTransition = undefined
   })

@@ -52,6 +52,7 @@ provide('toPrevTop', toPrevTop)
       <NuxtLoadingIndicator
         color="rgba(var(--color-primary), 1)"
         :throttle="100"
+        class="article-loading-indicator"
       />
     </Teleport>
     <div class="limit-wrapper" :class="{ wider: isInArticlePage }">

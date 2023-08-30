@@ -97,18 +97,6 @@ body.hide-extra-wrapper {
   background-position: center;
 }
 
-@keyframes slide-from-right {
-  from {
-    transform: translateX(30px);
-  }
-}
-
-@keyframes slide-to-left {
-  to {
-    transform: translateX(-30px);
-  }
-}
-
 ::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
@@ -117,4 +105,25 @@ body.hide-extra-wrapper {
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+.article-loading-indicator {
+  view-transition-name: article-loading-indicator;
+}
+
+::view-transition-old(article-loading-indicator) {
+  display: none;
+}
+
+::view-transition-new(article-loading-indicator) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
