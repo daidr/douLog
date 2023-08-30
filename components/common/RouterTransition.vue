@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
       fromAnimationWithoutAnimation(
         _loadingEl,
         _fromWrapperStyle,
-        _toWrapperStyle
+        _toWrapperStyle,
       )
     } else {
       if (_slotEl && _slotEl.nodeName != '#comment') {
@@ -103,24 +103,27 @@ router.afterEach((to, from) => {
         _loadingEl,
         _toWrapperStyle,
         _fromWrapperStyle,
-        true
+        true,
       )
       fromAnimationWithoutAnimation(
         _slotEl,
         _fromWrapperStyle,
         _toWrapperStyle,
-        true
+        true,
       )
     } else {
-      setTimeout(() => {
-        const _loadingEl = getTransitionContainer(LoadingEl.value)
-        const _slotEl = getTransitionContainer(SlotEl.value)
-        writeBound(_loadingEl, _fromWrapperStyle)
-        writeBound(_slotEl, _toWrapperStyle)
-        _fromWrapperStyle.set = true
-        toAnimation(_loadingEl, _toWrapperStyle, _fromWrapperStyle, true)
-        fromAnimation(_slotEl, _fromWrapperStyle, _toWrapperStyle, true)
-      }, Math.max(1300 - delta, 0))
+      setTimeout(
+        () => {
+          const _loadingEl = getTransitionContainer(LoadingEl.value)
+          const _slotEl = getTransitionContainer(SlotEl.value)
+          writeBound(_loadingEl, _fromWrapperStyle)
+          writeBound(_slotEl, _toWrapperStyle)
+          _fromWrapperStyle.set = true
+          toAnimation(_loadingEl, _toWrapperStyle, _fromWrapperStyle, true)
+          fromAnimation(_slotEl, _fromWrapperStyle, _toWrapperStyle, true)
+        },
+        Math.max(1300 - delta, 0),
+      )
     }
   }
 })
@@ -155,12 +158,12 @@ const fromAnimation = (el, fromBound, selfBound, clear) => {
   el.style.transitionDuration = '0s'
 
   const d = calcDelta(fromBound, selfBound, selfBound.t)
-  el.style.setProperty('--tw-rotate-x', '-180deg')
-  el.style.setProperty('--tw-rotate-z', '-180deg')
-  el.style.setProperty('--tw-translate-x', `${d.deltaX}px`)
-  el.style.setProperty('--tw-translate-y', `${d.deltaY}px`)
-  el.style.setProperty('--tw-scale-x', `${d.scaleX}`)
-  el.style.setProperty('--tw-scale-y', `${d.scaleY}`)
+  el.style.setProperty('--un-rotate-x', '-180deg')
+  el.style.setProperty('--un-rotate-z', '-180deg')
+  el.style.setProperty('--un-translate-x', `${d.deltaX}px`)
+  el.style.setProperty('--un-translate-y', `${d.deltaY}px`)
+  el.style.setProperty('--un-scale-x', `${d.scaleX}`)
+  el.style.setProperty('--un-scale-y', `${d.scaleY}`)
   el.style.opacity = '0'
   const scale = (d.scaleX + d.scaleY) / 2
   el.style.borderRadius = fromBound.br / scale + 'px'
@@ -174,12 +177,12 @@ const fromAnimation = (el, fromBound, selfBound, clear) => {
   // 重置全部属性
   el.style.borderRadius = ''
   el.style.opacity = '1'
-  el.style.setProperty('--tw-rotate-x', '')
-  el.style.setProperty('--tw-rotate-z', '')
-  el.style.setProperty('--tw-translate-x', '')
-  el.style.setProperty('--tw-translate-y', '')
-  el.style.setProperty('--tw-scale-x', '')
-  el.style.setProperty('--tw-scale-y', '')
+  el.style.setProperty('--un-rotate-x', '')
+  el.style.setProperty('--un-rotate-z', '')
+  el.style.setProperty('--un-translate-x', '')
+  el.style.setProperty('--un-translate-y', '')
+  el.style.setProperty('--un-scale-x', '')
+  el.style.setProperty('--un-scale-y', '')
 
   if (clear) {
     // 监听动画结束
@@ -196,7 +199,7 @@ const fromAnimation = (el, fromBound, selfBound, clear) => {
         SlotEl.value.style.willChange = ''
         enableTransition.value = true
         toggleDecoration(true)
-      })
+      }),
     )
   }
 }
@@ -207,12 +210,12 @@ const toAnimation = (el, toBound, selfBound, clear) => {
   el.style.transitionDuration = '1300ms'
   el.style.willChange = 'transform, border-radius, opacity'
   const d = calcDelta(toBound, selfBound, selfBound.t)
-  el.style.setProperty('--tw-rotate-x', '180deg')
-  el.style.setProperty('--tw-rotate-z', '-180deg')
-  el.style.setProperty('--tw-translate-x', `${d.deltaX}px`)
-  el.style.setProperty('--tw-translate-y', `${d.deltaY}px`)
-  el.style.setProperty('--tw-scale-x', `${d.scaleX}`)
-  el.style.setProperty('--tw-scale-y', `${d.scaleY}`)
+  el.style.setProperty('--un-rotate-x', '180deg')
+  el.style.setProperty('--un-rotate-z', '-180deg')
+  el.style.setProperty('--un-translate-x', `${d.deltaX}px`)
+  el.style.setProperty('--un-translate-y', `${d.deltaY}px`)
+  el.style.setProperty('--un-scale-x', `${d.scaleX}`)
+  el.style.setProperty('--un-scale-y', `${d.scaleY}`)
   const scale = (d.scaleX + d.scaleY) / 2
   el.style.borderRadius = toBound.br / scale + 'px'
   el.style.opacity = 0
@@ -231,13 +234,13 @@ const toAnimation = (el, toBound, selfBound, clear) => {
         el.style.willChange = ''
         el.style.borderRadius = ''
         el.style.opacity = ''
-        el.style.setProperty('--tw-rotate-x', '')
-        el.style.setProperty('--tw-rotate-z', '')
-        el.style.setProperty('--tw-translate-x', '')
-        el.style.setProperty('--tw-translate-y', '')
-        el.style.setProperty('--tw-scale-x', '')
-        el.style.setProperty('--tw-scale-y', '')
-      })
+        el.style.setProperty('--un-rotate-x', '')
+        el.style.setProperty('--un-rotate-z', '')
+        el.style.setProperty('--un-translate-x', '')
+        el.style.setProperty('--un-translate-y', '')
+        el.style.setProperty('--un-scale-x', '')
+        el.style.setProperty('--un-scale-y', '')
+      }),
     )
   }
 }
@@ -344,12 +347,12 @@ const onEnter = (el, done) => {
   el.style.transitionDuration = '0s'
 
   const d = calcDelta(fromWrapperStyle, toWrapperStyle, toWrapperStyle.t)
-  el.style.setProperty('--tw-rotate-x', '-180deg')
-  el.style.setProperty('--tw-rotate-z', '-180deg')
-  el.style.setProperty('--tw-translate-x', `${d.deltaX}px`)
-  el.style.setProperty('--tw-translate-y', `${d.deltaY}px`)
-  el.style.setProperty('--tw-scale-x', `${d.scaleX}`)
-  el.style.setProperty('--tw-scale-y', `${d.scaleY}`)
+  el.style.setProperty('--un-rotate-x', '-180deg')
+  el.style.setProperty('--un-rotate-z', '-180deg')
+  el.style.setProperty('--un-translate-x', `${d.deltaX}px`)
+  el.style.setProperty('--un-translate-y', `${d.deltaY}px`)
+  el.style.setProperty('--un-scale-x', `${d.scaleX}`)
+  el.style.setProperty('--un-scale-y', `${d.scaleY}`)
   el.style.opacity = '0'
   const scale = (d.scaleX + d.scaleY) / 2
   el.style.borderRadius = fromWrapperStyle.br / scale + 'px'
@@ -364,12 +367,12 @@ const onEnter = (el, done) => {
     // 重置全部属性
     el.style.borderRadius = ''
     el.style.opacity = ''
-    el.style.setProperty('--tw-rotate-x', '')
-    el.style.setProperty('--tw-rotate-z', '')
-    el.style.setProperty('--tw-translate-x', '')
-    el.style.setProperty('--tw-translate-y', '')
-    el.style.setProperty('--tw-scale-x', '')
-    el.style.setProperty('--tw-scale-y', '')
+    el.style.setProperty('--un-rotate-x', '')
+    el.style.setProperty('--un-rotate-z', '')
+    el.style.setProperty('--un-translate-x', '')
+    el.style.setProperty('--un-translate-y', '')
+    el.style.setProperty('--un-scale-x', '')
+    el.style.setProperty('--un-scale-y', '')
   })
 
   let _event = null
@@ -380,7 +383,7 @@ const onEnter = (el, done) => {
         el.removeEventListener('transitionend', _event)
         done()
       }
-    })
+    }),
   )
 }
 
@@ -416,9 +419,12 @@ const onLeave = (el, done) => {
   }
   el = getTransitionContainer(el)
   if (!enableTransition.value) {
-    setTimeout(() => {
-      done()
-    }, Math.max(0, 1310 - (Date.now() - startLoadingTime)))
+    setTimeout(
+      () => {
+        done()
+      },
+      Math.max(0, 1310 - (Date.now() - startLoadingTime)),
+    )
     return
   }
 
@@ -427,12 +433,12 @@ const onLeave = (el, done) => {
   el.style.willChange = 'transform, border-radius, opacity'
   requestAnimationFrame(() => {
     const d = calcDelta(toWrapperStyle, fromWrapperStyle, fromWrapperStyle.t)
-    el.style.setProperty('--tw-rotate-x', '180deg')
-    el.style.setProperty('--tw-rotate-z', '-180deg')
-    el.style.setProperty('--tw-translate-x', `${d.deltaX}px`)
-    el.style.setProperty('--tw-translate-y', `${d.deltaY}px`)
-    el.style.setProperty('--tw-scale-x', `${d.scaleX}`)
-    el.style.setProperty('--tw-scale-y', `${d.scaleY}`)
+    el.style.setProperty('--un-rotate-x', '180deg')
+    el.style.setProperty('--un-rotate-z', '-180deg')
+    el.style.setProperty('--un-translate-x', `${d.deltaX}px`)
+    el.style.setProperty('--un-translate-y', `${d.deltaY}px`)
+    el.style.setProperty('--un-scale-x', `${d.scaleX}`)
+    el.style.setProperty('--un-scale-y', `${d.scaleY}`)
     const scale = (d.scaleX + d.scaleY) / 2
     el.style.borderRadius = toWrapperStyle.br / scale + 'px'
     el.style.opacity = '0'
@@ -446,7 +452,7 @@ const onLeave = (el, done) => {
         el.removeEventListener('transitionend', _event)
         done()
       }
-    })
+    }),
   )
 }
 
@@ -487,13 +493,13 @@ const onAfterLeave = el => {
 
 <style scoped lang="scss">
 .loading {
-  @apply "w-100px h-100px rounded-100px";
-  @apply "bg-white";
-  @apply "fixed top-1/2 left-1/2";
-  @apply "transform-gpu -translate-x-1/2 -translate-y-1/2 translate-z-200vh";
-  @apply "shadow-2xl shadow-primary/30";
-  @apply "opacity-0";
-  @apply "pointer-events-none";
+  @apply w-100px h-100px rounded-100px;
+  @apply bg-white;
+  @apply fixed top-1/2 left-1/2;
+  @apply transform-gpu -translate-x-1/2 -translate-y-1/2 translate-z-200vh;
+  @apply shadow-2xl shadow-primary/30;
+  @apply opacity-0;
+  @apply pointer-events-none;
   @apply flex items-center justify-center;
   @apply backface-hidden;
 
@@ -520,7 +526,8 @@ const onAfterLeave = el => {
       @apply opacity-70;
       @apply bg-primary rounded-full;
       content: '';
-      animation: ball-atom-position 1.5s 0s infinite ease-in-out,
+      animation:
+        ball-atom-position 1.5s 0s infinite ease-in-out,
         ball-atom-size 1.5s 0s infinite ease-in-out;
     }
 
@@ -529,7 +536,9 @@ const onAfterLeave = el => {
     }
 
     div:nth-child(2):before {
-      animation-delay: 0s, -1.125s;
+      animation-delay:
+        0s,
+        -1.125s;
     }
 
     div:nth-child(3) {
@@ -538,7 +547,9 @@ const onAfterLeave = el => {
     }
 
     div:nth-child(3):before {
-      animation-delay: -1s, -0.75s;
+      animation-delay:
+        -1s,
+        -0.75s;
     }
 
     div:nth-child(4) {
@@ -547,7 +558,9 @@ const onAfterLeave = el => {
     }
 
     div:nth-child(4):before {
-      animation-delay: -0.5s, -0.125s;
+      animation-delay:
+        -0.5s,
+        -0.125s;
     }
   }
 }

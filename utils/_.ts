@@ -2,7 +2,7 @@ export const forceReflow = () => {
   return document.body.offsetHeight
 }
 
-export const shuffle = arr => {
+export const shuffle = (arr: any[]) => {
   const newArr = [...arr]
   for (let i = newArr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -11,8 +11,8 @@ export const shuffle = arr => {
   return newArr
 }
 
-export function throttleAndDebounce(fn, delay) {
-  let timeoutId
+export function throttleAndDebounce(fn: Function, delay: number) {
+  let timeoutId: number
   let called = false
 
   return () => {
@@ -35,3 +35,5 @@ export function throttleAndDebounce(fn, delay) {
 export const isDev = () => {
   return process.env.NODE_ENV === 'development'
 }
+
+export const wait = ms => new Promise(r => setTimeout(r, ms))

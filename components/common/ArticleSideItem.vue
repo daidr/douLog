@@ -12,7 +12,7 @@
 <style scoped lang="scss">
 .side-nav-wrapper {
   @apply w-full bg-white w-full sticky top-4;
-  @apply rounded-4xl;
+  @apply rounded-8;
   @apply shadow-2xl shadow-primary/30;
 
   .title {

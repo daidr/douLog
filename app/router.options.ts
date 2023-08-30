@@ -4,11 +4,13 @@ export default <RouterConfig>{
   routes: _routes => {
     const rootRoute = _routes.find(route => route.path === '/')
 
-    rootRoute?.children?.push({
-      name: 'home',
-      path: '/',
-      component: () => import('@/pages/index/me.vue'),
-    })
+    const meRoute = rootRoute?.children?.find(
+      route => route.name === 'index-me',
+    )
+
+    if (meRoute) {
+      meRoute.alias = ''
+    }
 
     return _routes
   },

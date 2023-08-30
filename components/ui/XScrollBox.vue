@@ -28,21 +28,21 @@ const onScroll = e => {
   @apply overflow-hidden relative;
 
   .start-shadow {
-    @apply "absolute left-0 top-0 bottom-2 w-6 z-10";
-    @apply "bg-gradient-to-l from-transparent to-white";
-    @apply "pointer-events-none";
+    @apply absolute left-0 top-0 bottom-2 w-6 z-10;
+    @apply bg-gradient-to-l from-transparent to-white;
+    @apply pointer-events-none;
   }
 
   .end-shadow {
-    @apply "absolute right-0 top-0 bottom-2 w-6 z-10";
-    @apply "bg-gradient-to-r from-transparent to-white";
-    @apply "pointer-events-none";
+    @apply absolute right-0 top-0 bottom-2 w-6 z-10;
+    @apply bg-gradient-to-r from-transparent to-white;
+    @apply pointer-events-none;
   }
 
   .x-scroll-container {
     @apply overflow-x-auto;
     scrollbar-width: thin;
-    scrollbar-color: rgb(var(--color-primary) / 0.8)
+    scrollbar-color: rgba(var(--color-primary), 0.8)
       rgb(var(--color-primary-light));
 
     // 滚动条

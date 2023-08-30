@@ -4,6 +4,7 @@ import { CONFIG } from '~~/config/base'
 
 definePageMeta({
   isInArticlePage: false,
+  keepalive: true,
 })
 
 const isFetching = ref(false)
@@ -93,7 +94,7 @@ const onArticleItemClick = () => {
 
   .announcement-item {
     @apply w-full bg-white px-5 md:px-8 py-4 w-full;
-    @apply rounded-4xl;
+    @apply rounded-8;
     @apply shadow-2xl shadow-primary/30;
     @apply flex items-center space-x-4;
     @apply text-lg text-primary-light;
@@ -106,7 +107,7 @@ const onArticleItemClick = () => {
   .article-list {
     @apply w-full bg-white w-full;
     @apply px-5 py-5 sm:(px-8 py-8);
-    @apply rounded-4xl;
+    @apply rounded-8;
     @apply shadow-2xl shadow-primary/30;
     @apply flex flex-col space-y-4;
   }

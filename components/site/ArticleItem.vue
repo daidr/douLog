@@ -41,13 +41,15 @@ defineProps<{ article: IArticleListItem }>()
 .article-item {
   @apply flex-col md:flex-row flex justify-between rounded-2xl p-2;
   @apply border-gray-200/60 border-1;
-  transition: border 0.5s linear, background-position-x 0.5s ease-out;
+  transition:
+    border 0.5s linear,
+    background-position-x 0.5s ease-out;
   @apply motion-reduce:transition-none;
 
   background-image: linear-gradient(
     90deg,
-    rgb(var(--color-primary-extralight) / 0.5) 0%,
-    rgb(var(--color-primary-extralight) / 0.5) 45%,
+    rgba(var(--color-primary-extralight), 0.5) 0%,
+    rgba(var(--color-primary-extralight), 0.5) 45%,
     transparent 65%,
     transparent 100%
   );
@@ -58,6 +60,21 @@ defineProps<{ article: IArticleListItem }>()
   &:hover {
     @apply border-primary-light/80;
     background-position-x: 0%;
+  }
+
+  &.transition-active {
+    view-transition-name: article-item;
+    .title {
+      view-transition-name: article-title;
+    }
+    .details {
+      view-transition-name: article-details;
+    }
+    .right {
+      :deep(img) {
+        view-transition-name: article-hero;
+      }
+    }
   }
 
   .left {
@@ -83,7 +100,7 @@ defineProps<{ article: IArticleListItem }>()
       }
     }
     .summary {
-      @apply mt-2 overflow-hidden overflow-ellipsis text-primary-medium/90;
+      @apply mt-2 overflow-hidden text-ellipsis text-primary-medium/90;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;
@@ -95,7 +112,7 @@ defineProps<{ article: IArticleListItem }>()
     @apply lg:ml-2;
     @apply w-240px h-163px;
 
-    @screen <md {
+    @screen lt-md {
       @apply mt-2 w-full;
     }
 

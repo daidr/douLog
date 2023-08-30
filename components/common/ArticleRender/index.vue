@@ -17,7 +17,7 @@ const _articleHtml = computed(() => {
       // 替换警告图标
       .replaceAll(
         '<i class="mdui-icon material-icons">warning</i><br>',
-        WARN_ICON
+        WARN_ICON,
       )
   )
 })
@@ -109,7 +109,7 @@ function checkActiveTitle() {
   if (titles.length === 0) {
     titles = [
       ...ArticleContentWrapperRef.value.querySelectorAll(
-        'h1, h2, h3, h4, h5, h6'
+        'h1, h2, h3, h4, h5, h6',
       ),
     ] as HTMLHeadingElement[]
   }
@@ -137,7 +137,7 @@ function getTitleTop(title: HTMLHeadingElement): number {
 function isTitleActive(
   index: number,
   title: HTMLHeadingElement,
-  nextTitle: HTMLHeadingElement | undefined
+  nextTitle: HTMLHeadingElement | undefined,
 ): [boolean, string | null] {
   const articlePageWrapper = document.querySelector('.articles-page-wrapper')
   const scrollTop = articlePageWrapper?.scrollTop || 0
@@ -167,7 +167,7 @@ function bindImageViewer() {
 
   {
     const images = document.querySelectorAll(
-      '.blog-article-wrapper img:not(.wp-smiley)'
+      '.blog-article-wrapper img:not(.wp-smiley)',
     )
     mediumZoom(images, {
       background: 'rgba(255, 255, 255, 0.6)',
@@ -266,7 +266,7 @@ article.blog-article-wrapper {
 
       th {
         @apply text-primary font-bold text-sm leading-32px;
-        @apply overflow-hidden whitespace-nowrap overflow-ellipsis;
+        @apply overflow-hidden whitespace-nowrap text-ellipsis;
       }
 
       td:first-child,

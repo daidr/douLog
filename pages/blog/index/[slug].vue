@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { IArticleItem } from '~~/server/api/article/[id]'
+import { isDev } from '~/utils/_'
 import IconTime from '~icons/icon-park-outline/time'
 
 definePageMeta({
   isInArticlePage: true,
+  keepalive: false,
 })
 
 const slug = useRoute().params.slug as string
@@ -88,7 +90,9 @@ const showSidebar = computed(() => catalogList.value.length > 0)
           </div>
         </div>
       </div>
-      <UiArticleAISummary :article-id="article.id" />
+      <template v-if="!isDev()">
+        <UiArticleAISummary :article-id="article.id" />
+      </template>
       <div v-if="article.image" class="article-image">
         <UiLazyImage :src="article.image" />
       </div>
@@ -130,8 +134,9 @@ export default {
 
   .article-wrapper {
     @apply w-full bg-white px-5 py-5 md:px-8 md:py-8 w-full;
-    @apply rounded-4xl space-y-5;
+    @apply rounded-8 space-y-5;
     @apply shadow-2xl shadow-primary/30;
+    view-transition-name: article-item;
 
     word-wrap: break-word;
 
@@ -143,12 +148,14 @@ export default {
       @apply text-3xl md:text-4xl font-extrabold;
       @apply text-primary;
       @apply mb-4;
+      view-transition-name: article-title;
     }
 
     .details {
       @apply flex items-center space-x-2;
       @apply text-sm text-primary-light;
       @apply mb-4;
+      view-transition-name: article-details;
 
       .time {
         @apply flex items-center;
@@ -168,6 +175,9 @@ export default {
       :deep(img) {
         @apply w-full rounded-2xl;
       }
+      :deep(img) {
+        view-transition-name: article-hero;
+      }
     }
   }
 
@@ -182,7 +192,7 @@ export default {
     }
 
     .article-wrapper {
-      @apply max-w-[unset] !important;
+      @apply important-max-w-unset;
     }
   }
 }

@@ -5,10 +5,12 @@ const containerEl = ref()
 const contentEl = ref()
 const MainMenuEl = ref()
 
+const route = useRoute()
+
 const onBeforeEnter = el => {
   containerEl.value.dataset.type = 'spilt'
   el.style.transitionDuration = '0ms'
-  el.style.setProperty('--tw-rotate-y', '180deg')
+  el.style.setProperty('--un-rotate-y', '180deg')
   forceReflow()
   el.style.transitionDuration = ''
 }
@@ -23,7 +25,7 @@ const onEnter = (el, done) => {
       ev.stopPropagation()
       MainMenuEl.value.removeEventListener('transitionend', _event)
 
-      contentEl.value.style.setProperty('--tw-rotate-y', '180deg')
+      contentEl.value.style.setProperty('--un-rotate-y', '180deg')
       let __event = null
 
       const _time = Date.now()
@@ -38,9 +40,9 @@ const onEnter = (el, done) => {
           }
           contentEl.value.removeEventListener('transitionend', __event)
           done()
-        })
+        }),
       )
-    })
+    }),
   )
 }
 
@@ -66,14 +68,14 @@ const onAfterEnter = el => {
       el.style.transitionDelay = '0ms'
       contentEl.value.style.transitionDelay = '0ms'
 
-      el.style.setProperty('--tw-rotate-y', '')
-      contentEl.value.style.setProperty('--tw-rotate-y', '')
+      el.style.setProperty('--un-rotate-y', '')
+      contentEl.value.style.setProperty('--un-rotate-y', '')
       forceReflow()
       el.style.transitionDuration = ''
       contentEl.value.style.transitionDuration = ''
       el.style.transitionDelay = ''
       contentEl.value.style.transitionDelay = ''
-    })
+    }),
   )
 }
 
@@ -92,16 +94,18 @@ const onAfterLeave = el => {
         <SiteMainNav />
       </div>
       <div ref="contentEl" class="content-wrapper">
-        <NuxtPage
-          :transition="{
-            css: false,
-            onBeforeEnter,
-            onEnter,
-            onAfterEnter,
-            onLeave,
-            onAfterLeave,
-          }"
-        />
+        <RouterView v-slot="{ Component }">
+          <transition
+            :css="false"
+            :on-before-enter="onBeforeEnter"
+            :on-enter="onEnter"
+            :on-after-enter="onAfterEnter"
+            :on-leave="onLeave"
+            :on-after-leave="onAfterLeave"
+          >
+            <component :is="Component" />
+          </transition>
+        </RouterView>
       </div>
     </div>
   </div>
@@ -109,34 +113,35 @@ const onAfterLeave = el => {
 
 <style scoped lang="scss">
 .transition-page-wrapper {
-  @apply "w-[350px] sm:w-[400px] h-[500px]";
-  @apply "absolute top-1/2 left-1/2 rounded-4xl";
-  @apply "-translate-x-1/2 -translate-y-1/2";
+  @apply w-[350px] sm:w-[400px] h-[500px];
+  @apply absolute top-1/2 left-1/2 rounded-8;
+  @apply -translate-x-1/2 -translate-y-1/2;
 
   .index-page-container {
-    @apply "transform-gpu translate-z-200vh h-full";
-    @apply "shadow-2xl shadow-primary/30";
-    @apply "rounded-4xl";
-    @apply "bg-white";
+    @apply transform-gpu translate-z-200vh h-full;
+    @apply shadow-2xl shadow-primary/30;
+    @apply rounded-8;
+    @apply bg-white;
     @apply flex flex-col;
     @apply transition-colors delay-300 duration-0;
 
     .main-menu-wrapper {
-      @apply "rounded-t-4xl";
-      @apply "bg-white";
-      @apply "flex justify-center space-x-3";
-      @apply "py-6";
-      @apply "select-none";
+      @apply rounded-t-8;
+      @apply bg-white;
+      @apply flex justify-center space-x-3;
+      @apply py-6;
+      @apply select-none;
       transition-property: transform, border-radius;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 300ms;
     }
 
     .content-wrapper {
-      @apply "flex-grow relative";
-      @apply "bg-white";
-      @apply "rounded-b-4xl transform-gpu translate-z-200vh";
-      transition: border-radius cubic-bezier(0.4, 0, 0.2, 1) 300ms,
+      @apply flex-grow relative;
+      @apply bg-white;
+      @apply rounded-b-8 transform-gpu translate-z-200vh;
+      transition:
+        border-radius cubic-bezier(0.4, 0, 0.2, 1) 300ms,
         transform cubic-bezier(0.4, 0, 0.2, 1) 1000ms;
       transform-style: preserve-3d;
     }
@@ -149,14 +154,14 @@ const onAfterLeave = el => {
     @apply transition-none;
 
     .main-menu-wrapper {
-      @apply rounded-4xl;
-      @apply "shadow-2xl shadow-primary/30";
+      @apply rounded-8;
+      @apply shadow-2xl shadow-primary/30;
       @apply transform-gpu -translate-y-4;
     }
 
     .content-wrapper {
-      @apply rounded-4xl;
-      @apply "shadow-2xl shadow-primary/30";
+      @apply rounded-8;
+      @apply shadow-2xl shadow-primary/30;
     }
   }
 }

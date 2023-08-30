@@ -4,7 +4,7 @@ import { shuffle } from '@/utils/_'
 import IconSubway from '~icons/uil/subway'
 
 const FriendsListShuffled = useState('FriendsListShuffled', () =>
-  shuffle(FriendsList)
+  shuffle(FriendsList),
 )
 
 const showTopShadow = ref(false)
@@ -74,27 +74,27 @@ useHead({
 
 <style scoped lang="scss">
 .friends-overflow-container {
-  @apply h-full overflow-hidden rounded-b-4xl relative;
+  @apply h-full overflow-hidden rounded-b-8 relative;
   @apply py-15px px-2;
 
   .top-shadow {
-    @apply "absolute top-14px left-3 right-5 h-6 z-10";
-    @apply "bg-gradient-to-t from-transparent to-white";
-    @apply "pointer-events-none";
+    @apply absolute top-14px left-3 right-5 h-6 z-10;
+    @apply bg-gradient-to-t from-transparent to-white;
+    @apply pointer-events-none;
   }
 
   .bottom-shadow {
-    @apply "absolute bottom-14px left-3 right-5 h-6 z-10";
-    @apply "bg-gradient-to-b from-transparent to-white";
-    @apply "pointer-events-none";
+    @apply absolute bottom-14px left-3 right-5 h-6 z-10;
+    @apply bg-gradient-to-b from-transparent to-white;
+    @apply pointer-events-none;
   }
 
   .friends-container {
     @apply h-full;
-    @apply "grid grid-cols-1 gap-3";
+    @apply grid grid-cols-1 gap-3;
     @apply px-3 py-6px;
     scrollbar-width: thin;
-    scrollbar-color: rgb(var(--color-primary) / 0.8)
+    scrollbar-color: rgba(var(--color-primary), 0.8)
       rgb(var(--color-primary-extralight));
 
     // 滚动条

@@ -48,6 +48,14 @@ provide('toPrevTop', toPrevTop)
 
 <template>
   <div class="articles-page-wrapper y-scroll-box">
+    <ClientOnly>
+      <Teleport to="body">
+        <NuxtLoadingIndicator
+          color="rgba(var(--color-primary), 1)"
+          :throttle="100"
+        />
+      </Teleport>
+    </ClientOnly>
     <div class="limit-wrapper" :class="{ wider: isInArticlePage }">
       <div class="header-wrapper transition-page-wrapper">
         <div class="main-menu-wrapper">
@@ -71,11 +79,7 @@ provide('toPrevTop', toPrevTop)
       </div>
 
       <div class="block-wrapper-group transition-extra-wrapper">
-        <router-view v-slot="{ Component }">
-          <keep-alive :exclude="['ArticlePage']">
-            <component :is="Component" />
-          </keep-alive>
-        </router-view>
+        <NuxtPage />
       </div>
     </div>
   </div>
@@ -83,13 +87,13 @@ provide('toPrevTop', toPrevTop)
 
 <style scoped lang="scss">
 .articles-page-wrapper {
-  @apply "w-full h-full";
-  @apply "fixed top-0 left-0";
+  @apply w-full h-full;
+  @apply fixed top-0 left-0;
   @apply overflow-x-hidden;
-  @apply "pb-18 md:pb-21";
+  @apply pb-18 md:pb-21;
 
   scrollbar-width: thin;
-  scrollbar-color: rgb(var(--color-primary) / 0.8)
+  scrollbar-color: rgba(var(--color-primary), 0.8)
     rgb(var(--color-primary-light));
 
   // 滚动条
@@ -115,8 +119,8 @@ provide('toPrevTop', toPrevTop)
     @apply max-w-1000px;
     margin: 0 auto;
 
-    transition: max-width 0.3s ease-in-out;
-    @apply motion-reduce:transition-none;
+    // transition: max-width 0.3s ease-in-out;
+    // @apply motion-reduce:transition-none;
 
     &.wider {
       @apply max-w-1200px;
@@ -124,12 +128,13 @@ provide('toPrevTop', toPrevTop)
   }
 
   .header-wrapper {
-    @apply rounded-4xl bg-white select-none;
+    @apply rounded-8 bg-white select-none;
     @apply flex flex-col p-3 md:p-5;
     @apply shadow-2xl shadow-primary/30;
     @apply z-90 translate-z-150vh;
+    view-transition-name: main-header;
 
-    @screen <sm {
+    @screen lt-sm {
       @apply w-full;
     }
 

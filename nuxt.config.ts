@@ -2,9 +2,10 @@ export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
+  devtools: { enabled: true },
   experimental: {
     renderJsonPayloads: true,
-    viewTransition: true,
+    viewTransition: false,
   },
   app: {
     rootId: '__daidr_app',
@@ -12,7 +13,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@vueuse/nuxt',
-    'nuxt-windicss',
+    '@unocss/nuxt',
     'unplugin-icons/nuxt',
     '@vite-pwa/nuxt',
   ],
@@ -132,7 +133,11 @@ export default defineNuxtConfig({
       ],
     },
   },
-  css: ['~/assets/scss/global.scss', '~/assets/fonts/BEYNO/font.css'],
+  css: [
+    '@unocss/reset/tailwind.css',
+    '~/assets/scss/global.scss',
+    '~/assets/fonts/BEYNO/font.css',
+  ],
   runtimeConfig: {
     apiEntry: process.env.NUXT_BLOG_API_ENTRY || 'https://daidr.me',
     GithubAPIEntry:

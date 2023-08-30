@@ -18,7 +18,7 @@ watch(
       const containerHeight = container!.clientHeight
       container!.scrollTop = itemTop - containerHeight / 2
     }
-  }
+  },
 )
 </script>
 
@@ -31,10 +31,10 @@ watch(
           v-for="item in catalog"
           :key="item.key"
           :ref="
-              el => {
-                catalogRef[item.key] = el as HTMLDivElement
-              }
-            "
+            el => {
+              catalogRef[item.key] = el as HTMLDivElement
+            }
+          "
           class="item-container"
           :class="{ active: activeTitle === item.key }"
         >
@@ -74,7 +74,7 @@ watch(
 
     a {
       @apply block p-10px text-15px rounded-md;
-      @apply whitespace-nowrap overflow-hidden overflow-ellipsis;
+      @apply whitespace-nowrap overflow-hidden text-ellipsis;
 
       &:hover {
         @apply bg-primary-extralight/70;

@@ -41,22 +41,22 @@ useHead({
 
 <style scoped lang="scss">
 .notfound-page-wrapper {
-  @apply "w-350px sm:w-400px md:w-760px lg:w-900px h-500px";
-  @apply "absolute top-1/2 left-1/2 rounded-4xl";
-  @apply "transform-gpu -translate-x-1/2 -translate-y-1/2";
+  @apply w-350px sm:w-400px md:w-760px lg:w-900px h-500px;
+  @apply absolute top-1/2 left-1/2 rounded-8;
+  @apply transform-gpu -translate-x-1/2 -translate-y-1/2;
   @apply flex justify-between;
 
   .transition-page-wrapper {
-    @apply "bg-white w-full md:w-400px h-full";
-    @apply "shadow-2xl shadow-primary/30";
-    @apply "rounded-4xl";
-    @apply "overflow-hidden";
+    @apply bg-white w-full md:w-400px h-full;
+    @apply shadow-2xl shadow-primary/30;
+    @apply rounded-8;
+    @apply overflow-hidden;
 
     .page-container {
       @apply w-full h-full flex flex-col items-center justify-center select-none;
 
       .title {
-        @apply "text-7xl font-extrabold text-primary/70";
+        @apply text-7xl font-extrabold text-primary/70;
       }
 
       .content {
@@ -93,8 +93,8 @@ useHead({
   }
 
   .decoration-wrapper {
-    @apply "w-0 md:w-auto flex-grow overflow-hidden";
-    @apply "md:pr-15 lg:pr-25";
+    @apply w-0 md:w-auto flex-grow overflow-hidden;
+    @apply md:pr-15 lg:pr-25;
     @apply flex items-center;
 
     svg {

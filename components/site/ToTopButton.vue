@@ -22,12 +22,12 @@ const setPathTotalLength = (length: number) => {
 }
 
 const { y: scrollY } = useScroll(
-  document.querySelector(props.scrollEl) as HTMLElement
+  document.querySelector(props.scrollEl) as HTMLElement,
 )
 
 if (props.showProcess && props.boundingEl) {
   const { y, height } = useElementBounding(
-    document.querySelector(props.boundingEl) as HTMLElement
+    document.querySelector(props.boundingEl) as HTMLElement,
   )
 
   const scrollThrottle = useThrottleFn(newVal => {

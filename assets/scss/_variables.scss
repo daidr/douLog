@@ -1,5 +1,5 @@
 @function getColorValue($color) {
-  @return #{red($color)} #{green($color)} #{blue($color)};
+  @return #{red($color)}, #{green($color)}, #{blue($color)};
 }
 
 @mixin spread-theme-map($map: ()) {
@@ -22,10 +22,5 @@
   @return (
     color-white: getColorValue(white),
     color-black: getColorValue(black),
-    color-blue: getColorValue(#4eabfc),
-    color-green: getColorValue(#5ec72b),
-    color-gray: getColorValue(#666666),
-    color-gray-light: getColorValue(#b4b4b4),
-    color-gray-dark: getColorValue(#333333)
   );
 }

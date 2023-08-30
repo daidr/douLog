@@ -49,13 +49,13 @@ useHead({
 
 <style scoped lang="scss">
 .projects-page-wrapper {
-  @apply "w-full h-full";
-  @apply "fixed top-0 left-0";
+  @apply w-full h-full;
+  @apply fixed top-0 left-0;
   @apply overflow-x-hidden;
-  @apply "pb-18 md:pb-21";
+  @apply pb-18 md:pb-21;
 
   scrollbar-width: thin;
-  scrollbar-color: rgb(var(--color-primary) / 0.8)
+  scrollbar-color: rgba(var(--color-primary), 0.8)
     rgb(var(--color-primary-light));
 
   // 滚动条
@@ -83,12 +83,12 @@ useHead({
   }
 
   .main-menu-wrapper {
-    @apply "rounded-4xl";
-    @apply "bg-white";
-    @apply "flex justify-center space-x-3";
-    @apply "py-5 w-full sm:w-340px";
-    @apply "select-none";
-    @apply "shadow-2xl shadow-primary/30";
+    @apply rounded-8;
+    @apply bg-white;
+    @apply flex justify-center space-x-3;
+    @apply py-5 w-full sm:w-340px;
+    @apply select-none;
+    @apply shadow-2xl shadow-primary/30;
     @apply z-90 translate-z-150vh;
   }
 
@@ -98,9 +98,9 @@ useHead({
     @apply relative;
 
     .block-wrapper {
-      @apply "bg-white px-5 md:px-8 py-8 w-full";
-      @apply rounded-4xl;
-      @apply "shadow-2xl shadow-primary/30";
+      @apply bg-white px-5 md:px-8 py-8 w-full;
+      @apply rounded-8;
+      @apply shadow-2xl shadow-primary/30;
       @apply space-y-8;
 
       .section-wrapper {

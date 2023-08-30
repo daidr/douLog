@@ -13,7 +13,7 @@ const themeColorList = [
 ]
 
 const randomThemeColorIndex = useState('randomThemeColorIndex', () =>
-  Math.floor(Math.random() * themeColorList.length)
+  Math.floor(Math.random() * themeColorList.length),
 )
 
 provide('themeColor', themeColorList[randomThemeColorIndex.value])
@@ -92,6 +92,8 @@ useHead({
     },
   ],
 })
+
+const nuxtApp = useNuxtApp()
 </script>
 
 <template>
@@ -100,7 +102,20 @@ useHead({
     <VitePwaManifest />
     <RouterView v-slot="{ Component }">
       <CommonRouterTransition>
-        <component :is="Component" />
+        <Suspense
+          @pending="
+            () => {
+              nuxtApp.callHook('page:start')
+            }
+          "
+          @resolve="
+            () => {
+              nextTick(() => nuxtApp.callHook('page:finish'))
+            }
+          "
+        >
+          <component :is="Component" />
+        </Suspense>
       </CommonRouterTransition>
     </RouterView>
   </NuxtLayout>
