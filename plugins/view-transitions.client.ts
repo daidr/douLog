@@ -15,6 +15,7 @@ function getNavigationType(fromName: string, toName: string) {
 }
 
 export default defineNuxtPlugin(nuxtApp => {
+  return
   if (!document.startViewTransition) {
     return
   }
