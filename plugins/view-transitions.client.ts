@@ -15,7 +15,9 @@ function getNavigationType(fromName: string, toName: string) {
 }
 
 export default defineNuxtPlugin(nuxtApp => {
-  return
+  //   // TODO: 暂时禁用
+  //   // TODO: 由于整个过渡的触发时机有问题，导致用户体验不是很好
+  //   return
   if (!document.startViewTransition) {
     return
   }
@@ -106,7 +108,7 @@ export default defineNuxtPlugin(nuxtApp => {
   })
 
   nuxtApp.hook('page:finish', async () => {
-    // await wait(100)
+    await wait(200)
     finishTransition?.()
     finishTransition = undefined
   })

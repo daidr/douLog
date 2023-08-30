@@ -4,16 +4,24 @@ import IconInfo from '~icons/uil/info-circle'
 
 const props = defineProps<{
   articleId: number
+  cachedSummary?: string
 }>()
 
 const isLoading = ref(false)
 
-const { data: summary } = await useFetch<string>(
-  `/api/summary/${props.articleId}`,
-  {
-    query: { cacheonly: '1' },
-  },
-)
+const summary = ref('')
+
+if (props.cachedSummary) {
+  summary.value = props.cachedSummary
+} else {
+  const { data: _summary } = await useFetch<string>(
+    `/api/summary/${props.articleId}`,
+    {
+      query: { cacheonly: '1' },
+    },
+  )
+  summary.value = _summary.value || 'no cache'
+}
 
 if (summary.value === 'no cache') {
   isLoading.value = true

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { IArticleItem } from '~~/server/api/article/[id]'
-import { isDev } from '~/utils/_'
+// import { isDev } from '~/utils/_'
 import IconTime from '~icons/icon-park-outline/time'
 
 definePageMeta({
   isInArticlePage: true,
-  keepalive: false,
 })
 
 const slug = useRoute().params.slug as string
@@ -14,10 +13,26 @@ if (!/^\d+$/.test(slug)) {
   navigateTo('/404', { replace: true })
 }
 
-const { data: article } = await useFetch<IArticleItem>(`/api/article/${slug}`)
+const ArticleCacheId = inject('ArticleCacheId') as Ref<number>
+const ArticleCache = inject('ArticleCache') as Ref<IArticleItem>
+const ArticleSummaryCache = inject('ArticleSummaryCache') as Ref<string>
 
-if (!article.value) {
-  navigateTo('/404', { replace: true })
+const article = ref<IArticleItem | null>(null)
+
+if (`${ArticleCacheId.value}` == slug) {
+  article.value = ArticleCache.value
+} else {
+  const { data: _article } = await useFetch<IArticleItem>(
+    `/api/article/${slug}`,
+  )
+
+  if (!_article.value) {
+    navigateTo('/404', { replace: true })
+  }
+
+  if (_article.value && typeof _article.value === 'object') {
+    article.value = _article.value
+  }
 }
 
 if (article.value && typeof article.value === 'object') {
@@ -55,12 +70,15 @@ if (article.value && typeof article.value === 'object') {
   })
 }
 
+const toTop = inject('toTop') as () => void
+
 onMounted(async () => {
   if (!window) return
   const _hash = location.hash
   location.hash = ''
   await nextTick()
   location.hash = _hash
+  toTop()
 })
 
 const catalogList = computed(() => {
@@ -90,11 +108,14 @@ const showSidebar = computed(() => catalogList.value.length > 0)
           </div>
         </div>
       </div>
-      <template v-if="!isDev()">
-        <UiArticleAISummary :article-id="article.id" />
-      </template>
+      <!-- <template v-if="!isDev()"> -->
+      <UiArticleAISummary
+        :article-id="article.id"
+        :cached-summary="ArticleSummaryCache"
+      />
+      <!-- </template> -->
       <div v-if="article.image" class="article-image">
-        <UiLazyImage :src="article.image" />
+        <UiLazyImage :src="article.image" :thumbnail="article.thumbnail" />
       </div>
       <CommonArticleRender
         :article-html="article.content"
@@ -136,7 +157,7 @@ export default {
     @apply w-full bg-white px-5 py-5 md:px-8 md:py-8 w-full;
     @apply rounded-8 space-y-5;
     @apply shadow-2xl shadow-primary/30;
-    view-transition-name: article-item;
+    view-transition-name: main-wrapper;
 
     word-wrap: break-word;
 
@@ -171,12 +192,11 @@ export default {
     }
 
     .article-image {
+      view-transition-name: article-hero;
+
       &,
       :deep(img) {
         @apply w-full rounded-2xl;
-      }
-      :deep(img) {
-        view-transition-name: article-hero;
       }
     }
   }
@@ -184,6 +204,7 @@ export default {
   .sidebar {
     @apply pl-4 flex-shrink-0 w-80;
     @apply block;
+    view-transition-name: article-sidebar;
   }
 
   @media (max-width: 1200px) {

@@ -10,6 +10,10 @@ defineProps({
     type: String,
     default: '',
   },
+  thumbnail: {
+    type: String,
+    default: '',
+  },
 })
 
 const LazyImageContainerEl = ref()
@@ -36,7 +40,7 @@ const { stop } = useIntersectionObserver(
       targetIsVisible.value = true
       stop()
     }
-  }
+  },
 )
 </script>
 
@@ -44,6 +48,7 @@ const { stop } = useIntersectionObserver(
   <div ref="LazyImageContainerEl" class="lazy-image">
     <img
       v-if="targetIsVisible"
+      class="img"
       :class="{
         loaded,
         'no-animation': noAnimation,
@@ -53,6 +58,13 @@ const { stop } = useIntersectionObserver(
       :crossorigin="isDev() ? undefined : 'anonymous'"
       @load="onLoad"
     />
+    <img
+      v-if="thumbnail && !loaded"
+      class="thumbnail"
+      :src="thumbnail"
+      :alt="alt"
+      :crossorigin="isDev() ? undefined : 'anonymous'"
+    />
   </div>
 </template>
 
@@ -60,26 +72,26 @@ const { stop } = useIntersectionObserver(
 .lazy-image {
   @apply w-full h-full overflow-hidden;
 
-  img {
+  .img {
     @apply opacity-0 w-full h-full;
+    @apply absolute;
 
-    &.loaded:not(.no-animation) {
-      animation: opacity-transition 0.15s ease-in-out forwards;
+    &:not(.no-animation) {
+      @apply transition-opacity duration-300;
+    }
+
+    &.loaded {
+      @apply opacity-100;
+      @apply static;
     }
 
     &.no-animation {
       @apply opacity-100;
     }
   }
-}
 
-@keyframes opacity-transition {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
+  .thumbnail {
+    @apply w-full h-full;
   }
 }
 </style>

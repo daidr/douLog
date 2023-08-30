@@ -97,6 +97,30 @@ body.hide-extra-wrapper {
   background-position: center;
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(-50px);
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(50px);
+  }
+}
+
 ::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
@@ -107,16 +131,25 @@ body.hide-extra-wrapper {
   mix-blend-mode: normal;
 }
 
-.article-loading-indicator {
-  view-transition-name: article-loading-indicator;
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 600ms;
 }
 
-::view-transition-old(article-loading-indicator) {
-  display: none;
+::view-transition-old(main-announcement),
+::view-transition-old(article-sidebar) {
+  animation:
+    100ms ease-in-out both fade-out,
+    600ms ease-in-out both slide-to-left;
+  mix-blend-mode: normal;
 }
 
-::view-transition-new(article-loading-indicator) {
-  animation: none;
+::view-transition-new(main-announcement),
+::view-transition-new(article-sidebar) {
+  animation:
+    300ms ease-in-out 90ms both fade-in,
+    600ms ease-in-out both slide-from-right;
   mix-blend-mode: normal;
 }
 

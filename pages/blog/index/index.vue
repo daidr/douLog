@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { IArticleItem } from '~/server/api/article/[id]'
 import IconAlarm from '~icons/icon-park-outline/alarm'
 import { CONFIG } from '~~/config/base'
 
+preloadRouteComponents('/blog/[id]')
+
 definePageMeta({
   isInArticlePage: false,
-  keepalive: true,
 })
 
 const isFetching = ref(false)
@@ -48,22 +50,62 @@ const toPrevTop = inject('toPrevTop') as () => void
 const setArticleScrollTop = inject('setArticleScrollTop') as () => void
 
 onMounted(async () => {
-  toPrevTop()
+  requestAnimationFrame(() => {
+    toPrevTop()
+  })
 })
 
 onActivated(async () => {
-  await nextTick()
-  toPrevTop()
+  requestAnimationFrame(() => {
+    toPrevTop()
+  })
 })
 
-const onArticleItemClick = () => {
+const isPrefetching = ref(false)
+const ArticleCacheId = inject('ArticleCacheId') as Ref<number>
+const ArticleCache = inject('ArticleCache') as Ref<IArticleItem>
+const ArticleSummaryCache = inject('ArticleSummaryCache') as Ref<string>
+
+const onArticleItemClick = async (postId: number) => {
+  if (ArticleCacheId.value !== postId) {
+    isPrefetching.value = true
+    const { data: article } = await useFetch<IArticleItem>(
+      `/api/article/${postId}`,
+    )
+    if (!article.value) {
+      isPrefetching.value = false
+      navigateTo('/404', { replace: false })
+      return
+    }
+    const { data: summary } = await useFetch<string>(`/api/summary/${postId}`, {
+      query: { cacheonly: '1' },
+    })
+    ArticleSummaryCache.value = summary.value || 'no cache'
+    ArticleCacheId.value = postId
+    ArticleCache.value = article.value
+    isPrefetching.value = false
+  }
+  await nextTick()
+
   setArticleScrollTop()
-  toTop()
+  // toTop()
+  navigateTo(`/blog/${postId}`)
 }
 </script>
 
 <template>
   <div class="content-wrapper">
+    <ClientOnly>
+      <Teleport to="body">
+        <template v-if="isPrefetching">
+          <div class="loading-mask">
+            <div class="loading">
+              <UiLoadingIcon />
+            </div>
+          </div>
+        </template>
+      </Teleport>
+    </ClientOnly>
     <div class="announcement-item">
       <IconAlarm />
       <p>{{ CONFIG.blogAnnouncement }}</p>
@@ -73,7 +115,7 @@ const onArticleItemClick = () => {
         v-for="article of articles.filter(i => i.format === 'standard')"
         :key="article.id"
         :article="article"
-        @click="onArticleItemClick"
+        @click.prevent="onArticleItemClick(article.id)"
       />
       <div
         v-if="!isEnded"
@@ -89,6 +131,21 @@ const onArticleItemClick = () => {
 </template>
 
 <style lang="scss" scoped>
+.loading-mask {
+  @apply fixed top-0 left-0 right-0 bottom-0;
+  @apply z-9998;
+  @apply bg-white/50;
+  @apply flex items-center justify-center;
+
+  .loading {
+    @apply w-100px h-100px rounded-100px;
+    @apply bg-white;
+    @apply transform-gpu translate-z-200vh;
+    @apply pointer-events-none;
+    @apply flex items-center justify-center;
+    @apply border-1 border-primary-light;
+  }
+}
 .content-wrapper {
   @apply w-full flex flex-col items-stretch space-y-3;
 
@@ -98,6 +155,7 @@ const onArticleItemClick = () => {
     @apply shadow-2xl shadow-primary/30;
     @apply flex items-center space-x-4;
     @apply text-lg text-primary-light;
+    view-transition-name: main-announcement;
 
     p {
       @apply text-primary/80;
@@ -110,6 +168,7 @@ const onArticleItemClick = () => {
     @apply rounded-8;
     @apply shadow-2xl shadow-primary/30;
     @apply flex flex-col space-y-4;
+    view-transition-name: main-wrapper;
   }
 
   .load-more {

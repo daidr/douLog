@@ -21,6 +21,7 @@ export interface IArticleItem {
   excerpt: string
   titleList: ICatalogItem[]
   image: string
+  thumbnail: string
   commentCount: number
   viewCount: number
   categoryName: string
@@ -48,7 +49,7 @@ const preHandleArticleContent = (html: string) => {
       // 修改script标签
       .replaceAll(/(<script[\s\S]*?<\/script>)/g, (_: any, p1: any) => {
         return `<blog-dynamic-inject data-element="${encodeHtmlAttr(
-          p1
+          p1,
         )}"></blog-dynamic-inject>`
       })
       // 让表格包裹一个容器
@@ -56,7 +57,7 @@ const preHandleArticleContent = (html: string) => {
         /(<table id="tablepress-\d+" class="tablepress tablepress-id-\d+">[\s\S]*<\/table>)/g,
         (_: any, p1: any) => {
           return `<div class="table-container">${p1}</div>`
-        }
+        },
       )
   )
 }
@@ -95,7 +96,7 @@ const handleArticleCodeHighlight = (html: string) => {
   let preList = [...document.querySelectorAll('pre')]
   // 过滤掉子标签不是 code 的 pre 标签
   preList = preList.filter(
-    item => item.children.length === 1 && item.children[0].tagName === 'CODE'
+    item => item.children.length === 1 && item.children[0].tagName === 'CODE',
   )
   if (preList.length === 0) return html
   // 获取所有语言
@@ -150,6 +151,7 @@ export default cachedEventHandler(
           'excerpt',
           'content',
           'post_full_image',
+          'post_medium_image',
           'post_date',
           'category_name',
           'pageviews',
@@ -164,7 +166,7 @@ export default cachedEventHandler(
         ],
         _embed: ['wp:term'],
       },
-      { encodeValuesOnly: true }
+      { encodeValuesOnly: true },
     )
 
     try {
@@ -172,13 +174,13 @@ export default cachedEventHandler(
         `/wp-json/wp/v2/posts/${articleID}?${query}`,
         {
           baseURL: apiEntry,
-        }
+        },
       )) as any
 
       const { html, titleList } = handleArticleHeading(
         handleArticleCodeHighlight(
-          preHandleArticleContent(result.content.rendered)
-        )
+          preHandleArticleContent(result.content.rendered),
+        ),
       )
 
       const _result = {
@@ -190,6 +192,9 @@ export default cachedEventHandler(
         excerpt: result.excerpt.rendered,
         image: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_full_image)
+          : null,
+        thumbnail: result._links['wp:featuredmedia']
+          ? replaceMediaCDN(result.post_medium_image)
           : null,
         commentCount: result.total_comments,
         viewCount: result.pageviews,
@@ -215,5 +220,5 @@ export default cachedEventHandler(
   {
     swr: true,
     maxAge: 60 * 10,
-  }
+  },
 )

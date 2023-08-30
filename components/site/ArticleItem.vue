@@ -7,7 +7,7 @@ defineProps<{ article: IArticleListItem }>()
 </script>
 
 <template>
-  <NuxtLink class="article-item" :to="`/blog/${article.id}`">
+  <a class="article-item" :href="`/blog/${article.id}`">
     <div class="left">
       <h3 class="title" v-html="article.title"></h3>
       <div class="details">
@@ -34,7 +34,7 @@ defineProps<{ article: IArticleListItem }>()
     <div v-if="article.image" class="right">
       <UiLazyImage :src="article.image" />
     </div>
-  </NuxtLink>
+  </a>
 </template>
 
 <style lang="scss" scoped>
@@ -63,7 +63,6 @@ defineProps<{ article: IArticleListItem }>()
   }
 
   &.transition-active {
-    view-transition-name: article-item;
     .title {
       view-transition-name: article-title;
     }

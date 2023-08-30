@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
+import { IArticleItem } from '~/server/api/article/[id]'
 import { CONFIG } from '~~/config/base'
 
 useHead({
@@ -8,6 +9,7 @@ useHead({
 
 definePageMeta({
   isInArticlePage: false,
+  // middleware: ['keepalive-hack'],
 })
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -21,6 +23,10 @@ const isInArticlePage = computed(() => route.meta.isInArticlePage)
 const articleScrollTop = ref(0)
 
 const setArticleScrollTop = () => {
+  console.log(
+    'top',
+    document.querySelector('.articles-page-wrapper')?.scrollTop,
+  )
   articleScrollTop.value =
     document.querySelector('.articles-page-wrapper')?.scrollTop || 0
 }
@@ -30,13 +36,14 @@ provide('setArticleScrollTop', setArticleScrollTop)
 const toTop = () => {
   document.querySelector('.articles-page-wrapper')?.scrollTo({
     top: 0,
-    behavior: 'smooth',
+    behavior: 'auto',
   })
 }
 
 provide('toTop', toTop)
 
 const toPrevTop = () => {
+  console.log(articleScrollTop.value)
   document.querySelector('.articles-page-wrapper')?.scrollTo({
     top: articleScrollTop.value,
     behavior: 'auto',
@@ -44,17 +51,26 @@ const toPrevTop = () => {
 }
 
 provide('toPrevTop', toPrevTop)
+
+const ArticleCacheId = ref(-1)
+const ArticleCache = ref<IArticleItem>()
+const ArticleSummaryCache = ref<string>('')
+
+provide('ArticleCacheId', ArticleCacheId)
+provide('ArticleCache', ArticleCache)
+provide('ArticleSummaryCache', ArticleSummaryCache)
+
+const nuxtApp = useNuxtApp()
 </script>
 
 <template>
   <div class="articles-page-wrapper y-scroll-box">
-    <Teleport to="body">
+    <!-- <Teleport to="body">
       <NuxtLoadingIndicator
         color="rgba(var(--color-primary), 1)"
         :throttle="100"
-        class="article-loading-indicator"
       />
-    </Teleport>
+    </Teleport> -->
     <div class="limit-wrapper" :class="{ wider: isInArticlePage }">
       <div class="header-wrapper transition-page-wrapper">
         <div class="main-menu-wrapper">
@@ -78,7 +94,19 @@ provide('toPrevTop', toPrevTop)
       </div>
 
       <div class="block-wrapper-group transition-extra-wrapper">
-        <NuxtPage />
+        <!-- <NuxtPage /> -->
+        <RouterView v-slot="{ Component }">
+          <transition :css="false" mode="in-out">
+            <KeepAlive :exclude="['ArticlePage']">
+              <Suspense
+                @pending="nuxtApp.callHook('page:start')"
+                @resolve="nextTick(() => nuxtApp.callHook('page:finish'))"
+              >
+                <component :is="Component" />
+              </Suspense>
+            </KeepAlive>
+          </transition>
+        </RouterView>
       </div>
     </div>
   </div>
