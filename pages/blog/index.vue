@@ -48,14 +48,14 @@ provide('toPrevTop', toPrevTop)
 
 <template>
   <div class="articles-page-wrapper y-scroll-box">
-    <ClientOnly>
+    <!-- <ClientOnly>
       <Teleport to="body">
         <NuxtLoadingIndicator
           color="rgba(var(--color-primary), 1)"
           :throttle="100"
         />
       </Teleport>
-    </ClientOnly>
+    </ClientOnly> -->
     <div class="limit-wrapper" :class="{ wider: isInArticlePage }">
       <div class="header-wrapper transition-page-wrapper">
         <div class="main-menu-wrapper">
