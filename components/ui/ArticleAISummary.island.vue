@@ -12,13 +12,13 @@ const { data: summary } = await useFetch<string>(
   `/api/summary/${props.articleId}`,
   {
     query: { cacheonly: '1' },
-  }
+  },
 )
 
 if (summary.value === 'no cache') {
   isLoading.value = true
   const { pending, data: _summary } = useLazyFetch<string>(
-    `/api/summary/${props.articleId}`
+    `/api/summary/${props.articleId}`,
   )
 
   watchEffect(() => {

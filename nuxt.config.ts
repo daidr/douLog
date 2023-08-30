@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   experimental: {
     renderJsonPayloads: true,
-    viewTransition: false,
+    componentIslands: true,
   },
   app: {
     rootId: '__daidr_app',
