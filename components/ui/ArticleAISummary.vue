@@ -131,6 +131,7 @@ if (summary.value === 'no cache') {
 
   .block-content {
     @apply text-zinc-500 leading-loose text-sm;
+    view-transition-name: article-summary;
   }
 }
 </style>

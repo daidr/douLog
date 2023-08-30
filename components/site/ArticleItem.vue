@@ -74,6 +74,9 @@ defineProps<{ article: IArticleListItem }>()
         view-transition-name: article-hero;
       }
     }
+    .summary {
+      view-transition-name: article-summary;
+    }
   }
 
   .left {
