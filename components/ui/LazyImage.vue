@@ -74,7 +74,7 @@ const { stop } = useIntersectionObserver(
 
   .img {
     @apply opacity-0 w-full h-full;
-    @apply absolute;
+    @apply absolute pointer-events-none;
 
     &:not(.no-animation) {
       @apply transition-opacity duration-300;
@@ -82,7 +82,7 @@ const { stop } = useIntersectionObserver(
 
     &.loaded {
       @apply opacity-100;
-      @apply static;
+      @apply static pointer-events-auto;
     }
 
     &.no-animation {
