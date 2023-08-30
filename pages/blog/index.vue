@@ -23,10 +23,6 @@ const isInArticlePage = computed(() => route.meta.isInArticlePage)
 const articleScrollTop = ref(0)
 
 const setArticleScrollTop = () => {
-  console.log(
-    'top',
-    document.querySelector('.articles-page-wrapper')?.scrollTop,
-  )
   articleScrollTop.value =
     document.querySelector('.articles-page-wrapper')?.scrollTop || 0
 }
@@ -43,7 +39,6 @@ const toTop = () => {
 provide('toTop', toTop)
 
 const toPrevTop = () => {
-  console.log(articleScrollTop.value)
   document.querySelector('.articles-page-wrapper')?.scrollTo({
     top: articleScrollTop.value,
     behavior: 'auto',
