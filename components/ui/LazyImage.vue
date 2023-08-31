@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useIntersectionObserver } from '@vueuse/core'
 
-defineProps({
+const props = defineProps({
   src: {
     type: String,
     required: true,
@@ -22,7 +22,7 @@ const initTime = Date.now()
 
 const loaded = ref(false)
 
-const noAnimation = ref(false)
+const noAnimation = ref(!!props.thumbnail)
 
 const onLoad = () => {
   if (Date.now() - initTime < 10) {
