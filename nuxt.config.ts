@@ -147,6 +147,9 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
+    prerender: {
+      crawlLinks: true,
+    },
     storage: {
       redis: {
         driver: 'redis',
@@ -171,9 +174,6 @@ export default defineNuxtConfig({
       cache: {
         driver: 'memory',
       },
-    },
-    prerender: {
-      routes: ['/'],
     },
   },
   vite: {
