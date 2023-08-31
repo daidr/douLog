@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 :root {
   @include spread-theme-map(theme-default-map());
@@ -19,6 +19,7 @@ $themeColorList: (
 @for $i from 1 through length($themeColorList) {
   $color: nth($themeColorList, $i);
   .theme-#{$i} {
+    opacity: 1;
     @include spread-theme-map(theme-primary-map($color));
   }
 }

@@ -15,15 +15,16 @@ const themeColorList = [
 const randomThemeColorIndex = useState('randomThemeColorIndex', () =>
   Math.floor(Math.random() * themeColorList.length),
 )
-
 provide('themeColor', themeColorList[randomThemeColorIndex.value])
+
+// client only
+if (!import.meta.env.SSR) {
+  document.body.classList.add('theme-' + (randomThemeColorIndex.value + 1))
+}
 
 useHead({
   htmlAttrs: {
     lang: 'zh-CN',
-  },
-  bodyAttrs: {
-    class: 'theme-' + (randomThemeColorIndex.value + 1),
   },
   link: [
     {

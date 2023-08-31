@@ -79,6 +79,11 @@ body.hide-extra-wrapper {
   }
 }
 
+body {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   @apply transition-opacity;
