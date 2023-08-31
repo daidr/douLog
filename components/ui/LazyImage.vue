@@ -55,7 +55,6 @@ const { stop } = useIntersectionObserver(
       }"
       :src="src"
       :alt="alt"
-      :crossorigin="isDev() ? undefined : 'anonymous'"
       @load="onLoad"
     />
     <img
@@ -63,7 +62,6 @@ const { stop } = useIntersectionObserver(
       class="thumbnail"
       :src="thumbnail"
       :alt="alt"
-      :crossorigin="isDev() ? undefined : 'anonymous'"
     />
   </div>
 </template>

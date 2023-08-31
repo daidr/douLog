@@ -68,11 +68,15 @@ const ArticleSummaryCache = inject('ArticleSummaryCache') as Ref<string>
 
 const onArticleItemClick = async (postId: number) => {
   if (ArticleCacheId.value !== postId) {
-    isPrefetching.value = true
+    const timer = setTimeout(() => {
+      isPrefetching.value = true
+    }, 100)
+
     const { data: article } = await useFetch<IArticleItem>(
       `/api/article/${postId}`,
     )
     if (!article.value) {
+      clearTimeout(timer)
       isPrefetching.value = false
       navigateTo('/404', { replace: false })
       return
@@ -83,6 +87,7 @@ const onArticleItemClick = async (postId: number) => {
     ArticleSummaryCache.value = summary.value || 'no cache'
     ArticleCacheId.value = postId
     ArticleCache.value = article.value
+    clearTimeout(timer)
     isPrefetching.value = false
   }
   await nextTick()

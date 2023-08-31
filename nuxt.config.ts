@@ -27,16 +27,19 @@ export default defineNuxtConfig({
     ],
     registerType: 'autoUpdate',
     devOptions: {
-      enabled: false,
+      enabled: true,
       type: 'module',
     },
     workbox: {
-      navigateFallback: '/offline',
+      navigateFallback: undefined,
+      cleanupOutdatedCaches: true,
       globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
       runtimeCaching: [
         // 阿里云CDN，缓存优先，存30天
         {
-          urlPattern: /^https:\/\/cdn\.daidr\.me\/.*/i,
+          urlPattern: ({ url }) => {
+            return url.host === 'cdn.daidr.me'
+          },
           handler: 'CacheFirst',
           options: {
             cacheName: 'cdn-image-cache',
@@ -51,7 +54,9 @@ export default defineNuxtConfig({
         },
         // sm.ms 图床，缓存优先，存30天
         {
-          urlPattern: /^https:\/\/i\.loli\.net\/.*/i,
+          urlPattern: ({ url }) => {
+            return url.host === 'i.loli.net'
+          },
           handler: 'CacheFirst',
           options: {
             cacheName: 'cdn-image-smms',
@@ -148,7 +153,7 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    prerender: ['/', '/offline'],
+    prerender: { routes: ['/', '/offline', '/404'] },
     storage: {
       redis: {
         driver: 'redis',

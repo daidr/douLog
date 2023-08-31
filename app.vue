@@ -59,12 +59,10 @@ useHead({
     },
     {
       rel: 'preconnect',
-      crossorigin: 'anonymous',
       href: 'https://cdn.daidr.me',
     },
     {
       rel: 'preconnect',
-      crossorigin: 'anonymous',
       href: 'https://i.loli.net',
     },
   ],

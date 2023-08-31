@@ -108,7 +108,7 @@ export default defineNuxtPlugin(nuxtApp => {
   })
 
   nuxtApp.hook('page:finish', async () => {
-    await wait(200)
+    await wait(100)
     finishTransition?.()
     finishTransition = undefined
   })
