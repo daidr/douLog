@@ -31,6 +31,7 @@ export default defineNuxtConfig({
       type: 'module',
     },
     workbox: {
+      navigateFallback: '/offline',
       globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
       runtimeCaching: [
         // 阿里云CDN，缓存优先，存30天
@@ -147,9 +148,7 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    prerender: {
-      crawlLinks: true,
-    },
+    prerender: ['/', '/offline'],
     storage: {
       redis: {
         driver: 'redis',
