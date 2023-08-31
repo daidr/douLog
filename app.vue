@@ -12,7 +12,7 @@ const themeColorList = [
   '#a6dad5',
 ]
 
-const randomThemeColorIndex = useState('randomThemeColorIndex', () =>
+const randomThemeColorIndex = ref(
   Math.floor(Math.random() * themeColorList.length),
 )
 provide('themeColor', themeColorList[randomThemeColorIndex.value])

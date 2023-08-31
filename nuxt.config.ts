@@ -31,7 +31,6 @@ export default defineNuxtConfig({
       type: 'module',
     },
     workbox: {
-      navigateFallback: '/',
       globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
       runtimeCaching: [
         // 阿里云CDN，缓存优先，存30天
