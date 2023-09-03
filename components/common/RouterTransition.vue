@@ -45,11 +45,11 @@ let firstTime = true
 let _firstTime = true
 
 router.beforeEach((to, from, next) => {
-  if (from.name === 'index-blog-slug' && to.name === 'index-blog') {
+  if (from.name === 'blog-index-slug' && to.name === 'blog-index') {
     next()
     return
   }
-  if (from.name === 'index-blog' && to.name === 'index-blog-slug') {
+  if (from.name === 'blog-index' && to.name === 'blog-index-slug') {
     next()
     return
   }
@@ -87,6 +87,14 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
+  if (from.name === 'index-blog-slug' && to.name === 'index-blog') {
+    next()
+    return
+  }
+  if (from.name === 'index-blog' && to.name === 'index-blog-slug') {
+    next()
+    return
+  }
   clearTimeout(TIMER)
   if (!firstTime && to.path == from.path) {
     return
