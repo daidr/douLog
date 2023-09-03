@@ -95,33 +95,41 @@ const showSidebar = computed(() => catalogList.value.length > 0)
 
 <template>
   <div v-if="article && typeof article === 'object'" class="content-wrapper">
-    <div class="article-wrapper" :class="{ 'sidebar-limit': showSidebar }">
-      <div class="header">
-        <div class="title" v-html="article.title"></div>
-        <div class="details">
-          <div class="time">
-            <IconTime />
-            {{ article.date }}
-          </div>
-          <div class="origin">
-            <a :href="article.link" target="_blank">阅读原文</a>
+    <main :class="{ 'sidebar-limit': showSidebar }">
+      <div class="article-wrapper" :class="{ 'sidebar-limit': showSidebar }">
+        <div class="header">
+          <div class="title" v-html="article.title"></div>
+          <div class="details">
+            <div class="time">
+              <IconTime />
+              {{ article.date }}
+            </div>
+            <div class="origin">
+              <a :href="article.link" target="_blank">阅读原文</a>
+            </div>
           </div>
         </div>
+        <UiArticleAISummary
+          :article-id="article.id"
+          :cached-summary="ArticleSummaryCache"
+        />
+        <div v-if="article.image" class="article-image">
+          <UiLazyImage :src="article.image" :thumbnail="article.thumbnail" />
+        </div>
+        <CommonArticleRender
+          :article-html="article.content"
+          @active-title="setActiveTitle"
+        />
       </div>
-      <!-- <template v-if="!isDev()"> -->
-      <UiArticleAISummary
-        :article-id="article.id"
-        :cached-summary="ArticleSummaryCache"
-      />
-      <!-- </template> -->
-      <div v-if="article.image" class="article-image">
-        <UiLazyImage :src="article.image" :thumbnail="article.thumbnail" />
+      <div class="comments-wrapper">
+        留言功能还在努力开发中，你可以前往<a
+          :href="`${article.link}#respond`"
+          target="_blank"
+          class="text-primary hover:underline"
+          >旧版博客</a
+        >留下评论
       </div>
-      <CommonArticleRender
-        :article-html="article.content"
-        @active-title="setActiveTitle"
-      />
-    </div>
+    </main>
 
     <div v-if="showSidebar" class="sidebar">
       <CommonArticleCatalog
@@ -153,17 +161,28 @@ export default {
 .content-wrapper {
   @apply w-full flex;
 
+  main {
+    @apply w-full space-y-5;
+
+    .sidebar-limit {
+      @apply max-w-856px;
+    }
+  }
+
+  .comments-wrapper {
+    @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
+    @apply rounded-8 space-y-5;
+    @apply shadow-2xl shadow-primary/30;
+    view-transition-name: article-comments;
+  }
+
   .article-wrapper {
-    @apply w-full bg-white px-5 py-5 md:px-8 md:py-8 w-full;
+    @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
     @apply rounded-8 space-y-5;
     @apply shadow-2xl shadow-primary/30;
     view-transition-name: main-wrapper;
 
     word-wrap: break-word;
-
-    &.sidebar-limit {
-      @apply max-w-856px;
-    }
 
     .title {
       @apply text-3xl md:text-4xl font-extrabold;

@@ -138,6 +138,18 @@ body {
   }
 }
 
+@keyframes comments-from {
+  from {
+    transform: translateX(-50vw);
+  }
+}
+
+@keyframes comments-to {
+  to {
+    transform: translateX(-50vw);
+  }
+}
+
 ::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
@@ -179,6 +191,20 @@ body {
   animation:
     300ms ease-in-out 300ms both fade-in,
     600ms ease-in-out both sidebar-from;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(article-comments) {
+  animation:
+    300ms ease-in-out both fade-out,
+    600ms ease-in-out both comments-to;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(article-comments) {
+  animation:
+    300ms ease-in-out 300ms both fade-in,
+    600ms ease-in-out both comments-from;
   mix-blend-mode: normal;
 }
 

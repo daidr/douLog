@@ -45,6 +45,14 @@ let firstTime = true
 let _firstTime = true
 
 router.beforeEach((to, from, next) => {
+  if (from.name === 'index-blog-slug' && to.name === 'index-blog') {
+    next()
+    return
+  }
+  if (from.name === 'index-blog' && to.name === 'index-blog-slug') {
+    next()
+    return
+  }
   startLoadingTime = Date.now()
   enableTransition.value = true
   clearTimeout(TIMER)

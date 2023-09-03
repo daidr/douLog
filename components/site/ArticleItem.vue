@@ -70,9 +70,7 @@ defineProps<{ article: IArticleListItem }>()
       view-transition-name: article-details;
     }
     .right {
-      :deep(img) {
-        view-transition-name: article-hero;
-      }
+      view-transition-name: article-hero;
     }
     .summary {
       view-transition-name: article-summary;
