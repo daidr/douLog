@@ -55,6 +55,7 @@ export default cachedEventHandler(
     const result = (await $fetch(`/wp-json/wp/v2/posts?${query}`, {
       baseURL: apiEntry,
     })) as any
+    console.log(result)
 
     const _result = result.map((item: any) => ({
       id: item.id,

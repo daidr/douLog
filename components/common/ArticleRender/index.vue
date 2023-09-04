@@ -319,5 +319,34 @@ article.blog-article-wrapper {
   :deep(.wp-block-gallery.has-nested-images) {
     @apply flex gap-2 flex-col sm:flex-row;
   }
+
+  :deep(ol) {
+    @apply ml-3.5rem relative space-y-2 my-8;
+    counter-reset: ol-step-counter;
+
+    & > li {
+      counter-increment: ol-step-counter;
+      &::before {
+        @apply bg-primary-extralight text-primary rounded-full absolute;
+        @apply inline-flex flex-shrink-0 h-1.5rem w-1.5rem justify-center;
+        @apply -ml-2.5rem mr-1rem;
+        content: counter(ol-step-counter);
+        transform: translateY(0.1875rem);
+      }
+    }
+  }
+
+  :deep(ul) {
+    @apply ml-3.5rem relative space-y-2  my-8;
+
+    & > li {
+      &::before {
+        @apply h-0.5rem w-0.5rem inline-flex content-empty;
+        @apply bg-primary rounded-full absolute;
+        @apply -ml-1.5rem mr-0.5rem;
+        transform: translateY(0.625rem);
+      }
+    }
+  }
 }
 </style>
