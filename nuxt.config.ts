@@ -69,10 +69,10 @@ export default defineNuxtConfig({
             },
           },
         },
-        // /api/articles 接口，缓存 10 分钟，返回过期数据再重新请求
+        // /api/articles 接口，缓存 10 分钟，NetworkFirst
         {
           urlPattern: /\/api\/articles.*/i,
-          handler: 'StaleWhileRevalidate',
+          handler: 'NetworkFirst',
           options: {
             cacheName: 'api-articles-cache',
             expiration: {
@@ -87,7 +87,7 @@ export default defineNuxtConfig({
         // /api/article/\d+ 接口，缓存 10 分钟，返回过期数据再重新请求
         {
           urlPattern: /\/api\/article\/\d+.*/i,
-          handler: 'StaleWhileRevalidate',
+          handler: 'NetworkFirst',
           options: {
             cacheName: 'api-article-cache',
             expiration: {
@@ -102,7 +102,7 @@ export default defineNuxtConfig({
         // /api/summary 接口，缓存 1 小时，返回过期数据再重新请求
         {
           urlPattern: /\/api\/summary.*/i,
-          handler: 'StaleWhileRevalidate',
+          handler: 'NetworkFirst',
           options: {
             cacheName: 'api-summary-cache',
             expiration: {

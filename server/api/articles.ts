@@ -49,7 +49,7 @@ export default cachedEventHandler(
         _embed: ['wp:term'],
         page,
       },
-      { encodeValuesOnly: true }
+      { encodeValuesOnly: true },
     )
 
     const result = (await $fetch(`/wp-json/wp/v2/posts?${query}`, {
@@ -77,6 +77,6 @@ export default cachedEventHandler(
   },
   {
     swr: true,
-    maxAge: 60,
-  }
+    maxAge: 5,
+  },
 )
