@@ -11,6 +11,9 @@ dependencies:
   '@unocss/reset':
     specifier: ^0.55.3
     version: 0.55.3
+  html-entities:
+    specifier: ^2.4.0
+    version: 2.4.0
   medium-zoom:
     specifier: ^1.0.8
     version: 1.0.8
@@ -99,7 +102,7 @@ devDependencies:
     version: 1.4.0
   nuxt:
     specifier: ^3.7.0
-    version: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.2.2)
+    version: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.0.4)
   prettier:
     specifier: ^3.0.3
     version: 3.0.3
@@ -622,6 +625,7 @@ packages:
   /@babel/plugin-proposal-async-generator-functions@7.20.7(@babel/core@7.22.11):
     resolution: {integrity: sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -637,6 +641,7 @@ packages:
   /@babel/plugin-proposal-class-properties@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-cumfXOF0+nzZrrN8Rf0t7M+tF6sZc7vhQwYQck9q1/5w2OExlD+b4v4RpMJFaV1Z7WcDRgO6FqvxqxGlwo+RHQ==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -648,6 +653,7 @@ packages:
   /@babel/plugin-proposal-class-static-block@7.21.0(@babel/core@7.22.11):
     resolution: {integrity: sha512-XP5G9MWNUskFuP30IfFSEFB0Z6HzLIUcjYM4bYOPHXl7eiJ9HFv8tWj6TXTN5QODiEhDZAeI4hLok2iHFFV4hw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-static-block instead.
     peerDependencies:
       '@babel/core': ^7.12.0
     dependencies:
@@ -660,6 +666,7 @@ packages:
   /@babel/plugin-proposal-dynamic-import@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-1auuwmK+Rz13SJj36R+jqFPMJWyKEDd7lLSdOj4oJK0UTgGueSAtkrCvz9ewmgyU/P941Rv2fQwZJN8s6QruXw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-dynamic-import instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -671,6 +678,7 @@ packages:
   /@babel/plugin-proposal-export-namespace-from@7.18.9(@babel/core@7.22.11):
     resolution: {integrity: sha512-k1NtHyOMvlDDFeb9G5PhUXuGj8m/wiwojgQVEhJ/fsVsMCpLyOP4h0uGEjYJKrRI+EVPlb5Jk+Gt9P97lOGwtA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -682,6 +690,7 @@ packages:
   /@babel/plugin-proposal-json-strings@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-lr1peyn9kOdbYc0xr0OdHTZ5FMqS6Di+H0Fz2I/JwMzGmzJETNeOFq2pBySw6X/KFL5EWDjlJuMsUGRFb8fQgQ==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-json-strings instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -693,6 +702,7 @@ packages:
   /@babel/plugin-proposal-logical-assignment-operators@7.20.7(@babel/core@7.22.11):
     resolution: {integrity: sha512-y7C7cZgpMIjWlKE5T7eJwp+tnRYM89HmRvWM5EQuB5BoHEONjmQ8lSNmBUwOyy/GFRsohJED51YBF79hE1djug==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-logical-assignment-operators instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -704,6 +714,7 @@ packages:
   /@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-wQxQzxYeJqHcfppzBDnm1yAY0jSRkUXR2z8RePZYrKwMKgMlE8+Z6LUno+bd6LvbGh8Gltvy74+9pIYkr+XkKA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -715,6 +726,7 @@ packages:
   /@babel/plugin-proposal-numeric-separator@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-ozlZFogPqoLm8WBr5Z8UckIoE4YQ5KESVcNudyXOR8uqIkliTEgJ3RoketfG6pmzLdeZF0H/wjE9/cCEitBl7Q==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -726,6 +738,7 @@ packages:
   /@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.22.11):
     resolution: {integrity: sha512-d2S98yCiLxDVmBmE8UjGcfPvNEUbA1U5q5WxaWFUGRzJSVAZqm5W6MbPct0jxnegUZ0niLeNX+IOzEs7wYg9Dg==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -740,6 +753,7 @@ packages:
   /@babel/plugin-proposal-optional-catch-binding@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-Q40HEhs9DJQyaZfUjjn6vE8Cv4GmMHCYuMGIWUnlxH6400VGxOuwWsPt4FxXxJkC/5eOzgn0z21M9gMT4MOhbw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -751,6 +765,7 @@ packages:
   /@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.22.11):
     resolution: {integrity: sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -763,6 +778,7 @@ packages:
   /@babel/plugin-proposal-private-methods@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-nutsvktDItsNn4rpGItSNV2sz1XwS+nfU0Rg8aCx3W3NOKVzdMjJRu0O5OkgDp3ZGICSTbgRpxZoWsxoKRvbeA==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-methods instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -774,6 +790,7 @@ packages:
   /@babel/plugin-proposal-private-property-in-object@7.21.0(@babel/core@7.22.11):
     resolution: {integrity: sha512-ha4zfehbJjc5MmXBlHec1igel5TJXXLDDRbuJ4+XT2TJcyD9/V1919BA8gMvsdHcNMBy4WBUBiRb3nw/EQUtBw==}
     engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -787,6 +804,7 @@ packages:
   /@babel/plugin-proposal-unicode-property-regex@7.18.6(@babel/core@7.22.11):
     resolution: {integrity: sha512-2BShG/d5yoZyXZfVePH91urL5wTG6ASZU9M4o03lKK8u8UW1y08OMttBSOADTcJrnPMpvDXRG3G8fyLh4ovs8w==}
     engines: {node: '>=4'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-unicode-property-regex instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
@@ -1647,7 +1665,7 @@ packages:
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
-      ts-node: 10.9.1(@types/node@20.4.7)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@20.4.7)(typescript@5.0.4)
       typescript: 5.0.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -2460,7 +2478,7 @@ packages:
       '@nuxt/kit': 3.7.0(rollup@2.79.1)
       '@nuxt/schema': 3.7.0(rollup@2.79.1)
       execa: 7.2.0
-      nuxt: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.2.2)
+      nuxt: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.0.4)
       vite: 4.4.9(@types/node@20.4.7)(sass@1.66.1)
     transitivePeerDependencies:
       - rollup
@@ -2512,7 +2530,7 @@ packages:
       launch-editor: 2.6.0
       local-pkg: 0.4.3
       magicast: 0.2.10
-      nuxt: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.2.2)
+      nuxt: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.0.4)
       nypm: 0.3.1
       ofetch: 1.3.3
       ohash: 1.1.3
@@ -2548,7 +2566,7 @@ packages:
     dependencies:
       '@rushstack/eslint-patch': 1.3.3
       '@typescript-eslint/eslint-plugin': 6.5.0(@typescript-eslint/parser@6.5.0)(eslint@8.48.0)(typescript@5.2.2)
-      '@typescript-eslint/parser': 6.5.0(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser': 6.5.0(eslint@8.48.0)(typescript@5.0.4)
       eslint: 8.48.0
       eslint-plugin-vue: 9.17.0(eslint@8.48.0)
       typescript: 5.2.2
@@ -2635,7 +2653,7 @@ packages:
     resolution: {integrity: sha512-5gc02Pu1HycOVUWJ8aYsWeeXcSTPe8iX8+KIrhyEtEoOSkY0eMBuo0ssljB8wALuEmepv31DlYe5gpiRwkjESA==}
     dev: true
 
-  /@nuxt/vite-builder@3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.2.2)(vue@3.3.4):
+  /@nuxt/vite-builder@3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.0.4)(vue@3.3.4):
     resolution: {integrity: sha512-bRJy3KarHrFm/xLGHoHeZyqI/h6c4UFRCF5ngRZ/R9uebJEHuL4UhAioxDLTFu7D0vEeK7XaDgx6+NPLhBg51g==}
     engines: {node: ^14.18.0 || >=16.10.0}
     peerDependencies:
@@ -2674,7 +2692,7 @@ packages:
       unplugin: 1.4.0
       vite: 4.4.9(@types/node@20.4.7)(sass@1.66.1)
       vite-node: 0.33.0(@types/node@20.4.7)(sass@1.66.1)
-      vite-plugin-checker: 0.6.2(eslint@8.48.0)(typescript@5.2.2)(vite@4.4.9)
+      vite-plugin-checker: 0.6.2(eslint@8.48.0)(typescript@5.0.4)(vite@4.4.9)
       vue: 3.3.4
       vue-bundle-renderer: 2.0.0
     transitivePeerDependencies:
@@ -3320,7 +3338,7 @@ packages:
         optional: true
     dependencies:
       '@eslint-community/regexpp': 4.8.0
-      '@typescript-eslint/parser': 6.5.0(eslint@8.48.0)(typescript@5.2.2)
+      '@typescript-eslint/parser': 6.5.0(eslint@8.48.0)(typescript@5.0.4)
       '@typescript-eslint/scope-manager': 6.5.0
       '@typescript-eslint/type-utils': 6.5.0(eslint@8.48.0)(typescript@5.2.2)
       '@typescript-eslint/utils': 6.5.0(eslint@8.48.0)(typescript@5.2.2)
@@ -3337,7 +3355,7 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/parser@6.5.0(eslint@8.48.0)(typescript@5.2.2):
+  /@typescript-eslint/parser@6.5.0(eslint@8.48.0)(typescript@5.0.4):
     resolution: {integrity: sha512-LMAVtR5GN8nY0G0BadkG0XIe4AcNMeyEy3DyhKGAh9k4pLSMBO7rF29JvDBpZGCmp5Pgz5RLHP6eCpSYZJQDuQ==}
     engines: {node: ^16.0.0 || >=18.0.0}
     peerDependencies:
@@ -3349,11 +3367,11 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 6.5.0
       '@typescript-eslint/types': 6.5.0
-      '@typescript-eslint/typescript-estree': 6.5.0(typescript@5.2.2)
+      '@typescript-eslint/typescript-estree': 6.5.0(typescript@5.0.4)
       '@typescript-eslint/visitor-keys': 6.5.0
       debug: 4.3.4
       eslint: 8.48.0
-      typescript: 5.2.2
+      typescript: 5.0.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3389,6 +3407,27 @@ packages:
   /@typescript-eslint/types@6.5.0:
     resolution: {integrity: sha512-eqLLOEF5/lU8jW3Bw+8auf4lZSbbljHR2saKnYqON12G/WsJrGeeDHWuQePoEf9ro22+JkbPfWQwKEC5WwLQ3w==}
     engines: {node: ^16.0.0 || >=18.0.0}
+    dev: true
+
+  /@typescript-eslint/typescript-estree@6.5.0(typescript@5.0.4):
+    resolution: {integrity: sha512-q0rGwSe9e5Kk/XzliB9h2LBc9tmXX25G0833r7kffbl5437FPWb2tbpIV9wAATebC/018pGa9fwPDuvGN+LxWQ==}
+    engines: {node: ^16.0.0 || >=18.0.0}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/types': 6.5.0
+      '@typescript-eslint/visitor-keys': 6.5.0
+      debug: 4.3.4
+      globby: 11.1.0
+      is-glob: 4.0.3
+      semver: 7.5.4
+      ts-api-utils: 1.0.2(typescript@5.0.4)
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@typescript-eslint/typescript-estree@6.5.0(typescript@5.2.2):
@@ -3972,7 +4011,7 @@ packages:
       '@vueuse/core': 10.4.1(vue@3.3.4)
       '@vueuse/metadata': 10.4.1
       local-pkg: 0.4.3
-      nuxt: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.2.2)
+      nuxt: 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.0.4)
       vue-demi: 0.14.6(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -5075,7 +5114,7 @@ packages:
     dependencies:
       '@types/node': 20.4.7
       cosmiconfig: 8.1.3
-      ts-node: 10.9.1(@types/node@20.4.7)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@20.4.7)(typescript@5.0.4)
       typescript: 5.0.4
     dev: true
 
@@ -6716,6 +6755,10 @@ packages:
     dependencies:
       whatwg-encoding: 2.0.0
     dev: true
+
+  /html-entities@2.4.0:
+    resolution: {integrity: sha512-igBTJcNNNhvZFRtm8uA6xMY6xYleeDwn3PeBCkDz7tHttv4F2hsDI2aPgNERWzvRcNYHNT3ymRaQzllmXj4YsQ==}
+    dev: false
 
   /html-minifier@4.0.0:
     resolution: {integrity: sha512-aoGxanpFPLg7MkIl/DDFYtb0iWz7jMFGqFhvEDZga6/4QTjneiD8I/NXL1x5aaoCp7FSIT6h/OhykDdPsbtMig==}
@@ -8682,7 +8725,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /nuxt@3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.2.2):
+  /nuxt@3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.0.4):
     resolution: {integrity: sha512-y0/xHYqwuJt20r26xezjpr74FLWR144dMpwSxZ/O2XXUrQUnyO7vHm3fEY4vi+miKbf343YMH5B78GXAELO/Vw==}
     engines: {node: ^14.18.0 || >=16.10.0}
     hasBin: true
@@ -8700,7 +8743,7 @@ packages:
       '@nuxt/schema': 3.7.0(rollup@2.79.1)
       '@nuxt/telemetry': 2.4.1(rollup@2.79.1)
       '@nuxt/ui-templates': 1.3.1
-      '@nuxt/vite-builder': 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.2.2)(vue@3.3.4)
+      '@nuxt/vite-builder': 3.7.0(@types/node@20.4.7)(eslint@8.48.0)(rollup@2.79.1)(sass@1.66.1)(typescript@5.0.4)(vue@3.3.4)
       '@types/node': 20.4.7
       '@unhead/dom': 1.3.9
       '@unhead/ssr': 1.3.9
@@ -10676,6 +10719,15 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /ts-api-utils@1.0.2(typescript@5.0.4):
+    resolution: {integrity: sha512-Cbu4nIqnEdd+THNEsBdkolnOXhg0I8XteoHaEKgvsxpsbWda4IsUut2c187HxywQCvveojow0Dgw/amxtSKVkQ==}
+    engines: {node: '>=16.13.0'}
+    peerDependencies:
+      typescript: '>=4.2.0'
+    dependencies:
+      typescript: 5.0.4
+    dev: true
+
   /ts-api-utils@1.0.2(typescript@5.2.2):
     resolution: {integrity: sha512-Cbu4nIqnEdd+THNEsBdkolnOXhg0I8XteoHaEKgvsxpsbWda4IsUut2c187HxywQCvveojow0Dgw/amxtSKVkQ==}
     engines: {node: '>=16.13.0'}
@@ -10685,7 +10737,7 @@ packages:
       typescript: 5.2.2
     dev: true
 
-  /ts-node@10.9.1(@types/node@20.4.7)(typescript@5.2.2):
+  /ts-node@10.9.1(@types/node@20.4.7)(typescript@5.0.4):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -10711,7 +10763,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.2.2
+      typescript: 5.0.4
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
@@ -11284,7 +11336,7 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-checker@0.6.2(eslint@8.48.0)(typescript@5.2.2)(vite@4.4.9):
+  /vite-plugin-checker@0.6.2(eslint@8.48.0)(typescript@5.0.4)(vite@4.4.9):
     resolution: {integrity: sha512-YvvvQ+IjY09BX7Ab+1pjxkELQsBd4rPhWNw8WLBeFVxu/E7O+n6VYAqNsKdK/a2luFlX/sMpoWdGFfg4HvwdJQ==}
     engines: {node: '>=14.16'}
     peerDependencies:
@@ -11329,7 +11381,7 @@ packages:
       semver: 7.5.4
       strip-ansi: 6.0.1
       tiny-invariant: 1.3.1
-      typescript: 5.2.2
+      typescript: 5.0.4
       vite: 4.4.9(@types/node@20.4.7)(sass@1.66.1)
       vscode-languageclient: 7.0.0
       vscode-languageserver: 7.0.0

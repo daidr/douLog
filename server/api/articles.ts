@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { replaceMediaCDN } from '~~/utils/mediaCDN'
-
+import { htmlToPureText } from '~/utils/stringify'
+import { decode } from 'html-entities'
 const { apiEntry } = useRuntimeConfig()
 
 export interface IArticleListItem {
@@ -55,13 +56,12 @@ export default cachedEventHandler(
     const result = (await $fetch(`/wp-json/wp/v2/posts?${query}`, {
       baseURL: apiEntry,
     })) as any
-    console.log(result)
 
     const _result = result.map((item: any) => ({
       id: item.id,
       link: item.link,
-      title: item.title.rendered,
-      excerpt: item.excerpt.rendered,
+      title: decode(item.title.rendered),
+      excerpt: htmlToPureText(item.excerpt.rendered),
       image: item._links['wp:featuredmedia']
         ? replaceMediaCDN(item.post_medium_image)
         : null,

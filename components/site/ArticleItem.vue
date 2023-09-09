@@ -9,7 +9,7 @@ defineProps<{ article: IArticleListItem }>()
 <template>
   <a class="article-item" :href="`/blog/${article.id}`">
     <div class="left">
-      <h3 class="title" v-html="article.title"></h3>
+      <h3 class="title">{{ article.title }}</h3>
       <div class="details">
         <div class="detail-item">{{ article.date }}</div>
         <div v-if="article.tags.length" class="detail-item">
@@ -29,7 +29,7 @@ defineProps<{ article: IArticleListItem }>()
           <span>{{ article.commentCount }}</span>
         </div>
       </div>
-      <div class="summary" v-html="article.excerpt"></div>
+      <div class="summary">{{ article.excerpt }}</div>
     </div>
     <div v-if="article.image" class="right">
       <UiLazyImage :src="article.image" />

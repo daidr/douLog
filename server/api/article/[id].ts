@@ -4,7 +4,8 @@ import minifyHtml from '~~/utils/minifyHtml'
 import hljs from 'highlight.js'
 
 import { JSDOM } from 'jsdom'
-
+import { decode } from 'html-entities'
+import { htmlToPureText } from '~/utils/stringify'
 const { apiEntry } = useRuntimeConfig()
 
 export interface ICatalogItem {
@@ -186,10 +187,10 @@ export default cachedEventHandler(
       const _result = {
         id: result.id,
         link: result.link,
-        title: result.title.rendered,
+        title: decode(result.title.rendered),
+        excerpt: htmlToPureText(result.excerpt.rendered),
         content: minifyHtml(html),
         titleList,
-        excerpt: result.excerpt.rendered,
         image: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_full_image)
           : null,

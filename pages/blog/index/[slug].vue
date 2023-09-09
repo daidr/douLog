@@ -37,10 +37,45 @@ if (`${ArticleCacheId.value}` == slug) {
 
 if (article.value && typeof article.value === 'object') {
   const _metas = []
+  _metas.push({
+    hid: 'og:title',
+    property: 'og:title',
+    content: article.value.title,
+  })
+  _metas.push({
+    hid: 'og:type',
+    property: 'og:type',
+    content: 'article',
+  })
+  _metas.push({
+    hid: 'og:category',
+    property: 'og:category',
+    content: article.value.categoryName,
+  })
+  _metas.push({
+    hid: 'og:author',
+    property: 'og:author',
+    content: '戴兜<daidr>',
+  })
+  _metas.push({
+    hid: 'og:published_time',
+    property: 'og:published_time',
+    content: article.value.date,
+  })
+  _metas.push({
+    hid: 'og:site_name',
+    property: 'og:site_name',
+    content: '戴兜的小屋',
+  })
   if (article.value.tags) {
     _metas.push({
       hid: 'keywords',
       name: 'keywords',
+      content: article.value.tags.join(','),
+    })
+    _metas.push({
+      hid: 'og:tag',
+      name: 'og:tag',
       content: article.value.tags.join(','),
     })
   }
@@ -98,7 +133,7 @@ const showSidebar = computed(() => catalogList.value.length > 0)
     <main :class="{ 'sidebar-limit': showSidebar }">
       <div class="article-wrapper" :class="{ 'sidebar-limit': showSidebar }">
         <div class="header">
-          <div class="title" v-html="article.title"></div>
+          <div class="title">{{ article.title }}</div>
           <div class="details">
             <div class="time">
               <IconTime />
