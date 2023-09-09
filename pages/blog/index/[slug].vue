@@ -55,7 +55,7 @@ if (article.value && typeof article.value === 'object') {
   _metas.push({
     hid: 'og:author',
     property: 'og:author',
-    content: '戴兜<daidr>',
+    content: '戴兜',
   })
   _metas.push({
     hid: 'og:published_time',
