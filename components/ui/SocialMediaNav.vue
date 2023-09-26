@@ -49,6 +49,7 @@ const urls = [
       target="_blank"
       class="nav-item"
       :data-name="item.name"
+      @click="umTrackEvent('social-link', { name: item.name })"
     >
       <Component :is="item.icon" />
       <span class="sr-only">{{ item.name }}</span>

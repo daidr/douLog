@@ -10,6 +10,13 @@ export default defineNuxtConfig({
     rootId: '__daidr_app',
     buildAssetsDir: '/_doulog/',
   },
+  extends: ['nuxt-umami'],
+  appConfig: {
+    umami: {
+      ignoreLocalhost: true,
+      version: 2,
+    },
+  },
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
