@@ -43,9 +43,24 @@ if (article.value && typeof article.value === 'object') {
     content: article.value.title,
   })
   _metas.push({
+    hid: 'twitter:creator',
+    property: 'twitter:creator',
+    content: '@imdaidr',
+  })
+  _metas.push({
+    hid: 'twitter:title',
+    property: 'twitter:title',
+    content: article.value.title,
+  })
+  _metas.push({
     hid: 'og:type',
     property: 'og:type',
     content: 'article',
+  })
+  _metas.push({
+    hid: 'og:url',
+    property: 'og:url',
+    content: `https://im.daidr.me/blog/${article.value.id}`,
   })
   _metas.push({
     hid: 'og:category',
@@ -70,12 +85,12 @@ if (article.value && typeof article.value === 'object') {
   if (article.value.tags) {
     _metas.push({
       hid: 'keywords',
-      name: 'keywords',
+      property: 'keywords',
       content: article.value.tags.join(','),
     })
     _metas.push({
       hid: 'og:tag',
-      name: 'og:tag',
+      property: 'og:tag',
       content: article.value.tags.join(','),
     })
   }
@@ -85,16 +100,31 @@ if (article.value && typeof article.value === 'object') {
       property: 'og:image',
       content: article.value.image,
     })
+    _metas.push({
+      hid: 'twitter:image',
+      property: 'twitter:image',
+      content: article.value.image,
+    })
+    _metas.push({
+      hid: 'twitter:card',
+      property: 'twitter:card',
+      content: 'summary_large_image',
+    })
   }
   if (article.value.excerpt) {
     _metas.push({
       hid: 'description',
-      name: 'description',
+      property: 'description',
       content: article.value.excerpt,
     })
     _metas.push({
       hid: 'og:description',
       property: 'og:description',
+      content: article.value.excerpt,
+    })
+    _metas.push({
+      hid: 'twitter:description',
+      property: 'twitter:description',
       content: article.value.excerpt,
     })
   }
