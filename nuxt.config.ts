@@ -15,7 +15,6 @@ export default defineNuxtConfig({
     umami: {
       host: process.env.NUXT_PUBLIC_UMAMI_HOST || 'https://im.daidr.me',
       id: process.env.NUXT_PUBLIC_UMAMI_ID || '',
-      domains: ['im.daidr.me'],
       version: 2,
     },
   },
