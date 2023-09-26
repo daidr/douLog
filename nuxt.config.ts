@@ -13,9 +13,11 @@ export default defineNuxtConfig({
   extends: ['nuxt-umami'],
   appConfig: {
     umami: {
-      host: process.env.NUXT_PUBLIC_UMAMI_HOST || 'https://im.daidr.me',
+      host:
+        process.env.NUXT_PUBLIC_UMAMI_HOST || 'https://analytics.eu.umami.is',
       id: process.env.NUXT_PUBLIC_UMAMI_ID || '',
       version: 2,
+      ignoreLocalhost: true,
     },
   },
   modules: [
