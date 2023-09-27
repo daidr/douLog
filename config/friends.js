@@ -265,4 +265,11 @@ export const FriendsList = [
     avatar: 'llx.life.png',
     color: '#F0C0CF',
   },
+  {
+    name: 'Geek Improve',
+    motto: 'JasonSubmara 的个人博客站',
+    url: 'https://submara.com/',
+    avatar: 'submara.com.png',
+    color: '#FFFFFF',
+  },
 ]
