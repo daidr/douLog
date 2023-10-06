@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { CONFIG } from '@/config/base'
+import { useDouSlackingStore } from './stores/dou-slacking'
 
 const themeColorList = [
   '#b1dafb',
@@ -93,6 +94,11 @@ useHead({
 })
 
 const nuxtApp = useNuxtApp()
+
+onMounted(() => {
+  useDouSlackingStore()
+  useDouSlackingStore()
+})
 </script>
 
 <template>

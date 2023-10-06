@@ -17,6 +17,7 @@ export default defineNuxtConfig({
         process.env.NUXT_PUBLIC_UMAMI_HOST || 'https://analytics.eu.umami.is',
       id: process.env.NUXT_PUBLIC_UMAMI_ID || '',
       version: 2,
+      domains: ['im.daidr.me'],
       ignoreLocalhost: true,
     },
   },
@@ -25,6 +26,7 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     'unplugin-icons/nuxt',
     '@vite-pwa/nuxt',
+    '@pinia/nuxt',
   ],
   pwa: {
     injectRegister: 'auto',
