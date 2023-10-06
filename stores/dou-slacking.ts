@@ -1,7 +1,7 @@
 // It's a client side store
 import { defineStore } from 'pinia'
 
-const MAX_RETRY_COUNT = 3
+const MAX_RETRY_COUNT = 10
 const DOU_SLACKING_ENTRY = 'wss://dou-slacking.daidr.me/ws'
 
 export const useDouSlackingStore = defineStore('dou-slacking', () => {
@@ -14,28 +14,41 @@ export const useDouSlackingStore = defineStore('dou-slacking', () => {
 
   if ('WebSocket' in window) {
     let ws: WebSocket
+    let interval: NodeJS.Timeout
 
     const connect = () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+
       ws = new WebSocket(DOU_SLACKING_ENTRY)
+
+      ws!.onopen = () => {
+        connected.value = true
+      }
+
+      ws!.onclose = () => {
+        connected.value = false
+        connectionCount.value += 1
+        if (connectionCount.value < MAX_RETRY_COUNT) {
+          setTimeout(() => {
+            connect()
+          }, 5000)
+        }
+      }
+
+      ws!.onmessage = event => {
+        processMessage(event.data)
+      }
+
+      interval = setInterval(() => {
+        if (connected.value) {
+          ws!.send('ping')
+        }
+      }, 10000)
     }
 
     connect()
-
-    ws!.onopen = () => {
-      connected.value = true
-    }
-
-    ws!.onclose = () => {
-      connected.value = false
-      connectionCount.value += 1
-      if (connectionCount.value < MAX_RETRY_COUNT) {
-        connect()
-      }
-    }
-
-    ws!.onmessage = event => {
-      processMessage(event.data)
-    }
   }
 
   function processMessage(message: string) {
