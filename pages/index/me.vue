@@ -1,4 +1,5 @@
 <script setup>
+import RealtimeActionView from '~/components/common/RealtimeActionView.vue'
 import { CONFIG } from '~~/config/base'
 
 useHead({
@@ -9,6 +10,11 @@ useHead({
 <template>
   <UiCardWrapper>
     <div class="wrapper">
+      <ClientOnly>
+        <div class="action-wrapper">
+          <RealtimeActionView />
+        </div>
+      </ClientOnly>
       <UiMainAvatar />
       <div class="name">
         {{ CONFIG.name }} <span>@{{ CONFIG.enName }}</span>
@@ -22,7 +28,11 @@ useHead({
 <style scoped lang="scss">
 .wrapper {
   @apply flex flex-col items-center;
-  @apply pt-8;
+  @apply pt-8 relative;
+
+  .action-wrapper {
+    @apply absolute top-5 right-5 z-10;
+  }
 
   .name {
     @apply text-2xl;

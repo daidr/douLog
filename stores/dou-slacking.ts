@@ -2,15 +2,32 @@
 import { defineStore } from 'pinia'
 
 const MAX_RETRY_COUNT = 10
-const DOU_SLACKING_ENTRY = 'wss://dou-slacking.daidr.me/ws'
+export const DOU_SLACKING_ENTRY = 'wss://dou-slacking.daidr.me/ws'
+
+enum IconType {
+  rect = 'rect',
+  circle = 'circle',
+  point = 'point',
+}
+
+type statsData = {
+  idle: boolean
+  update: number
+  text: string
+  icon?: string
+  iconType: IconType
+}
 
 export const useDouSlackingStore = defineStore('dou-slacking', () => {
   const connected = ref(false)
   const connectionCount = ref(0)
-  const appleStatus = ref('')
-  const lastUpdate = ref(0)
-  const isWindowsIdle = ref(false)
-  const windowsForegroundProcess = ref('')
+  const stats = reactive<statsData>({
+    idle: true,
+    update: 0,
+    text: '',
+    icon: '',
+    iconType: IconType.point,
+  })
 
   if ('WebSocket' in window) {
     let ws: WebSocket
@@ -58,10 +75,11 @@ export const useDouSlackingStore = defineStore('dou-slacking', () => {
         connectionCount.value = data.payload
         break
       case 'stats':
-        appleStatus.value = data.payload.appleStatus
-        lastUpdate.value = data.payload.lastUpdate
-        isWindowsIdle.value = data.payload.isWindowsIdle
-        windowsForegroundProcess.value = data.payload.windowsForegroundProcess
+        stats.idle = data.payload.idle
+        stats.update = data.payload.update
+        stats.text = data.payload.text
+        stats.icon = data.payload.icon
+        stats.iconType = data.payload.iconType
         break
     }
   }
@@ -69,9 +87,6 @@ export const useDouSlackingStore = defineStore('dou-slacking', () => {
   return {
     connected,
     connectionCount,
-    appleStatus,
-    lastUpdate,
-    isWindowsIdle,
-    windowsForegroundProcess,
+    stats,
   }
 })
