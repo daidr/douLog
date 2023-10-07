@@ -81,7 +81,7 @@ const friendTimeString = computed(() => {
 
     & > img,
     & > div {
-      @apply relative z-10;
+      @apply relative z-10 pointer-events-none;
     }
 
     & > div {
