@@ -1,7 +1,7 @@
 // It's a client side store
 import { defineStore } from 'pinia'
 
-const MAX_RETRY_COUNT = 10
+const MAX_RETRY_COUNT = 100
 export const DOU_SLACKING_ENTRY = 'wss://dou-slacking.daidr.me/ws'
 
 enum IconType {
@@ -50,7 +50,7 @@ export const useDouSlackingStore = defineStore('dou-slacking', () => {
         if (connectionCount.value < MAX_RETRY_COUNT) {
           setTimeout(() => {
             connect()
-          }, 5000)
+          }, 3000)
         }
       }
 
