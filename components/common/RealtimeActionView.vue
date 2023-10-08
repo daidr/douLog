@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDouSlackingStore } from '~/stores/dou-slacking'
+import MusicIcon from '~icons/uil/music-note'
 
 const douSlackingStore = useDouSlackingStore()
 
@@ -33,6 +34,9 @@ const friendTimeString = computed(() => {
 
 <template>
   <div v-if="douSlackingStore.connected" class="realtime-wrapper">
+    <div v-if="douSlackingStore.stats.media_playing" class="music-icon">
+      <MusicIcon />
+    </div>
     <div class="icon" :class="[`icon-${douSlackingStore.stats.iconType}`]">
       <template v-if="douSlackingStore.stats.icon?.endsWith('.png')">
         <img
@@ -47,13 +51,39 @@ const friendTimeString = computed(() => {
       </template>
     </div>
     <div class="tips">
-      <p v-if="!douSlackingStore.stats.idle" class="text-sm text-primary">
-        戴兜正在 <b>{{ douSlackingStore.stats.text }}</b>
-      </p>
-      <p v-else class="text-xs text-right text-primary">戴兜正在休息</p>
-      <p class="text-xs text-right text-primary">
-        {{ friendTimeString }}
-      </p>
+      <div class="status-wrapper">
+        <p v-if="!douSlackingStore.stats.idle" class="text-sm text-primary">
+          戴兜正在 <b>{{ douSlackingStore.stats.text }}</b>
+        </p>
+        <p v-else class="text-xs text-right text-primary">戴兜正在休息</p>
+        <p class="text-xs text-right text-primary">
+          {{ friendTimeString }}
+        </p>
+      </div>
+      <div v-if="douSlackingStore.stats.media_playing" class="split-line"></div>
+      <div v-if="douSlackingStore.stats.media_playing" class="media-wrapper">
+        <div class="thumbnail">
+          <img
+            v-if="douSlackingStore.mediaInfo.thumbnail"
+            :src="douSlackingStore.mediaInfo.thumbnail"
+          />
+          <div v-else>
+            <MusicIcon />
+          </div>
+        </div>
+        <div class="media-info">
+          <div class="title">
+            {{ douSlackingStore.mediaInfo.title }}
+          </div>
+          <div class="artist">
+            {{ douSlackingStore.mediaInfo.artist }}
+          </div>
+          <div class="time">
+            {{ douSlackingStore.stats.media_curr }} /
+            {{ douSlackingStore.stats.media_total }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -75,6 +105,13 @@ const friendTimeString = computed(() => {
 }
 .realtime-wrapper {
   @apply relative;
+
+  .music-icon {
+    @apply absolute z-11 -top-1 -right-1;
+    @apply flex items-center justify-center;
+    @apply w-13px h-13px text-primary p-1px;
+    @apply bg-white rounded-full ring-1 ring-primary-light;
+  }
 
   .icon {
     @apply relative;
@@ -132,19 +169,59 @@ const friendTimeString = computed(() => {
   }
 
   .tips {
-    @apply pointer-events-none;
+    @apply pointer-events-none select-none;
     @apply absolute mt-1 right-0 whitespace-nowrap p-2;
     @apply bg-white rounded-xl;
     @apply ring-primary-extralight ring-1;
     @apply shadow-lg shadow-primary-extralight;
     @apply opacity-0 transform-gpu translate-y-10 scale-140 blur-xl;
     @apply transition-all duration-500;
+
+    .split-line {
+      @apply w-full h-2px my-2 rounded-3px;
+      @apply bg-primary-extralight;
+    }
   }
 
   &:hover {
     .tips {
       @apply pointer-events-auto;
       @apply opacity-100 scale-100 blur-0 translate-y-0;
+    }
+  }
+
+  .media-wrapper {
+    @apply flex;
+
+    .thumbnail {
+      @apply bg-primary-medium text-white;
+      @apply rounded-lg;
+      @apply border-3 border-primary-light;
+      img {
+        @apply rounded-lg;
+      }
+      div {
+        @apply flex items-center justify-center;
+        @apply h-full w-full;
+      }
+      @apply w-3em h-3em mr-1;
+    }
+
+    .media-info {
+      @apply flex flex-col items-start pointer-events-none;
+
+      & > * {
+        @apply text-xs text-right text-primary max-w-10em;
+        @apply whitespace-nowrap overflow-hidden text-ellipsis;
+      }
+
+      .title {
+        @apply font-bold text-sm;
+      }
+
+      .time {
+        @apply self-end opacity-50;
+      }
     }
   }
 }
