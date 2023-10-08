@@ -272,4 +272,11 @@ export const FriendsList = [
     avatar: 'submara.com.png',
     color: '#FFFFFF',
   },
+  {
+    name: '静かな森',
+    motto: '致虚极，守静笃。',
+    url: 'https://innei.in/',
+    avatar: 'innei.in.png',
+    color: '#eee7e2',
+  },
 ]
