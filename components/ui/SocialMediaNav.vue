@@ -13,9 +13,9 @@ const urls = [
     name: 'RSS',
   },
   {
-    url: 'https://daidr.xlog.app',
-    icon: IconChannel,
-    name: 'xLog',
+    url: 'https://github.com/daidr',
+    icon: IconGithub,
+    name: 'GitHub',
   },
   {
     url: 'https://twitter.com/imdaidr',
@@ -23,9 +23,9 @@ const urls = [
     name: 'Twitter',
   },
   {
-    url: 'https://github.com/daidr',
-    icon: IconGithub,
-    name: 'GitHub',
+    url: 'https://daidr.xlog.app',
+    icon: IconChannel,
+    name: 'xLog',
   },
   {
     url: 'https://sponsor.daidr.me',
