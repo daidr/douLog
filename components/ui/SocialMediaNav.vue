@@ -1,5 +1,5 @@
 <script setup>
-import IconHome from '~icons/uil/home-alt'
+import IconRss from '~icons/uil/rss'
 import IconChannel from '~icons/uil/channel'
 import IconTwitter from '~icons/icon-park-outline/twitter'
 import IconGithub from '~icons/icon-park-outline/github-one'
@@ -8,9 +8,9 @@ import IconSubway from '~icons/uil/subway'
 
 const urls = [
   {
-    url: 'https://daidr.me',
-    icon: IconHome,
-    name: '博客',
+    url: 'https://daidr.me/feed',
+    icon: IconRss,
+    name: 'RSS',
   },
   {
     url: 'https://daidr.xlog.app',
