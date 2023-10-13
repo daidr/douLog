@@ -286,4 +286,11 @@ export const FriendsList = [
     avatar: 'www.xiaojun.im.png',
     color: '#e8c8bb',
   },
+  {
+    name: '1024.dev',
+    motto: 'Share technical resources related to developers.',
+    url: 'https://1024.dev/',
+    avatar: '1024.dev.png',
+    color: '#000000',
+  },
 ]
