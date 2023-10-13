@@ -279,4 +279,11 @@ export const FriendsList = [
     avatar: 'innei.in.png',
     color: '#eee7e2',
   },
+  {
+    name: 'Xiaojun Zhou',
+    motto: '这儿没啥干货，搭建此站只是觉得好玩～',
+    url: 'https://www.xiaojun.im/',
+    avatar: 'www.xiaojun.im.png',
+    color: '#e8c8bb',
+  },
 ]
