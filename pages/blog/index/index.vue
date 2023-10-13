@@ -102,13 +102,15 @@ const onArticleItemClick = async (postId: number) => {
   <div class="content-wrapper">
     <ClientOnly>
       <Teleport to="body">
-        <template v-if="isPrefetching">
-          <div class="loading-mask">
-            <div class="loading">
-              <UiLoadingIcon />
+        <Transition name="fade">
+          <template v-if="isPrefetching">
+            <div class="loading-mask">
+              <div class="loading">
+                <UiLoadingIcon />
+              </div>
             </div>
-          </div>
-        </template>
+          </template>
+        </Transition>
       </Teleport>
     </ClientOnly>
     <div class="announcement-item">
