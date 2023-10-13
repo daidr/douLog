@@ -97,15 +97,16 @@ export const useDouSlackingStore = defineStore('dou-slacking', () => {
         stats.text = data.payload.text
         stats.icon = data.payload.icon
         stats.iconType = data.payload.iconType
-        stats.media_playing = data.payload.media_playing
-        stats.media_curr = data.payload.media_curr
-        stats.media_total = data.payload.media_total
         break
       case 'media':
         mediaInfo.thumbnail = data.payload.thumbnail
         mediaInfo.title = data.payload.title
         mediaInfo.artist = data.payload.artist
         break
+      case 'media-stats':
+        stats.media_playing = data.payload.media_playing
+        stats.media_curr = data.payload.media_curr
+        stats.media_total = data.payload.media_total
     }
   }
 
