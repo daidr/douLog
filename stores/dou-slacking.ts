@@ -1,8 +1,7 @@
 // It's a client side store
 import { defineStore } from 'pinia'
 
-const MAX_RETRY_COUNT = 100
-export const DOU_SLACKING_ENTRY = 'wss://dou-slacking.daidr.me/ws'
+export const DOU_SLACKING_ENTRY = 'https://dou-slacking.daidr.me/status'
 
 enum IconType {
   rect = 'rect',
@@ -46,68 +45,45 @@ export const useDouSlackingStore = defineStore('dou-slacking', () => {
     artist: '',
   })
 
-  if ('WebSocket' in window) {
-    let ws: WebSocket
-    let interval: NodeJS.Timeout
+  if ('EventSource' in window) {
+    let source: EventSource
 
     const connect = () => {
-      if (interval) {
-        clearInterval(interval)
-      }
+      source = new EventSource(DOU_SLACKING_ENTRY)
 
-      ws = new WebSocket(DOU_SLACKING_ENTRY)
-
-      ws!.onopen = () => {
+      source.onopen = () => {
         connected.value = true
       }
 
-      ws!.onclose = () => {
+      source.onerror = () => {
         connected.value = false
-        connectionCount.value += 1
-        if (connectionCount.value < MAX_RETRY_COUNT) {
-          setTimeout(() => {
-            connect()
-          }, 3000)
-        }
       }
-
-      ws!.onmessage = event => {
-        processMessage(event.data)
-      }
-
-      interval = setInterval(() => {
-        if (connected.value) {
-          ws!.send('ping')
-        }
-      }, 10000)
+      source.addEventListener('count', ({ data }) => {
+        connectionCount.value = parseInt(data)
+      })
+      source.addEventListener('media', ({ data }) => {
+        const payload = JSON.parse(data)
+        mediaInfo.thumbnail = payload.thumbnail
+        mediaInfo.title = payload.title
+        mediaInfo.artist = payload.artist
+      })
+      source.addEventListener('media-stats', ({ data }) => {
+        const payload = JSON.parse(data)
+        stats.media_playing = payload.media_playing
+        stats.media_curr = payload.media_curr
+        stats.media_total = payload.media_total
+      })
+      source.addEventListener('stats', ({ data }) => {
+        const payload = JSON.parse(data)
+        stats.idle = payload.idle
+        stats.update = payload.update
+        stats.text = payload.text
+        stats.icon = payload.icon
+        stats.iconType = payload.iconType
+      })
     }
 
     connect()
-  }
-
-  function processMessage(message: string) {
-    const data = JSON.parse(message)
-    switch (data.type) {
-      case 'count':
-        connectionCount.value = data.payload
-        break
-      case 'stats':
-        stats.idle = data.payload.idle
-        stats.update = data.payload.update
-        stats.text = data.payload.text
-        stats.icon = data.payload.icon
-        stats.iconType = data.payload.iconType
-        break
-      case 'media':
-        mediaInfo.thumbnail = data.payload.thumbnail
-        mediaInfo.title = data.payload.title
-        mediaInfo.artist = data.payload.artist
-        break
-      case 'media-stats':
-        stats.media_playing = data.payload.media_playing
-        stats.media_curr = data.payload.media_curr
-        stats.media_total = data.payload.media_total
-    }
   }
 
   return {
