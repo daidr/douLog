@@ -6,6 +6,7 @@ import hljs from 'highlight.js'
 import { JSDOM } from 'jsdom'
 import { decode } from 'html-entities'
 import { htmlToPureText } from '~/utils/stringify'
+import { defineCountableCachedEventHandler } from '../utils/countable-cache-handler'
 const { apiEntry } = useRuntimeConfig()
 
 export interface ICatalogItem {
@@ -133,7 +134,7 @@ const handleArticleCodeHighlight = (html: string) => {
   return dom.serialize()
 }
 
-export default cachedEventHandler(
+export default defineCountableCachedEventHandler(
   async event => {
     const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
     if (isNaN(articleID)) {
