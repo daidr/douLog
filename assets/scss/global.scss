@@ -240,3 +240,33 @@ body {
     animation: none !important;
   }
 }
+
+.blur-fade-enter-active {
+  transition:
+    filter 0.5s ease-out,
+    opacity 0.5s ease-out;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+}
+
+.blur-fade-leave-active {
+  transition:
+    filter 0.5s ease-in,
+    opacity 0.5s ease-in;
+  position: absolute !important;
+  top: 0;
+  left: 0;
+}
+
+.blur-fade-enter-from,
+.blur-fade-leave-to {
+  filter: blur(20px);
+  opacity: 0;
+}
+
+.blur-fade-enter-to,
+.blur-fade-leave-from {
+  filter: blur(0);
+  opacity: 1;
+}

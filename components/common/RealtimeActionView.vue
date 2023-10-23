@@ -38,17 +38,20 @@ const friendTimeString = computed(() => {
       <MusicIcon />
     </div>
     <div class="icon" :class="[`icon-${douSlackingStore.stats.iconType}`]">
-      <template v-if="douSlackingStore.stats.icon?.endsWith('.png')">
-        <img
-          :src="`https://dou-slacking.daidr.me/public/icons/${douSlackingStore.stats.icon}`"
-          alt=""
-        />
-      </template>
-      <template v-else>
-        <div>
-          {{ douSlackingStore.stats.icon }}
-        </div>
-      </template>
+      <Transition name="blur-fade">
+        <template v-if="douSlackingStore.stats.icon?.endsWith('.png')">
+          <img
+            :key="douSlackingStore.stats.icon"
+            :src="`https://dou-slacking.daidr.me/public/icons/${douSlackingStore.stats.icon}`"
+            :alt="douSlackingStore.stats.text"
+          />
+        </template>
+        <template v-else>
+          <div>
+            {{ douSlackingStore.stats.icon }}
+          </div>
+        </template>
+      </Transition>
     </div>
     <div class="tips">
       <div class="status-wrapper">
