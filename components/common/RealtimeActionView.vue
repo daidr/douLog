@@ -6,29 +6,60 @@ const douSlackingStore = useDouSlackingStore()
 
 const currentTime = ref(0)
 
-setInterval(() => {
+const currentTimeInterval = setInterval(() => {
   currentTime.value = Date.now()
 }, 1000)
+
+const { language } = useNavigatorLanguage()
 
 const friendTimeString = computed(() => {
   const time = new Date(currentTime.value)
   const prevTime = new Date(douSlackingStore.stats.update)
+  const formatter = new Intl.RelativeTimeFormat(language.value, {
+    style: 'narrow',
+  })
   const diff = time.getTime() - prevTime.getTime()
   const diffDays = Math.floor(diff / (24 * 3600 * 1000))
   const diffHours = Math.floor(diff / (3600 * 1000))
   const diffMinutes = Math.floor(diff / (60 * 1000))
   const diffSeconds = Math.floor(diff / 1000)
   if (diffDays > 0) {
-    return `${diffDays}天前`
+    return formatter.format(-diffDays, 'day')
   } else if (diffHours > 0) {
-    return `${diffHours}小时前`
+    return formatter.format(-diffHours, 'hour')
   } else if (diffMinutes > 0) {
-    return `${diffMinutes}分钟前`
+    return formatter.format(-diffMinutes, 'minute')
   } else if (diffSeconds > 0) {
-    return `${diffSeconds}秒前`
+    return formatter.format(-diffSeconds, 'second')
   } else {
     return '刚刚'
   }
+})
+
+// 设置国际化时间Option
+const localTimeOption: Intl.DateTimeFormatOptions = {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+  // 上海时间
+  timeZone: 'Asia/Shanghai',
+  timeZoneName: 'short',
+}
+
+const localTime = ref('')
+
+const localTimeInterval = setInterval(() => {
+  const time = new Date()
+  const formattedTime = Intl.DateTimeFormat(
+    language.value,
+    localTimeOption,
+  ).format(time)
+  localTime.value = formattedTime
+}, 1000)
+
+onUnmounted(() => {
+  clearInterval(currentTimeInterval)
+  clearInterval(localTimeInterval)
 })
 </script>
 
@@ -86,6 +117,12 @@ const friendTimeString = computed(() => {
             {{ douSlackingStore.stats.media_total }}
           </div>
         </div>
+      </div>
+      <div v-if="douSlackingStore.stats.media_playing" class="split-line"></div>
+      <div>
+        <p class="text-xs text-primary text-right">
+          <span class="text-xs">当地时间</span><br /><b>{{ localTime }}</b>
+        </p>
       </div>
     </div>
   </div>
@@ -207,7 +244,7 @@ const friendTimeString = computed(() => {
         @apply flex items-center justify-center;
         @apply h-full w-full;
       }
-      @apply w-3em h-3em mr-1;
+      @apply w-3.25em h-3.25em mr-1;
     }
 
     .media-info {
