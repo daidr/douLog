@@ -1,11 +1,24 @@
 <script setup>
+const head = useLocaleHead({
+  addDirAttribute: true,
+  identifierAttribute: 'id',
+  addSeoAttributes: true,
+})
+
+const route = useRoute()
+const { t } = useI18n()
+
+const title = computed(() =>
+  t('layouts.title', { title: t(route.meta.title ?? 'TBD') }),
+)
+
 const randomBackground = useState('randomBackground', () => {
   const randomIndex = Math.floor(Math.random() * 2)
   return randomIndex
 })
 
 const UiBackgroundGeometric = defineAsyncComponent(() =>
-  import('@/components/ui/Background/Geometric.vue')
+  import('@/components/ui/Background/Geometric.vue'),
 )
 
 // const UiBackgroundLifeGame = defineAsyncComponent(() =>
@@ -14,16 +27,34 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
 </script>
 
 <template>
-  <div class="main-wrapper">
-    <!-- <Component
+  <Html :lang="head.htmlAttrs.lang" :dir="head.htmlAttrs.dir">
+    <Head>
+      <Title>{{ title }}</Title>
+      <template v-for="link in head.link" :key="link.id">
+        <Link
+          :id="link.id"
+          :rel="link.rel"
+          :href="link.href"
+          :hreflang="link.hreflang"
+        />
+      </template>
+      <template v-for="meta in head.meta" :key="meta.id">
+        <Meta :id="meta.id" :property="meta.property" :content="meta.content" />
+      </template>
+    </Head>
+    <Body>
+      <div class="main-wrapper">
+        <!-- <Component
       :is="
         randomBackground === 0 ? UiBackgroundGeometric : UiBackgroundLifeGame
       "
     /> -->
-    <Component :is="UiBackgroundGeometric" />
-    <slot />
-    <SiteFooter />
-  </div>
+        <Component :is="UiBackgroundGeometric" />
+        <slot />
+        <SiteFooter />
+      </div>
+    </Body>
+  </Html>
 </template>
 
 <style scoped lang="scss">

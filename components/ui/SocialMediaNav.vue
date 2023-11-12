@@ -6,36 +6,38 @@ import IconGithub from '~icons/icon-park-outline/github-one'
 import IconHeart from '~icons/uil/heart'
 import IconSubway from '~icons/uil/subway'
 
+const { t } = useI18n()
+
 const urls = [
   {
     url: 'https://daidr.me/feed',
     icon: IconRss,
-    name: 'RSS',
+    name: t('social.rss'),
   },
   {
     url: 'https://github.com/daidr',
     icon: IconGithub,
-    name: 'GitHub',
+    name: t('social.github'),
   },
   {
     url: 'https://twitter.com/imdaidr',
     icon: IconTwitter,
-    name: 'Twitter',
+    name: t('social.twitter'),
   },
   {
     url: 'https://daidr.xlog.app',
     icon: IconChannel,
-    name: 'xLog',
+    name: t('social.xlog'),
   },
   {
     url: 'https://sponsor.daidr.me',
     icon: IconHeart,
-    name: '赞助',
+    name: t('social.sponsor'),
   },
   {
     url: 'https://www.travellings.cn/go.html',
     icon: IconSubway,
-    name: '开往',
+    name: t('social.travelling'),
   },
 ]
 </script>

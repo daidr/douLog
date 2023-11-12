@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { IArticleItem } from '~/server/api/article/[id]'
 import IconAlarm from '~icons/icon-park-outline/alarm'
-import { CONFIG } from '~~/config/base'
 
 preloadRouteComponents('/blog/[id]')
 
@@ -96,6 +95,8 @@ const onArticleItemClick = async (postId: number) => {
   // toTop()
   navigateTo(`/blog/${postId}`)
 }
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -115,7 +116,7 @@ const onArticleItemClick = async (postId: number) => {
     </ClientOnly>
     <div class="announcement-item">
       <IconAlarm />
-      <p>{{ CONFIG.blogAnnouncement }}</p>
+      <p>{{ t('global.blog_announcement') }}</p>
     </div>
     <div class="article-list">
       <SiteArticleItem

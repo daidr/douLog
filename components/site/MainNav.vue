@@ -10,25 +10,31 @@ defineProps({
     default: () => [0, 0, 0, 0],
   },
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
   <slot v-if="$slots.default" />
-  <NuxtLink v-if="!hideSet[0]" to="/" class="menu-item">
+  <NuxtLink v-if="!hideSet[0]" :to="{ name: 'index-me' }" class="menu-item">
     <IconBear />
-    我
+    {{ t('main_nav.me') }}
   </NuxtLink>
-  <NuxtLink v-if="!hideSet[1]" to="/blog" class="menu-item">
+  <NuxtLink v-if="!hideSet[1]" :to="{ name: 'blog-index' }" class="menu-item">
     <IconWrite />
-    文章
+    {{ t('main_nav.posts') }}
   </NuxtLink>
-  <NuxtLink v-if="!hideSet[2]" to="/friends" class="menu-item">
+  <NuxtLink
+    v-if="!hideSet[2]"
+    :to="{ name: 'index-friends' }"
+    class="menu-item"
+  >
     <IconNoteBook />
-    朋友们
+    {{ t('main_nav.friends') }}
   </NuxtLink>
-  <NuxtLink v-if="!hideSet[3]" to="/projects" class="menu-item">
+  <NuxtLink v-if="!hideSet[3]" :to="{ name: 'projects' }" class="menu-item">
     <IconExperimentOne />
-    实验室
+    {{ t('main_nav.projects') }}
   </NuxtLink>
   <slot v-if="$slots.after" name="after" />
 </template>

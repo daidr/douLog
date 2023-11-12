@@ -1,0 +1,38 @@
+{
+  "global": {
+    "site_name": "戴兜的小屋",
+    "name": "戴兜",
+    "en_name": "daidr",
+    "desc": "Coding the world.",
+    "blog_desc": "前端练习生，喜欢折腾各种新鲜的东西。",
+    "blog_announcement": "戴兜的小屋正在施工中🚧"
+  },
+  "TBD": "待定",
+  "layouts": {
+    "title": "{title} - @:global.site_name"
+  },
+  "main_nav": {
+    "me": "我",
+    "posts": "文章",
+    "friends": "朋友们",
+    "projects": "小项目"
+  },
+  "dou_slacking": {
+    "tips": "个人正在做客",
+    "local_time": "当地时间",
+    "resting": "戴兜正在休息",
+    "doing": "戴兜正在"
+  },
+  "social": {
+    "rss": "RSS",
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "xlog": "xLog",
+    "sponsor": "赞助",
+    "travelling": "开往"
+  },
+  "friends": {
+    "travelling": "开往",
+    "travelling_desc": "试试运气~"
+  }
+}

@@ -16,8 +16,10 @@ const onScroll = e => {
   showBottomShadow.value = scrollHeight - scrollTop > clientHeight
 }
 
+const { t } = useI18n()
+
 useHead({
-  title: '朋友们',
+  title: t('main_nav.friends'),
 })
 </script>
 
@@ -40,8 +42,8 @@ useHead({
             <IconSubway />
           </div>
           <div class="detail">
-            <div class="name">开往</div>
-            <div class="motto">试试运气~</div>
+            <div class="name">{{ t('friends.travelling') }}</div>
+            <div class="motto">{{ t('friends.travelling_desc') }}</div>
           </div>
         </a>
         <a

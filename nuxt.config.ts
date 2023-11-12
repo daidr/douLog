@@ -27,7 +27,35 @@ export default defineNuxtConfig({
     'unplugin-icons/nuxt',
     '@vite-pwa/nuxt',
     '@pinia/nuxt',
+    '@nuxtjs/i18n',
   ],
+  i18n: {
+    baseUrl: 'https://im.daidr.me',
+    strategy: 'no_prefix',
+    vueI18n: './i18n.config.ts',
+    locales: [
+      {
+        code: 'en-US',
+        file: 'en-US.json',
+        iso: 'en-US',
+      },
+      {
+        code: 'zh-CN',
+        file: 'zh-CN.json',
+        iso: 'zh-CN',
+      },
+    ],
+    lazy: true,
+    langDir: 'locales',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'no prefix',
+      fallbackLocale: 'en-US',
+    },
+    // debug: true,
+    defaultLocale: 'en-US',
+  },
   pwa: {
     injectRegister: 'auto',
     includeAssets: [

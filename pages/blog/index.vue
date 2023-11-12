@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
 import { IArticleItem } from '~/server/api/article/[id]'
-import { CONFIG } from '~~/config/base'
+
+const { t } = useI18n()
 
 useHead({
-  title: '博客',
+  title: t('main_nav.posts'),
 })
 
 definePageMeta({
@@ -79,10 +80,10 @@ const nuxtApp = useNuxtApp()
           />
           <div class="author-info">
             <div class="author-name">
-              {{ CONFIG.name }} <span>@{{ CONFIG.enName }}</span>
+              {{ t('global.name') }} <span>@{{ t('global.en_name') }}</span>
             </div>
             <div class="author-description">
-              {{ CONFIG.articleDescription }}
+              {{ t('global.blog_desc') }}
             </div>
           </div>
         </div>

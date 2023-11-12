@@ -1,9 +1,10 @@
 <script setup>
 import RealtimeActionView from '~/components/common/RealtimeActionView.vue'
-import { CONFIG } from '~~/config/base'
+
+const { t } = useI18n()
 
 useHead({
-  title: '我',
+  title: t('main_nav.me'),
 })
 </script>
 
@@ -17,9 +18,9 @@ useHead({
       </ClientOnly>
       <UiMainAvatar />
       <div class="name">
-        {{ CONFIG.name }} <span>@{{ CONFIG.enName }}</span>
+        {{ t('global.name') }} <span>@{{ t('global.en_name') }}</span>
       </div>
-      <div class="motto">{{ CONFIG.description }}</div>
+      <div class="motto">{{ t('global.desc') }}</div>
       <UiSocialMediaNav class="socialmedia-wrapper" />
     </div>
   </UiCardWrapper>

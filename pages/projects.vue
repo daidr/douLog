@@ -1,8 +1,10 @@
 <script setup>
 import { BlockDefination } from '@/config/projects'
 
+const { t } = useI18n()
+
 useHead({
-  title: '实验室',
+  title: t('main_nav.projects'),
 })
 </script>
 
@@ -86,7 +88,7 @@ useHead({
     @apply rounded-8;
     @apply bg-white;
     @apply flex justify-center space-x-3;
-    @apply py-5 w-full sm:w-340px;
+    @apply py-5 w-full sm:w-auto px-5;
     @apply select-none;
     @apply shadow-2xl shadow-primary/30;
     @apply z-90 translate-z-150vh;

@@ -23,6 +23,8 @@ if (!import.meta.env.SSR) {
   document.body.classList.add('theme-' + (randomThemeColorIndex.value + 1))
 }
 
+const { t } = useI18n()
+
 useHead({
   htmlAttrs: {
     lang: 'zh-CN',
@@ -68,13 +70,15 @@ useHead({
     },
   ],
   titleTemplate: titleChunk => {
-    return titleChunk ? `${titleChunk} - ${CONFIG.siteName}` : CONFIG.siteName
+    return titleChunk
+      ? `${titleChunk} - ${t('global.site_name')}`
+      : t('global.site_name')
   },
   meta: [
     {
       hid: 'description',
       name: 'description',
-      content: CONFIG.description,
+      content: t('global.desc'),
     },
     {
       hid: 'keywords',

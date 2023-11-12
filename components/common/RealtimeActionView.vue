@@ -2,6 +2,8 @@
 import { useDouSlackingStore } from '~/stores/dou-slacking'
 import MusicIcon from '~icons/uil/music-note'
 
+const { t } = useI18n()
+
 const douSlackingStore = useDouSlackingStore()
 
 const currentTime = ref(0)
@@ -87,9 +89,11 @@ onUnmounted(() => {
     <div class="tips">
       <div class="status-wrapper">
         <p v-if="!douSlackingStore.stats.idle" class="text-sm text-primary">
-          戴兜正在 <b>{{ douSlackingStore.stats.text }}</b>
+          {{ t('dou_slacking.doing') }} <b>{{ douSlackingStore.stats.text }}</b>
         </p>
-        <p v-else class="text-xs text-right text-primary">戴兜正在休息</p>
+        <p v-else class="text-xs text-right text-primary">
+          {{ t('dou_slacking.resting') }}
+        </p>
         <p class="text-xs text-right text-primary">
           {{ friendTimeString }}
         </p>
@@ -118,10 +122,12 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-      <div v-if="douSlackingStore.stats.media_playing" class="split-line"></div>
+      <div class="split-line"></div>
       <div>
         <p class="text-xs text-primary text-right">
-          <span class="text-xs">当地时间</span><br /><b>{{ localTime }}</b>
+          <span class="text-xs">{{ t('dou_slacking.local_time') }}</span>
+          <br />
+          <b>{{ localTime }}</b>
         </p>
       </div>
     </div>

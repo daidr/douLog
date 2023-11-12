@@ -1,0 +1,38 @@
+{
+  "global": {
+    "site_name": "DAIDR's HOUSE",
+    "name": "Xuezhou Dai",
+    "en_name": "daidr",
+    "desc": "Coding the world.",
+    "blog_desc": "A front-end coder, enjoys trying various fun things.",
+    "blog_announcement": "My blog is under development🚧"
+  },
+  "TBD": "TBD",
+  "layouts": {
+    "title": "{title} - @:global.site_name"
+  },
+  "main_nav": {
+    "me": "ME",
+    "posts": "POSTs",
+    "friends": "FRNDs",
+    "projects": "WORKs"
+  },
+  "dou_slacking": {
+    "tips": "individuals are visiting",
+    "local_time": "Local Time",
+    "resting": "I'm resting",
+    "doing": "I'm"
+  },
+  "social": {
+    "rss": "RSS",
+    "github": "GitHub",
+    "twitter": "Twitter",
+    "xlog": "xLog",
+    "sponsor": "Sponsors",
+    "travelling": "Travelling"
+  },
+  "friends": {
+    "travelling": "Travelling",
+    "travelling_desc": "Try your luck~"
+  }
+}
