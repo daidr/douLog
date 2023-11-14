@@ -27,7 +27,7 @@ const currentAvatarIndex = useState('avatar-state', () => {
 
 const onClick = useThrottleFn(() => {
   currentAvatarIndex.value = (currentAvatarIndex.value + 1) % 3
-}, 300)
+}, 500)
 </script>
 
 <template>
@@ -64,7 +64,7 @@ const onClick = useThrottleFn(() => {
         fill="none"
       ></circle>
     </svg>
-    <Transition name="blur-fade" :duration="300">
+    <Transition name="blur-fade" :duration="500">
       <div v-if="currentAvatarIndex === 0" class="avatar-0">
         <div class="avatar-image">
           <UiLazyImage src="/images/avatar.png" alt="AVATAR" />
