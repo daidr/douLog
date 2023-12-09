@@ -30,7 +30,7 @@ export interface IArticleItem {
 
 async function segmentedSummary(
   content: string,
-  lang: string
+  lang: string,
 ): Promise<string> {
   const segments = await splitter.createDocuments([content])
 
@@ -48,7 +48,7 @@ async function segmentedSummary(
           },
           body: JSON.stringify({
             model: 'gpt-3.5-turbo',
-            temperature: 0,
+            temperature: 1,
             top_p: 1,
             frequency_penalty: 1,
             presence_penalty: 1,
@@ -59,11 +59,11 @@ async function segmentedSummary(
               },
             ],
           }),
-        }
+        },
       )) as any
 
       return response.choices?.[0]?.message?.content?.trim()
-    })
+    }),
   )
 
   if (results.length > 1) {
