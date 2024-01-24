@@ -113,7 +113,7 @@ const nuxtApp = useNuxtApp()
   @apply w-full h-full;
   @apply fixed top-0 left-0;
   @apply overflow-x-hidden;
-  @apply pb-18 md:pb-21;
+  @apply pb-25 md:pb-21;
 
   scrollbar-width: thin;
   scrollbar-color: rgba(var(--color-primary), 0.8)
