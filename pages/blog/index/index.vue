@@ -159,8 +159,8 @@ const { t } = useI18n()
 
   .announcement-item {
     @apply w-full bg-white px-5 md:px-8 py-4 w-full;
-    @apply rounded-8;
-    @apply shadow-2xl shadow-primary/30;
+    @apply sm:rounded-8;
+    @apply sm:shadow-2xl shadow-primary/30;
     @apply flex items-center space-x-4;
     @apply text-lg text-primary-light;
     view-transition-name: main-announcement;
@@ -173,8 +173,8 @@ const { t } = useI18n()
   .article-list {
     @apply w-full bg-white w-full;
     @apply px-5 py-5 sm:(px-8 py-8);
-    @apply rounded-8;
-    @apply shadow-2xl shadow-primary/30;
+    @apply sm:rounded-8;
+    @apply sm:shadow-2xl shadow-primary/30;
     @apply flex flex-col space-y-4;
     view-transition-name: main-wrapper;
   }

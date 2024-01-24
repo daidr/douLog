@@ -227,7 +227,7 @@ export default {
   @apply w-full flex;
 
   main {
-    @apply w-full space-y-5;
+    @apply w-full sm:space-y-5 <sm:mb-8;
 
     .sidebar-limit {
       @apply max-w-856px;
@@ -236,15 +236,15 @@ export default {
 
   .comments-wrapper {
     @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
-    @apply rounded-8 space-y-5;
-    @apply shadow-2xl shadow-primary/30;
+    @apply sm:rounded-8 space-y-5;
+    @apply sm:shadow-2xl shadow-primary/30;
     view-transition-name: article-comments;
   }
 
   .article-wrapper {
     @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
-    @apply rounded-8 space-y-5;
-    @apply shadow-2xl shadow-primary/30;
+    @apply sm:rounded-8 space-y-5;
+    @apply sm:shadow-2xl shadow-primary/30;
     view-transition-name: main-wrapper;
 
     word-wrap: break-word;

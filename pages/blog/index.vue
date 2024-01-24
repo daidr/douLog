@@ -136,9 +136,9 @@ const nuxtApp = useNuxtApp()
 
   .limit-wrapper {
     @apply flex flex-col items-start;
-    @apply p-3;
+    @apply p-0 sm:p-3;
     // 其实应该用gap-y更好，但是flex布局gap-y兼容性不太好
-    @apply space-y-3;
+    @apply sm:space-y-3;
     @apply max-w-1000px;
     margin: 0 auto;
 
@@ -151,7 +151,7 @@ const nuxtApp = useNuxtApp()
   }
 
   .header-wrapper {
-    @apply rounded-8 bg-white select-none;
+    @apply sm:rounded-8 bg-white select-none;
     @apply flex flex-col p-3 md:p-5;
     @apply shadow-2xl shadow-primary/30;
     @apply z-90 translate-z-150vh;

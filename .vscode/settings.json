@@ -1,7 +1,7 @@
 {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "css.lint.unknownAtRules": "ignore",
     "less.lint.unknownAtRules": "ignore",
