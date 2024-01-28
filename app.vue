@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CONFIG } from '@/config/base'
 import { useDouSlackingStore } from './stores/dou-slacking'
+import { SPLASH_IMAGES } from './server/api/utils/splash-images'
 
 const themeColorList = [
   '#b1dafb',
@@ -68,6 +69,7 @@ useHead({
       rel: 'preconnect',
       href: 'https://i.loli.net',
     },
+    ...SPLASH_IMAGES,
   ],
   titleTemplate: titleChunk => {
     return titleChunk
