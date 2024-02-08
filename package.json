@@ -8,7 +8,7 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore .",
     "lint:fix": "eslint --fix --ext .js,.ts,.vue --ignore-path .gitignore .",
-    "prepare": "husky install"
+    "prepare": "simple-git-hooks"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -33,7 +33,6 @@
     "eslint-plugin-prettier": "^5.0.0",
     "highlight.js": "^11.8.0",
     "html-minifier": "^4.0.0",
-    "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "langchain": "^0.0.154",
     "lint-staged": "^14.0.1",
@@ -42,6 +41,7 @@
     "prettier": "^3.0.3",
     "qs": "^6.11.2",
     "sass": "^1.68.0",
+    "simple-git-hooks": "^2.9.0",
     "unplugin-icons": "^0.17.0"
   },
   "pnpm": {
@@ -53,6 +53,10 @@
     "*.{js,jsx,vue,ts,tsx}": [
       "eslint --fix"
     ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx commitlint -e \"$@\""
   },
   "commitlint": {
     "extends": [

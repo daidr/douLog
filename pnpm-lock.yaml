@@ -97,9 +97,6 @@ devDependencies:
   html-minifier:
     specifier: ^4.0.0
     version: 4.0.0
-  husky:
-    specifier: ^8.0.3
-    version: 8.0.3
   jsdom:
     specifier: ^22.1.0
     version: 22.1.0
@@ -124,6 +121,9 @@ devDependencies:
   sass:
     specifier: ^1.68.0
     version: 1.68.0
+  simple-git-hooks:
+    specifier: ^2.9.0
+    version: 2.9.0
   unplugin-icons:
     specifier: ^0.17.0
     version: 0.17.0
@@ -6523,12 +6523,6 @@ packages:
       ms: 2.1.3
     dev: true
 
-  /husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
-    hasBin: true
-    dev: true
-
   /iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
@@ -9803,6 +9797,12 @@ packages:
       '@sigstore/tuf': 2.2.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /simple-git-hooks@2.9.0:
+    resolution: {integrity: sha512-waSQ5paUQtyGC0ZxlHmcMmD9I1rRXauikBwX31bX58l5vTOhCEcBC5Bi+ZDkPXTjDnZAF8TbCqKBY+9+sVPScw==}
+    hasBin: true
+    requiresBuild: true
     dev: true
 
   /simple-git@3.20.0:
