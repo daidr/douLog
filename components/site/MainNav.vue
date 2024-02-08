@@ -101,7 +101,6 @@ function back() {
   @apply cursor-pointer z-0;
   @apply transition-all duration-300;
   @apply flex items-center whitespace-nowrap;
-  @apply px-2;
 
   span {
     @apply text-0em;
@@ -115,13 +114,18 @@ function back() {
 
   &::before {
     content: '';
-    @apply absolute bottom-0 left-0 right-0 h-full -z-1;
+    @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
     @apply rounded-xl;
     @apply bg-primary-extralight;
+    @apply transition-all;
   }
 
   &:hover {
     @apply px-3;
+
+    &::before {
+      @apply h-full;
+    }
 
     span {
       @apply text-1em;
