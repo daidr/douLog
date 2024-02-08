@@ -3,26 +3,18 @@ import { useDouSlackingStore } from './stores/dou-slacking'
 import { SPLASH_IMAGES } from './utils/splash-images'
 import { CONFIG } from '@/config/base'
 
-const themeColorList = [
-  '#b1dafb',
-  '#fcbcb9',
-  '#dbb3e3',
-  '#c0e3c2',
-  '#bcc2e5',
-  '#d0c4bf',
-  '#c7d2d5',
-  '#a6dad5',
-]
+const { randomThemeColorIndex, themeColor } = storeToRefs(useStatesStore())
 
-const randomThemeColorIndex = ref(
-  Math.floor(Math.random() * themeColorList.length),
-)
-provide('themeColor', themeColorList[randomThemeColorIndex.value])
+watch(() => randomThemeColorIndex.value, (index, oldIndex) => {
+  if (import.meta.env.SSR) return
+  if (oldIndex !== undefined) {
+    document.body.classList.remove(`theme-${oldIndex + 1}`)
+  }
 
-// client only
-if (!import.meta.env.SSR) {
-  document.body.classList.add(`theme-${randomThemeColorIndex.value + 1}`)
-}
+  document.body.classList.add(`theme-${index + 1}`)
+}, {
+  immediate: true,
+})
 
 const { t } = useI18n()
 
@@ -76,7 +68,7 @@ useHead({
       ? `${titleChunk} - ${t('global.site_name')}`
       : t('global.site_name')
   },
-  meta: [
+  meta: computed(() => [
     {
       hid: 'description',
       name: 'description',
@@ -89,7 +81,7 @@ useHead({
     },
     {
       name: 'theme-color',
-      content: themeColorList[randomThemeColorIndex.value],
+      content: themeColor.value,
     },
     {
       name: 'viewport',
@@ -100,13 +92,12 @@ useHead({
       name: 'apple-mobile-web-app-capable',
       content: 'yes',
     },
-  ],
+  ]),
 })
 
 const nuxtApp = useNuxtApp()
 
 onMounted(() => {
-  useDouSlackingStore()
   useDouSlackingStore()
 })
 </script>
@@ -118,16 +109,11 @@ onMounted(() => {
     <RouterView v-slot="{ Component }">
       <CommonRouterTransition>
         <Suspense
-          @pending="
-            () => {
-              nuxtApp.callHook('page:start')
-            }
-          "
-          @resolve="
-            () => {
-              nextTick(() => nuxtApp.callHook('page:finish'))
-            }
-          "
+          @pending="() => {
+            nuxtApp.callHook('page:start')
+          }" @resolve="() => {
+            nextTick(() => nuxtApp.callHook('page:finish'))
+          }"
         >
           <component :is="Component" />
         </Suspense>

@@ -40,6 +40,9 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
     </Head>
     <Body>
       <div class="main-wrapper">
+        <DevOnly>
+          <DebugDevTrigger />
+        </DevOnly>
         <!-- <Component
       :is="
         randomBackground === 0 ? UiBackgroundGeometric : UiBackgroundLifeGame

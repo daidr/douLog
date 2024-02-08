@@ -14,14 +14,19 @@ export default defineConfig({
   theme: {
     colors: {
       primary: {
-        extralight: withOpacityValue('--color-primary-extralight'),
-        light: withOpacityValue('--color-primary-light'),
-        medium: withOpacityValue('--color-primary-medium'),
-        DEFAULT: withOpacityValue('--color-primary'),
-        dark: withOpacityValue('--color-primary-dark'),
+        1: withOpacityValue('--color-primary-1'),
+        2: withOpacityValue('--color-primary-2'),
+        3: withOpacityValue('--color-primary-3'),
+        4: withOpacityValue('--color-primary-4'),
+        5: withOpacityValue('--color-primary-5'),
+        6: withOpacityValue('--color-primary-6'),
+        7: withOpacityValue('--color-primary-7'),
+        8: withOpacityValue('--color-primary-8'),
+        9: withOpacityValue('--color-primary-9'),
+        10: withOpacityValue('--color-primary-10'),
       },
-      black: withOpacityValue('--color-black'),
-      white: withOpacityValue('--color-white'),
+      // black: withOpacityValue('--color-black'),
+      // white: withOpacityValue('--color-white'),
     },
   },
 })

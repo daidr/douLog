@@ -1,25 +1,58 @@
-@import 'variables';
+@use "sass:map";
+@import "palette";
+
+$themeColorList: (#0077fa, #f93920, #9e28b3, #3bb346, #6a3ac7, #f0b114, #6ea0b9, #18c4ad);
 
 :root {
-  @include spread-theme-map(theme-default-map());
-  @include spread-theme-map(theme-primary-map());
+  $color: nth($themeColorList, 1);
+  $result: generate($color);
+  $light-palette: map.get($result, "light");
+  $dark-palette: map.get($result, "dark");
+
+  @for $j from 1 through length($light-palette) {
+    $color: nth($light-palette, $j);
+    #{"--color-primary-"+$j}: get-color-value($color);
+  }
+
+  &.dark {
+    @for $j from 1 through length($dark-palette) {
+      $color: nth($dark-palette, $j);
+      #{"--color-primary-"+$j}: get-color-value($color);
+    }
+  }
 }
 
-$themeColorList: (
-  #2196f3,
-  #f44336,
-  #9c27b0,
-  #4caf50,
-  #3f51b5,
-  #795548,
-  #607d8b,
-  #009688
-);
+
+// @for $i from 1 through length($themeColorList) {
+//   $color: nth($themeColorList, $i);
+//   .theme-#{$i} {
+//     opacity: 1;
+//     @include spread-theme-map(theme-primary-map($color));
+//   }
+// }
+
+@function get-color-value($color) {
+  @return #{red($color)}, #{green($color)}, #{blue($color)};
+}
 
 @for $i from 1 through length($themeColorList) {
   $color: nth($themeColorList, $i);
+  $result: generate($color);
+  $light-palette: map.get($result, "light");
+  $dark-palette: map.get($result, "dark");
   .theme-#{$i} {
     opacity: 1;
-    @include spread-theme-map(theme-primary-map($color));
+    @for $j from 1 through length($light-palette) {
+      $color: nth($light-palette, $j);
+      #{"--color-primary-"+$j}: get-color-value($color);
+    }
+  }
+
+  .dark .theme-#{$i} {
+    opacity: 1;
+    @for $j from 1 through length($dark-palette) {
+      $color: nth($dark-palette, $j);
+      #{"--color-primary-"+$j}: get-color-value($color);
+    }
   }
 }

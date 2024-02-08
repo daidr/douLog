@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import mediumZoom from 'medium-zoom'
 import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
-import '~~/article-gadgets/mdx-github-card/style.scss'
-import './hljs-light.scss'
+import '~~/article-gadgets/mdx-github-card/style.less'
+import './hljs-light.less'
 
 const props = defineProps<{
   articleHtml: string

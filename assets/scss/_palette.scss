@@ -1,0 +1,129 @@
+@use "sass:list";
+@use "sass:map";
+@import "tinycolor";
+
+$hue-step: 2;
+$saturation-step1: 12;
+$saturation-step2: 6;
+$brightness-step1: 5;
+$brightness-step2: 14;
+$light-color-count: 5;
+$dark-color-count: 4;
+
+@function calc-hue($h, $index, $light) {
+    $hue: 0;
+
+    @if round($h) >=60 and round($h) <=240 {
+        @if $light {
+            $hue: round($h) - $hue-step * $index;
+        } @else {
+            $hue: round($h) + $hue-step * $index;
+        }
+    } @else {
+        @if $light {
+            $hue: round($h) + $hue-step * $index;
+        } @else {
+            $hue: round($h) - $hue-step * $index;
+        }
+    }
+
+    @if $hue < 0 {
+        $hue: $hue + 360;
+    } @else if $hue >=360 {
+        $hue: $hue - 360;
+    }
+
+    @return $hue;
+}
+
+@function calc-saturation($h, $s, $index, $light) {
+    $saturation: 0;
+
+    @if $h ==0 and $s ==0 {
+        @return $s;
+    }
+
+    @if $light {
+        $saturation: $s - $saturation-step1 * $index;
+    } @else if $index ==$dark-color-count {
+        $saturation: $s + $saturation-step1;
+    } @else {
+        $saturation: $s + $saturation-step2 * $index;
+    }
+
+    @if $saturation >100 {
+        $saturation: 100;
+    }
+
+    @if $light and $index == light-color-count and $saturation >10 {
+        $saturation: 6;
+    }
+
+    @if $saturation < 10 {
+        $saturation: 10;
+    }
+
+    @return round($saturation);
+}
+
+@function calc-value($v, $index, $light) {
+    $value: 0;
+
+    @if $light {
+        $value: $v + $brightness-step1 * $index;
+    } @else {
+        $value: $v - $brightness-step2 * $index;
+    }
+
+    @if $value >100% {
+        $value: 100%;
+    }
+
+    @return round($value);
+}
+
+@function generate($theme-color) {
+    $patterns: ();
+    $dark-patterns: ();
+    $hsv: ch-color-to-hsv($theme-color);
+    $h: list.nth($hsv, 1);
+    $s: list.nth($hsv, 2);
+    $v: list.nth($hsv, 3);
+
+    // generate light color
+    @for $i from $light-color-count through 1 {
+        $final-hue: round(calc-hue($h, $i, true));
+        $final-saturation: calc-saturation($h, $s, $i, true);
+        $final-value: calc-value($v, $i, true);
+        $color: ch-hsv-to-color($final-hue, $final-saturation, $final-value);
+        $patterns: append($patterns, $color);
+    }
+
+    // append original color
+    $patterns: append($patterns, $theme-color);
+
+    // generate dark color
+    @for $i from 1 through $dark-color-count {
+        $final-hue: round(calc-hue($h, $i, false));
+        $final-saturation: calc-saturation($h, $s, $i, false);
+        $final-value: calc-value($v, $i, false);
+        $color: ch-hsv-to-color($final-hue, $final-saturation, $final-value);
+        $patterns: append($patterns, $color);
+    }
+
+    $total: $dark-color-count + $light-color-count + 1;
+    // dark theme patterns
+    @for $i from 1 through $total {
+        $hsv: ch-color-to-hsv(list.nth($patterns, $total - $i + 1));
+        $h: list.nth($hsv, 1);
+        $s: list.nth($hsv, 2);
+        $v: list.nth($hsv, 3);
+        $color: ch-hsv-to-color($h, $s * 0.92, min($v + 1%, 100%));
+        $dark-patterns: append($dark-patterns, $color);
+    }
+
+    @return (
+        light: $patterns,
+        dark: $dark-patterns
+    );
+}
