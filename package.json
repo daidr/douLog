@@ -42,7 +42,6 @@
     "jsdom": "^24.0.0",
     "langchain": "^0.1.16",
     "lint-staged": "^15.2.2",
-    "node-fetch-native": "^1.6.2",
     "nuxt": "^3.10.1",
     "qs": "^6.11.2",
     "sass": "^1.70.0",

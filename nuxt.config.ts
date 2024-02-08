@@ -222,5 +222,11 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [],
+    vue: {
+      template: {
+        compilerOptions: {
+        },
+      },
+    },
   },
 })

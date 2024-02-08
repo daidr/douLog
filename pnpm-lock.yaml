@@ -94,9 +94,6 @@ devDependencies:
   lint-staged:
     specifier: ^15.2.2
     version: 15.2.2
-  node-fetch-native:
-    specifier: ^1.6.2
-    version: 1.6.2
   nuxt:
     specifier: ^3.10.1
     version: 3.10.1(@types/node@20.11.16)(eslint@8.56.0)(rollup@4.9.6)(sass@1.70.0)(typescript@5.3.3)(vite@5.0.12)
@@ -3127,6 +3124,7 @@ packages:
     dependencies:
       is-glob: 4.0.3
       micromatch: 4.0.5
+      napi-wasm: 1.1.0
     dev: true
     bundledDependencies:
       - napi-wasm
@@ -8734,6 +8732,10 @@ packages:
     resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
+    dev: true
+
+  /napi-wasm@1.1.0:
+    resolution: {integrity: sha512-lHwIAJbmLSjF9VDRm9GoVOy9AGp3aIvkjv+Kvz9h16QR3uSVYH78PNQUnT2U4X53mhlnV2M7wrhibQ3GHicDmg==}
     dev: true
 
   /natural-compare-lite@1.4.0:

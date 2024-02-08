@@ -23,25 +23,28 @@ async function fetchList(page: number = 1) {
   return _articleList
 }
 
-const articles = await fetchList()
+const articles = shallowRef(await fetchList())
 
-if (articles.length < 10) {
+if (articles.value.length < 10) {
   isEnded.value = true
 }
 
 async function requestFetch() {
   if (isEnded.value || isFetching.value) return
-  const _articleList = await fetchList(articles.length / 10 + 1)
+  const _articleList = await fetchList(articles.value.length / 10 + 1)
   if (_articleList.length < 10) {
     isEnded.value = true
   }
-  articles.push(..._articleList)
+  articles.value.push(..._articleList)
+  triggerRef(articles)
 }
+
+const throttleRequestFetch = useThrottleFn(requestFetch, 100)
 
 const loadMoreRef = ref(null) as Ref<HTMLDivElement | null>
 
 useIntersectionObserver(loadMoreRef, async ([{ isIntersecting }]) => {
-  if (isIntersecting) requestFetch()
+  if (isIntersecting) throttleRequestFetch()
 })
 
 const toPrevTop = inject('toPrevTop') as () => void
@@ -123,15 +126,17 @@ const { t } = useI18n()
         :article="article"
         @click.prevent="onArticleItemClick(article.id)"
       />
-      <div
-        v-if="!isEnded"
-        ref="loadMoreRef"
-        class="load-more"
-        :class="{ disabled: isFetching }"
-        @click="requestFetch"
-      >
-        {{ isFetching ? '加载中...' : '加载更多' }}
-      </div>
+      <ClientOnly>
+        <div
+          v-if="!isEnded"
+          ref="loadMoreRef"
+          class="load-more"
+          :class="{ disabled: isFetching }"
+          @click="requestFetch"
+        >
+          {{ isFetching ? t('global.loading') : t('global.load_more') }}
+        </div>
+      </ClientOnly>
     </div>
   </div>
 </template>

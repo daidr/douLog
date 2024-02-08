@@ -5,7 +5,9 @@
     "en_name": "daidr",
     "desc": "Coding the world.",
     "blog_desc": "A front-end coder, enjoys trying various fun things.",
-    "blog_announcement": "My blog is under development🚧"
+    "blog_announcement": "My blog is under development🚧",
+    "loading": "Loading...",
+    "load_more": "Load More"
   },
   "TBD": "TBD",
   "layouts": {

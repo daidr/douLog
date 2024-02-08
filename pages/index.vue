@@ -95,18 +95,16 @@ function onAfterLeave(el) {
         <SiteMainNav />
       </div>
       <div ref="contentEl" class="content-wrapper">
-        <RouterView v-slot="{ Component }">
-          <transition
-            :css="false"
-            :on-before-enter="onBeforeEnter"
-            :on-enter="onEnter"
-            :on-after-enter="onAfterEnter"
-            :on-leave="onLeave"
-            :on-after-leave="onAfterLeave"
-          >
-            <component :is="Component" />
-          </transition>
-        </RouterView>
+        <NuxtPage
+          :transition="{
+            css: false,
+            onBeforeEnter,
+            onEnter,
+            onAfterEnter,
+            onLeave,
+            onAfterLeave,
+          }"
+        />
       </div>
     </div>
   </div>

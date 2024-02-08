@@ -55,8 +55,6 @@ const ArticleSummaryCache = ref<string>('')
 provide('ArticleCacheId', ArticleCacheId)
 provide('ArticleCache', ArticleCache)
 provide('ArticleSummaryCache', ArticleSummaryCache)
-
-const nuxtApp = useNuxtApp()
 </script>
 
 <template>
@@ -90,19 +88,14 @@ const nuxtApp = useNuxtApp()
       </div>
 
       <div class="block-wrapper-group transition-extra-wrapper">
-        <!-- <NuxtPage /> -->
-        <RouterView v-slot="{ Component }">
-          <transition :css="false" mode="in-out">
-            <KeepAlive :exclude="['ArticlePage']">
-              <Suspense
-                @pending="nuxtApp.callHook('page:start')"
-                @resolve="nextTick(() => nuxtApp.callHook('page:finish'))"
-              >
-                <component :is="Component" />
-              </Suspense>
-            </KeepAlive>
-          </transition>
-        </RouterView>
+        <NuxtPage
+          :transition="{
+            css: false,
+            mode: 'in-out',
+          }" :keepalive="{
+            exclude: ['ArticlePage'],
+          }"
+        />
       </div>
     </div>
   </div>
