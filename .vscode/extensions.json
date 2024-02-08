@@ -3,7 +3,7 @@
         "vue.volar",
         "vue.vscode-typescript-vue-plugin",
         "esbenp.prettier-vscode",
-        "voorjaar.windicss-intellisense",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "antfu.unocss"
     ]
 }
