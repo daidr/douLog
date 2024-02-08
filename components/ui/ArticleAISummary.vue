@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import IconLightbulb from '~icons/uil/lightbulb-alt'
-import IconInfo from '~icons/uil/info-circle'
+import IconLightbulb from '~icons/mingcute/bulb-line'
+import IconInfo from '~icons/mingcute/information-line'
 
 const props = defineProps<{
   articleId: number

@@ -40,12 +40,9 @@ devDependencies:
   '@commitlint/config-conventional':
     specifier: ^18.6.0
     version: 18.6.0
-  '@iconify-json/icon-park-outline':
-    specifier: ^1.1.15
-    version: 1.1.15
-  '@iconify-json/uil':
-    specifier: ^1.1.8
-    version: 1.1.8
+  '@iconify-json/mingcute':
+    specifier: ^1.1.16
+    version: 1.1.16
   '@nuxt/devtools':
     specifier: ^1.0.8
     version: 1.0.8(nuxt@3.10.1)(rollup@4.9.6)(vite@5.0.12)
@@ -2134,14 +2131,8 @@ packages:
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
     dev: true
 
-  /@iconify-json/icon-park-outline@1.1.15:
-    resolution: {integrity: sha512-jQbk/ETARyYPjX6HolkdjSLJHsNCfSBfYUqcUQLXYK/1tfuVnQsUdWG2IM2a7VBpxJtrK7r4n1iwPOFaZ5T46g==}
-    dependencies:
-      '@iconify/types': 2.0.0
-    dev: true
-
-  /@iconify-json/uil@1.1.8:
-    resolution: {integrity: sha512-zkWB8XImzb1gfi5kN9xAfDXF5OqzxbKvtZq9xRUplEWEJYOoDB1RpbbQpCwJQ41j8Nf0ag0LFJr++qhYmvxftQ==}
+  /@iconify-json/mingcute@1.1.16:
+    resolution: {integrity: sha512-iiVYjOPFyftzvBqN3cqYVfzuqSJL2n7vduX8UsmaaIB33EM6hKNJPntxVt700jHwyux/ibHsgUo8paeHBoxpWQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true

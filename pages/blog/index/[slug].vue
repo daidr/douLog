@@ -2,7 +2,7 @@
 import type { IArticleItem } from '~~/server/api/article/[id]'
 
 // import { isDev } from '~/utils/_'
-import IconTime from '~icons/icon-park-outline/time'
+import IconTime from '~icons/mingcute/calendar-2-line'
 
 definePageMeta({
   isInArticlePage: true,

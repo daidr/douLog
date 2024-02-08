@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDouSlackingStore } from '~/stores/dou-slacking'
-import MusicIcon from '~icons/uil/music-note'
+import MusicIcon from '~icons/mingcute/music-2-line'
 
 const { t } = useI18n()
 

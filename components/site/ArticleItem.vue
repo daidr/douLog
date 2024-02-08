@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IArticleListItem } from '~~/server/api/articles'
-import IconEye from '~icons/icon-park-outline/preview-open'
-import IconComment from '~icons/icon-park-outline/comment'
+import IconEye from '~icons/mingcute/eye-2-line'
+import IconComment from '~icons/mingcute/comment-line'
 
 defineProps<{ article: IArticleListItem }>()
 </script>

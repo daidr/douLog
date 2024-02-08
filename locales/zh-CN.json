@@ -28,10 +28,11 @@
   "social": {
     "rss": "RSS",
     "github": "GitHub",
-    "twitter": "Twitter",
+    "twitter": "X (以前的 Twitter)",
     "xlog": "xLog",
     "sponsor": "赞助",
-    "travelling": "开往"
+    "travelling": "开往",
+    "bilibili": "哔哩哔哩"
   },
   "friends": {
     "travelling": "开往",

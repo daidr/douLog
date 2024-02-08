@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import IconBear from '~icons/icon-park-outline/bear'
-import IconWrite from '~icons/icon-park-outline/write'
-import IconNoteBook from '~icons/icon-park-outline/notebook'
-import IconExperimentOne from '~icons/icon-park-outline/experiment-one'
+import IconBear from '~icons/mingcute/bear-line'
+import IconWrite from '~icons/mingcute/pencil-line'
+import IconNoteBook from '~icons/mingcute/contacts-3-line'
+import IconExperimentOne from '~icons/mingcute/flask-line'
 
 defineProps({
   hideSet: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconArrowUp from '~icons/uil/arrow-up'
+import IconArrowUp from '~icons/mingcute/up-fill'
 
 const props = defineProps<{
   showProcess: boolean
@@ -66,7 +66,7 @@ if (props.showProcess && props.boundingEl) {
             :radius="16"
           />
         </svg>
-        <IconArrowUp />
+        <IconArrowUp width="1.5rem" height="1.5rem" />
       </div>
     </div>
   </Transition>

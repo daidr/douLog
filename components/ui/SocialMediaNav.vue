@@ -1,10 +1,10 @@
 <script setup>
-import IconRss from '~icons/uil/rss'
-import IconChannel from '~icons/uil/channel'
-import IconTwitter from '~icons/icon-park-outline/twitter'
-import IconGithub from '~icons/icon-park-outline/github-one'
-import IconHeart from '~icons/uil/heart'
-import IconSubway from '~icons/uil/subway'
+import IconRss from '~icons/mingcute/rss-2-line'
+import IconBilibili from '~icons/mingcute/tv-2-line'
+import IconTwitter from '~icons/mingcute/social-x-line'
+import IconGithub from '~icons/mingcute/github-line'
+import IconHeart from '~icons/mingcute/heart-line'
+import IconSubway from '~icons/mingcute/train-3-line'
 
 const { t } = useI18n()
 
@@ -25,9 +25,9 @@ const urls = [
     name: t('social.twitter'),
   },
   {
-    url: 'https://daidr.xlog.app',
-    icon: IconChannel,
-    name: t('social.xlog'),
+    url: 'https://space.bilibili.com/28124496',
+    icon: IconBilibili,
+    name: t('social.bilibili'),
   },
   {
     url: 'https://sponsor.daidr.me',
