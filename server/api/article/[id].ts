@@ -1,12 +1,13 @@
 import qs from 'qs'
-import { replaceMediaCDN } from '~~/utils/mediaCDN'
-import minifyHtml from '~~/utils/minifyHtml'
 import hljs from 'highlight.js'
 
 import { JSDOM } from 'jsdom'
 import { decode } from 'html-entities'
-import { htmlToPureText } from '~/utils/stringify'
 import { defineCountableCachedEventHandler } from '../utils/countable-cache-handler'
+import { htmlToPureText } from '~/utils/stringify'
+import minifyHtml from '~~/utils/minifyHtml'
+import { replaceMediaCDN } from '~~/utils/mediaCDN'
+
 const { apiEntry } = useRuntimeConfig()
 
 export interface ICatalogItem {
@@ -36,7 +37,7 @@ export interface IArticleItem {
   date: string
 }
 
-const encodeHtmlAttr = (str: string) => {
+function encodeHtmlAttr(str: string) {
   return str
     .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
@@ -45,7 +46,7 @@ const encodeHtmlAttr = (str: string) => {
     .replace(/>/g, '&gt;')
 }
 
-const preHandleArticleContent = (html: string) => {
+function preHandleArticleContent(html: string) {
   return (
     html
       // 修改script标签
@@ -64,18 +65,18 @@ const preHandleArticleContent = (html: string) => {
   )
 }
 
-const handleArticleHeading = (html: string) => {
+function handleArticleHeading(html: string) {
   const dom = new JSDOM(html)
   const { document } = dom.window
   let minTitleLevel = 6
   const title = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
   const titleList: ICatalogItem[] = []
-  title.forEach(item => {
+  title.forEach((item) => {
     const level = Number(item.tagName.replace('H', ''))
     if (level < minTitleLevel) minTitleLevel = level
   })
   let tagIndex = 0
-  title.forEach(item => {
+  title.forEach((item) => {
     const level = Number(item.tagName.replace('H', ''))
     const titleItem: ICatalogItem = {
       key: (item.id = `ah-${tagIndex++}`),
@@ -91,7 +92,7 @@ const handleArticleHeading = (html: string) => {
   }
 }
 
-const handleArticleCodeHighlight = (html: string) => {
+function handleArticleCodeHighlight(html: string) {
   const dom = new JSDOM(html)
   const { document } = dom.window
   // 获取所有 pre 标签
@@ -102,7 +103,7 @@ const handleArticleCodeHighlight = (html: string) => {
   )
   if (preList.length === 0) return html
   // 获取所有语言
-  const langList = preList.map(item => {
+  const langList = preList.map((item) => {
     const lang = /language-(\w*)/.exec(item.children[0].className) || []
     return lang[1]
   })
@@ -120,10 +121,10 @@ const handleArticleCodeHighlight = (html: string) => {
         language: lang,
         ignoreIllegals: true,
       })
-      preList[i].outerHTML =
-        `<div class="hljs-toolbar-wrapper"><pre class="hljs" lang="${lang}"><code class="hljs-code">` +
-        _result.value +
-        '</code></pre></div>'
+      preList[i].outerHTML
+        = `<div class="hljs-toolbar-wrapper"><pre class="hljs" lang="${lang}"><code class="hljs-code">${
+         _result.value
+         }</code></pre></div>`
     } else {
       preList[
         i
@@ -135,9 +136,9 @@ const handleArticleCodeHighlight = (html: string) => {
 }
 
 export default defineCountableCachedEventHandler(
-  async event => {
+  async (event) => {
     const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
-    if (isNaN(articleID)) {
+    if (Number.isNaN(articleID)) {
       throw createError({
         statusCode: 400,
         statusMessage: 'ID should be an integer',

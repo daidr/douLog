@@ -12,7 +12,7 @@ const title = computed(() =>
   t('layouts.title', { title: t(route.meta.title ?? 'TBD') }),
 )
 
-const randomBackground = useState('randomBackground', () => {
+const _randomBackground = useState('randomBackground', () => {
   const randomIndex = Math.floor(Math.random() * 2)
   return randomIndex
 })
@@ -20,10 +20,6 @@ const randomBackground = useState('randomBackground', () => {
 const UiBackgroundGeometric = defineAsyncComponent(() =>
   import('@/components/ui/Background/Geometric.vue'),
 )
-
-// const UiBackgroundLifeGame = defineAsyncComponent(() =>
-//   import('@/components/ui/Background/LifeGame.vue')
-// )
 </script>
 
 <template>

@@ -1,7 +1,8 @@
 import qs from 'qs'
+import { decode } from 'html-entities'
 import { replaceMediaCDN } from '~~/utils/mediaCDN'
 import { htmlToPureText } from '~/utils/stringify'
-import { decode } from 'html-entities'
+
 const { apiEntry } = useRuntimeConfig()
 
 export interface IArticleListItem {
@@ -22,11 +23,11 @@ export interface IArticleListItem {
 export type IArticleList = IArticleListItem[]
 
 export default cachedEventHandler(
-  async event => {
-    let page =
-      ((getQuery(event).page?.toString() || '1') as unknown as number) - 0
+  async (event) => {
+    let page
+      = ((getQuery(event).page?.toString() || '1') as unknown as number) - 0
 
-    if (isNaN(page) || page < 1) {
+    if (Number.isNaN(page) || page < 1) {
       page = 1
     }
 

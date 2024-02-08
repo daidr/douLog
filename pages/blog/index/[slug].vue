@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IArticleItem } from '~~/server/api/article/[id]'
+
 // import { isDev } from '~/utils/_'
 import IconTime from '~icons/icon-park-outline/time'
 
@@ -19,7 +20,7 @@ const ArticleSummaryCache = inject('ArticleSummaryCache') as Ref<string>
 
 const article = ref<IArticleItem | null>(null)
 
-if (`${ArticleCacheId.value}` == slug) {
+if (`${ArticleCacheId.value}` === slug) {
   article.value = ArticleCache.value
 } else {
   const { data: _article } = await useFetch<IArticleItem>(
@@ -151,11 +152,17 @@ const catalogList = computed(() => {
 })
 
 const activeTitleId = ref('')
-const setActiveTitle = (title: string | null) => {
+function setActiveTitle(title: string | null) {
   activeTitleId.value = title || ''
 }
 
 const showSidebar = computed(() => catalogList.value.length > 0)
+</script>
+
+<script lang="ts">
+export default {
+  name: 'ArticlePage',
+}
 </script>
 
 <template>
@@ -163,7 +170,9 @@ const showSidebar = computed(() => catalogList.value.length > 0)
     <main :class="{ 'sidebar-limit': showSidebar }">
       <div class="article-wrapper" :class="{ 'sidebar-limit': showSidebar }">
         <div class="header">
-          <div class="title">{{ article.title }}</div>
+          <div class="title">
+            {{ article.title }}
+          </div>
           <div class="details">
             <div class="time">
               <IconTime />
@@ -191,8 +200,7 @@ const showSidebar = computed(() => catalogList.value.length > 0)
           :href="`${article.link}#respond`"
           target="_blank"
           class="text-primary hover:underline"
-          >旧版博客</a
-        >留下评论
+        >旧版博客</a>留下评论
       </div>
     </main>
 
@@ -215,12 +223,6 @@ const showSidebar = computed(() => catalogList.value.length > 0)
     </ClientOnly>
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'ArticlePage',
-}
-</script>
 
 <style lang="scss" scoped>
 .content-wrapper {

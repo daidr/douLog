@@ -20,7 +20,9 @@ useHead({
       <div class="name">
         {{ t('global.name') }} <span>@{{ t('global.en_name') }}</span>
       </div>
-      <div class="motto">{{ t('global.desc') }}</div>
+      <div class="motto">
+        {{ t('global.desc') }}
+      </div>
       <UiSocialMediaNav class="socialmedia-wrapper" />
     </div>
   </UiCardWrapper>

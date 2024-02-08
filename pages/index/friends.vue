@@ -4,13 +4,12 @@ import { shuffle } from '@/utils/_'
 import IconSubway from '~icons/uil/subway'
 
 const FriendsListShuffled = useState('FriendsListShuffled', () =>
-  shuffle(FriendsList),
-)
+  shuffle(FriendsList))
 
 const showTopShadow = ref(false)
 const showBottomShadow = ref(true)
 
-const onScroll = e => {
+function onScroll(e) {
   const { scrollTop, scrollHeight, clientHeight } = e.target
   showTopShadow.value = scrollTop > 3
   showBottomShadow.value = scrollHeight - scrollTop > clientHeight
@@ -27,10 +26,10 @@ useHead({
   <UiCardWrapper>
     <div class="friends-overflow-container">
       <Transition name="fade">
-        <div v-if="showTopShadow" class="top-shadow"></div>
+        <div v-if="showTopShadow" class="top-shadow" />
       </Transition>
       <Transition name="fade">
-        <div v-if="showBottomShadow" class="bottom-shadow"></div>
+        <div v-if="showBottomShadow" class="bottom-shadow" />
       </Transition>
       <div class="friends-container y-scroll-box" @scroll.passive="onScroll">
         <a

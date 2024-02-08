@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
-import { IArticleItem } from '~/server/api/article/[id]'
+import type { IArticleItem } from '~/server/api/article/[id]'
 
 const { t } = useI18n()
 
@@ -23,14 +23,14 @@ const isInArticlePage = computed(() => route.meta.isInArticlePage)
 
 const articleScrollTop = ref(0)
 
-const setArticleScrollTop = () => {
-  articleScrollTop.value =
-    document.querySelector('.articles-page-wrapper')?.scrollTop || 0
+function setArticleScrollTop() {
+  articleScrollTop.value
+    = document.querySelector('.articles-page-wrapper')?.scrollTop || 0
 }
 
 provide('setArticleScrollTop', setArticleScrollTop)
 
-const toTop = () => {
+function toTop() {
   document.querySelector('.articles-page-wrapper')?.scrollTo({
     top: 0,
     behavior: 'auto',
@@ -39,7 +39,7 @@ const toTop = () => {
 
 provide('toTop', toTop)
 
-const toPrevTop = () => {
+function toPrevTop() {
   document.querySelector('.articles-page-wrapper')?.scrollTo({
     top: articleScrollTop.value,
     behavior: 'auto',

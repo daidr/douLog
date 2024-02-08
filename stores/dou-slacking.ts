@@ -9,7 +9,7 @@ enum IconType {
   point = 'point',
 }
 
-type statsData = {
+interface statsData {
   idle: boolean
   update: number
   text: string
@@ -20,7 +20,7 @@ type statsData = {
   media_total: string
 }
 
-type mediaInfo = {
+interface mediaInfo {
   thumbnail: string
   title: string
   artist: string
@@ -59,7 +59,7 @@ export const useDouSlackingStore = defineStore('dou-slacking', () => {
         connected.value = false
       }
       source.addEventListener('count', ({ data }) => {
-        connectionCount.value = parseInt(data)
+        connectionCount.value = Number.parseInt(data)
       })
       source.addEventListener('media', ({ data }) => {
         const payload = JSON.parse(data)

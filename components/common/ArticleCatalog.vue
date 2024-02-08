@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
 import type { ICatalogItem } from '~/server/api/article/[id]'
+
 const props = defineProps<{
   catalog: ICatalogItem[]
   activeTitle: string
@@ -10,7 +11,7 @@ const catalogRef = reactive({} as Record<string, HTMLDivElement>)
 // 激活的标题改变时，将容器滚动，使得其刚好位于目录容器的中间位置
 watch(
   () => props.activeTitle,
-  val => {
+  (val) => {
     if (val && catalogRef[val]) {
       if (!catalogContainerRef.value) return
       const itemTop = catalogRef[val].offsetTop
@@ -24,7 +25,9 @@ watch(
 
 <template>
   <CommonArticleSideItem>
-    <template #title>目录</template>
+    <template #title>
+      目录
+    </template>
     <template #default>
       <div ref="catalogContainerRef" class="catalog-content">
         <div
@@ -38,7 +41,7 @@ watch(
           class="item-container"
           :class="{ active: activeTitle === item.key }"
         >
-          <a :class="['level-' + item.level]" :href="'#' + item.key">{{
+          <a :class="[`level-${item.level}`]" :href="`#${item.key}`">{{
             item.title
           }}</a>
         </div>

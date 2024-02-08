@@ -1,12 +1,12 @@
 <script setup>
-import { forceReflow } from '@/utils/_'
 import { reactive, ref } from 'vue'
+import { forceReflow } from '@/utils/_'
 
-const toggleDecoration = show => {
+function toggleDecoration(show) {
   document.body.classList[show ? 'remove' : 'add']('hide-extra-wrapper')
 }
 
-const getTransitionContainer = el => {
+function getTransitionContainer(el) {
   const containerClass = 'transition-page-wrapper'
   // 如果el不是元素，直接返回
   if (!el || !el.classList) {
@@ -23,7 +23,7 @@ const getTransitionContainer = el => {
       return child
     } else {
       const _child = getTransitionContainer(child)
-      if (_child != child) {
+      if (_child !== child) {
         return _child
       }
     }
@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
 
     writeBound(_loadingEl, _toWrapperStyle)
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      if (_slotEl && _slotEl.nodeName != '#comment') {
+      if (_slotEl && _slotEl.nodeName !== '#comment') {
         writeBound(_slotEl, _fromWrapperStyle)
         _fromWrapperStyle.set = true
         toAnimationWithoutAnimation(_slotEl, _toWrapperStyle, _fromWrapperStyle)
@@ -75,7 +75,7 @@ router.beforeEach((to, from, next) => {
         _toWrapperStyle,
       )
     } else {
-      if (_slotEl && _slotEl.nodeName != '#comment') {
+      if (_slotEl && _slotEl.nodeName !== '#comment') {
         writeBound(_slotEl, _fromWrapperStyle)
         _fromWrapperStyle.set = true
         toAnimation(_slotEl, _toWrapperStyle, _fromWrapperStyle)
@@ -96,7 +96,7 @@ router.afterEach((to, from) => {
     return
   }
   clearTimeout(TIMER)
-  if (!firstTime && to.path == from.path) {
+  if (!firstTime && to.path === from.path) {
     return
   }
   if (firstTime && enableTransition.value === true) {
@@ -144,7 +144,7 @@ router.afterEach((to, from) => {
   }
 })
 
-const fromAnimationWithoutAnimation = (el, fromBound) => {
+function fromAnimationWithoutAnimation(el, fromBound) {
   if (!fromBound.set) {
     el.style.opacity = '1'
     return
@@ -157,7 +157,7 @@ const fromAnimationWithoutAnimation = (el, fromBound) => {
   toggleDecoration(true)
 }
 
-const toAnimationWithoutAnimation = el => {
+function toAnimationWithoutAnimation(el) {
   el.style.opacity = 1
   SlotEl.value.classList.remove('transition-router')
   SlotEl.value.style.transitionDuration = ''
@@ -166,7 +166,7 @@ const toAnimationWithoutAnimation = el => {
   toggleDecoration(true)
 }
 
-const fromAnimation = (el, fromBound, selfBound, clear) => {
+function fromAnimation(el, fromBound, selfBound, clear) {
   if (!fromBound.set) {
     el.style.opacity = '1'
     return
@@ -182,7 +182,7 @@ const fromAnimation = (el, fromBound, selfBound, clear) => {
   el.style.setProperty('--un-scale-y', `${d.scaleY}`)
   el.style.opacity = '0'
   const scale = (d.scaleX + d.scaleY) / 2
-  el.style.borderRadius = fromBound.br / scale + 'px'
+  el.style.borderRadius = `${fromBound.br / scale}px`
   el.style.willChange = 'transform, border-radius, opacity'
 
   forceReflow()
@@ -205,8 +205,8 @@ const fromAnimation = (el, fromBound, selfBound, clear) => {
     let _event = null
     el.addEventListener(
       'transitionend',
-      (_event = ev => {
-        if (ev.target != el || ev.propertyName !== 'transform') return
+      (_event = (ev) => {
+        if (ev.target !== el || ev.propertyName !== 'transform') return
         el.removeEventListener('transitionend', _event)
         // 重置 style
         el.style.opacity = ''
@@ -220,7 +220,7 @@ const fromAnimation = (el, fromBound, selfBound, clear) => {
   }
 }
 
-const toAnimation = (el, toBound, selfBound, clear) => {
+function toAnimation(el, toBound, selfBound, clear) {
   el.style.opacity = 1
   el.classList.add('transition-router')
   el.style.transitionDuration = '1300ms'
@@ -233,15 +233,15 @@ const toAnimation = (el, toBound, selfBound, clear) => {
   el.style.setProperty('--un-scale-x', `${d.scaleX}`)
   el.style.setProperty('--un-scale-y', `${d.scaleY}`)
   const scale = (d.scaleX + d.scaleY) / 2
-  el.style.borderRadius = toBound.br / scale + 'px'
+  el.style.borderRadius = `${toBound.br / scale}px`
   el.style.opacity = 0
   if (clear) {
     // 监听动画结束
     let _event = null
     el.addEventListener(
       'transitionend',
-      (_event = ev => {
-        if (ev.target != el || ev.propertyName !== 'transform') return
+      (_event = (ev) => {
+        if (ev.target !== el || ev.propertyName !== 'transform') return
         // 移除监听
         el.removeEventListener('transitionend', _event)
         // 重置 style
@@ -261,11 +261,11 @@ const toAnimation = (el, toBound, selfBound, clear) => {
   }
 }
 
-const calcDelta = (prevBound, nextBound, nextMatrix3dStr) => {
+function calcDelta(prevBound, nextBound, nextMatrix3dStr) {
   const matrix3d = nextMatrix3dStr
     .replace(/matrix3d\(|\)/g, '')
     .split(',')
-    .map(v => parseFloat(v))
+    .map(v => Number.parseFloat(v))
   // 转换为 translate
   const nextTranslateX = matrix3d[12]
   const nextTranslateY = matrix3d[13]
@@ -290,14 +290,14 @@ const calcDelta = (prevBound, nextBound, nextMatrix3dStr) => {
   }
 }
 
-const writeBound = (el, boundObj) => {
+function writeBound(el, boundObj) {
   const elRect = el.getBoundingClientRect()
   boundObj.x = elRect.x
   boundObj.y = elRect.y
   boundObj.w = elRect.width
   boundObj.h = elRect.height
   const _style = getComputedStyle(el)
-  boundObj.br = parseFloat(_style.borderRadius.replace('px', ''))
+  boundObj.br = Number.parseFloat(_style.borderRadius.replace('px', ''))
   boundObj.t = _style.transform
 }
 
@@ -320,7 +320,7 @@ const toWrapperStyle = reactive({
   t: '',
 })
 
-const onBeforeEnter = el => {
+function onBeforeEnter(el) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return
   }
@@ -344,7 +344,7 @@ const onBeforeEnter = el => {
   toWrapper.remove()
 }
 
-const onEnter = (el, done) => {
+function onEnter(el, done) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     done()
     return
@@ -371,7 +371,7 @@ const onEnter = (el, done) => {
   el.style.setProperty('--un-scale-y', `${d.scaleY}`)
   el.style.opacity = '0'
   const scale = (d.scaleX + d.scaleY) / 2
-  el.style.borderRadius = fromWrapperStyle.br / scale + 'px'
+  el.style.borderRadius = `${fromWrapperStyle.br / scale}px`
   el.style.willChange = 'transform, border-radius, opacity'
 
   forceReflow()
@@ -394,7 +394,7 @@ const onEnter = (el, done) => {
   let _event = null
   el.addEventListener(
     'transitionend',
-    (_event = ev => {
+    (_event = (ev) => {
       if (ev.target === el && ev.propertyName === 'transform') {
         el.removeEventListener('transitionend', _event)
         done()
@@ -403,7 +403,7 @@ const onEnter = (el, done) => {
   )
 }
 
-const onAfterEnter = el => {
+function onAfterEnter(el) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return
   }
@@ -416,7 +416,7 @@ const onAfterEnter = el => {
   }
 }
 
-const onBeforeLeave = el => {
+function onBeforeLeave(el) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return
   }
@@ -428,7 +428,7 @@ const onBeforeLeave = el => {
   fromWrapperStyle.set = true
 }
 
-const onLeave = (el, done) => {
+function onLeave(el, done) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     done()
     return
@@ -456,14 +456,14 @@ const onLeave = (el, done) => {
     el.style.setProperty('--un-scale-x', `${d.scaleX}`)
     el.style.setProperty('--un-scale-y', `${d.scaleY}`)
     const scale = (d.scaleX + d.scaleY) / 2
-    el.style.borderRadius = toWrapperStyle.br / scale + 'px'
+    el.style.borderRadius = `${toWrapperStyle.br / scale}px`
     el.style.opacity = '0'
   })
 
   let _event = null
   el.addEventListener(
     'transitionend',
-    (_event = ev => {
+    (_event = (ev) => {
       if (ev.target === el && ev.propertyName === 'transform') {
         el.removeEventListener('transitionend', _event)
         done()
@@ -472,15 +472,13 @@ const onLeave = (el, done) => {
   )
 }
 
-const onAfterLeave = el => {
+function onAfterLeave() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     return
   }
   if (enableTransition.value) {
     toggleDecoration(true)
   }
-
-  // TODO: 不实现也没啥问题，因为动画结束后元素已经被移除了
 }
 </script>
 
@@ -499,10 +497,10 @@ const onAfterLeave = el => {
   </Transition>
   <div ref="LoadingEl" class="loading">
     <div class="loading-container">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div />
+      <div />
+      <div />
+      <div />
     </div>
   </div>
 </template>

@@ -1,8 +1,8 @@
-export const forceReflow = () => {
+export function forceReflow() {
   return document.body.offsetHeight
 }
 
-export const shuffle = (arr: any[]) => {
+export function shuffle(arr: any[]) {
   const newArr = [...arr]
   for (let i = newArr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -32,7 +32,7 @@ export function throttleAndDebounce(fn: Function, delay: number) {
   }
 }
 
-export const isDev = () => {
+export function isDev() {
   return process.env.NODE_ENV === 'development'
 }
 

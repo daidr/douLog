@@ -1,4 +1,4 @@
-export default defineNuxtPlugin(nuxtApp => {
+export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('app:mounted', () => {
     const i18n = nuxtApp.$i18n as any
     if (!i18n) return

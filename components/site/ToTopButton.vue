@@ -7,7 +7,7 @@ const props = defineProps<{
   boundingEl?: string
 }>()
 
-const toTop = () => {
+function toTop() {
   document.querySelector(props.scrollEl)?.scrollTo({
     top: 0,
     behavior: 'smooth',
@@ -17,7 +17,7 @@ const toTop = () => {
 const pathTotalLength = ref(148)
 const pathCurrentLength = ref(0)
 
-const setPathTotalLength = (length: number) => {
+function setPathTotalLength(length: number) {
   pathTotalLength.value = length
 }
 
@@ -30,13 +30,13 @@ if (props.showProcess && props.boundingEl) {
     document.querySelector(props.boundingEl) as HTMLElement,
   )
 
-  const scrollThrottle = useThrottleFn(newVal => {
+  const scrollThrottle = useThrottleFn((newVal) => {
     const totalHeight = height.value
-    const clientHeight =
-      document.querySelector(props.scrollEl)?.clientHeight || 0
+    const clientHeight
+      = document.querySelector(props.scrollEl)?.clientHeight || 0
 
-    pathCurrentLength.value =
-      (newVal / (totalHeight - clientHeight) + 1) * pathTotalLength.value
+    pathCurrentLength.value
+      = (newVal / (totalHeight - clientHeight) + 1) * pathTotalLength.value
     if (pathCurrentLength.value > pathTotalLength.value - 1) {
       pathCurrentLength.value = pathTotalLength.value - 1
     } else if (pathCurrentLength.value < 0) {

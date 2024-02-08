@@ -1,5 +1,5 @@
 <template>
-  <div class="bg"></div>
+  <div class="bg" />
 </template>
 
 <style scoped lang="scss">

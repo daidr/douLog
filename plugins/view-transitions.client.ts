@@ -1,5 +1,6 @@
 import { useRouter } from '#app/composables/router'
 import { defineNuxtPlugin } from '#app/nuxt'
+
 // import { wait } from '~~/utils/_'
 
 function getNavigationType(fromName: string, toName: string) {
@@ -14,7 +15,7 @@ function getNavigationType(fromName: string, toName: string) {
   return 'other'
 }
 
-export default defineNuxtPlugin(nuxtApp => {
+export default defineNuxtPlugin((nuxtApp) => {
   //   // TODO: 暂时禁用
   //   // TODO: 由于整个过渡的触发时机有问题，导致用户体验不是很好
   //   return
@@ -38,11 +39,11 @@ export default defineNuxtPlugin(nuxtApp => {
     }
 
     if (
-      to === from ||
-      to.matched.every(
+      to === from
+      || to.matched.every(
         (comp, index) =>
-          comp.components &&
-          comp.components?.default === from.matched[index]?.components?.default,
+          comp.components
+          && comp.components?.default === from.matched[index]?.components?.default,
       )
     ) {
       return
@@ -65,7 +66,6 @@ export default defineNuxtPlugin(nuxtApp => {
       document.querySelector('html')!.classList.add('list-to-post-page')
 
       if (_targetArticleItem) {
-        // @ts-ignore
         _targetArticleItem.classList.add('transition-active')
         targetArticleItem = _targetArticleItem
       }
@@ -76,12 +76,11 @@ export default defineNuxtPlugin(nuxtApp => {
       promise.then(() => {
         if (navigationType === 'post-page-to-list') {
           const slug = from.params.slug
-          const _targetArticleItem =
-            document.querySelector(`a.article-item[href='/blog/${slug}']`) ||
-            document.querySelector(`a.article-item`)
+          const _targetArticleItem
+            = document.querySelector(`a.article-item[href='/blog/${slug}']`)
+            || document.querySelector(`a.article-item`)
           document.querySelector('html')!.classList.add('post-page-to-list')
           if (_targetArticleItem) {
-            // @ts-ignore
             _targetArticleItem.classList.add('transition-active')
             targetArticleItem = _targetArticleItem
           }
@@ -96,10 +95,7 @@ export default defineNuxtPlugin(nuxtApp => {
     })
 
     transition.finished.finally(() => {
-      if (targetArticleItem) {
-        // @ts-ignore
-        targetArticleItem.classList.remove('transition-active')
-      }
+      targetArticleItem?.classList.remove('transition-active')
       document.querySelector('html')!.classList.remove('post-page-to-list')
       document.querySelector('html')!.classList.remove('list-to-post-page')
     })

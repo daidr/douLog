@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IArticleItem } from '~/server/api/article/[id]'
+import type { IArticleItem } from '~/server/api/article/[id]'
 import IconAlarm from '~icons/icon-park-outline/alarm'
 
 preloadRouteComponents('/blog/[id]')
@@ -11,16 +11,16 @@ definePageMeta({
 const isFetching = ref(false)
 const isEnded = ref(false)
 
-const fetchList = async (page: number = 1) => {
+async function fetchList(page: number = 1) {
   isFetching.value = true
-  const { data: _articleList } = await useFetch('/api/articles', {
+  const _articleList = await $fetch('/api/articles', {
     query: {
       page,
     },
   })
   isFetching.value = false
 
-  return _articleList.value!
+  return _articleList
 }
 
 const articles = await fetchList()
@@ -29,7 +29,7 @@ if (articles.length < 10) {
   isEnded.value = true
 }
 
-const requestFetch = async () => {
+async function requestFetch() {
   if (isEnded.value || isFetching.value) return
   const _articleList = await fetchList(articles.length / 10 + 1)
   if (_articleList.length < 10) {
@@ -44,7 +44,6 @@ useIntersectionObserver(loadMoreRef, async ([{ isIntersecting }]) => {
   if (isIntersecting) requestFetch()
 })
 
-const toTop = inject('toTop') as () => void
 const toPrevTop = inject('toPrevTop') as () => void
 const setArticleScrollTop = inject('setArticleScrollTop') as () => void
 
@@ -65,34 +64,33 @@ const ArticleCacheId = inject('ArticleCacheId') as Ref<number>
 const ArticleCache = inject('ArticleCache') as Ref<IArticleItem>
 const ArticleSummaryCache = inject('ArticleSummaryCache') as Ref<string>
 
-const onArticleItemClick = async (postId: number) => {
+async function onArticleItemClick(postId: number) {
   if (ArticleCacheId.value !== postId) {
     const timer = setTimeout(() => {
       isPrefetching.value = true
     }, 100)
 
-    const { data: article } = await useFetch<IArticleItem>(
+    const article = await $fetch<IArticleItem>(
       `/api/article/${postId}`,
     )
-    if (!article.value) {
+    if (!article) {
       clearTimeout(timer)
       isPrefetching.value = false
       navigateTo('/404', { replace: false })
       return
     }
-    const { data: summary } = await useFetch<string>(`/api/summary/${postId}`, {
+    const summary = await $fetch<string>(`/api/summary/${postId}`, {
       query: { cacheonly: '1' },
     })
-    ArticleSummaryCache.value = summary.value || 'no cache'
+    ArticleSummaryCache.value = summary || 'no cache'
     ArticleCacheId.value = postId
-    ArticleCache.value = article.value
+    ArticleCache.value = article
     clearTimeout(timer)
     isPrefetching.value = false
   }
   await nextTick()
 
   setArticleScrollTop()
-  // toTop()
   navigateTo(`/blog/${postId}`)
 }
 

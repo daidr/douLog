@@ -24,7 +24,7 @@ const loaded = ref(false)
 
 const noAnimation = ref(!!props.thumbnail)
 
-const onLoad = () => {
+function onLoad() {
   if (Date.now() - initTime < 10) {
     noAnimation.value = true
   }
@@ -56,13 +56,13 @@ const { stop } = useIntersectionObserver(
       :src="src"
       :alt="alt"
       @load="onLoad"
-    />
+    >
     <img
       v-if="thumbnail && !loaded"
       class="thumbnail"
       :src="thumbnail"
       :alt="alt"
-    />
+    >
   </div>
 </template>
 

@@ -15,7 +15,7 @@ export interface IGithubRepoInfo {
 }
 
 export default cachedEventHandler(
-  async event => {
+  async (event) => {
     const author = getRouterParam(event, 'author')
     const repo = getRouterParam(event, 'repo')
     try {
@@ -46,5 +46,5 @@ export default cachedEventHandler(
   {
     swr: true,
     maxAge: 60 * 10,
-  }
+  },
 )

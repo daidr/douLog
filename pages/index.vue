@@ -5,9 +5,7 @@ const containerEl = ref()
 const contentEl = ref()
 const MainMenuEl = ref()
 
-const route = useRoute()
-
-const onBeforeEnter = el => {
+function onBeforeEnter(el) {
   containerEl.value.dataset.type = 'spilt'
   el.style.transitionDuration = '0ms'
   el.style.setProperty('--un-rotate-y', '180deg')
@@ -15,13 +13,14 @@ const onBeforeEnter = el => {
   el.style.transitionDuration = ''
 }
 
-const onEnter = (el, done) => {
+function onEnter(el, done) {
   let _event = null
   MainMenuEl.value.addEventListener(
     'transitionend',
-    (_event = ev => {
-      if (ev.target != MainMenuEl.value || ev.propertyName !== 'transform')
+    (_event = (ev) => {
+      if (ev.target !== MainMenuEl.value || ev.propertyName !== 'transform') {
         return
+      }
       ev.stopPropagation()
       MainMenuEl.value.removeEventListener('transitionend', _event)
 
@@ -31,9 +30,10 @@ const onEnter = (el, done) => {
       const _time = Date.now()
       contentEl.value.addEventListener(
         'transitionend',
-        (__event = ev => {
-          if (ev.target != contentEl.value || ev.propertyName !== 'transform')
+        (__event = (ev) => {
+          if (ev.target !== contentEl.value || ev.propertyName !== 'transform') {
             return
+          }
           ev.stopPropagation()
           if (Date.now() - _time < 500) {
             return
@@ -46,20 +46,21 @@ const onEnter = (el, done) => {
   )
 }
 
-const onLeave = (el, done) => {
+function onLeave(el, done) {
   setTimeout(() => {
     done()
   }, 900)
 }
 
-const onAfterEnter = el => {
+function onAfterEnter(el) {
   containerEl.value.dataset.type = ''
   let _event = null
   MainMenuEl.value.addEventListener(
     'transitionend',
-    (_event = ev => {
-      if (ev.target != MainMenuEl.value || ev.propertyName !== 'transform')
+    (_event = (ev) => {
+      if (ev.target !== MainMenuEl.value || ev.propertyName !== 'transform') {
         return
+      }
       ev.stopPropagation()
       MainMenuEl.value.removeEventListener('transitionend', _event)
 
@@ -79,7 +80,7 @@ const onAfterEnter = el => {
   )
 }
 
-const onAfterLeave = el => {
+function onAfterLeave(el) {
   el.style.transitionDuration = '0ms'
   el.style.opacity = 0
   forceReflow()

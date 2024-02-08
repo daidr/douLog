@@ -46,8 +46,12 @@ if (summary.value === 'no cache') {
       <span>AI 文章摘要</span>
     </div>
     <div class="block-content">
-      <div v-if="isLoading">加载中...</div>
-      <div v-else>{{ summary }}</div>
+      <div v-if="isLoading">
+        加载中...
+      </div>
+      <div v-else>
+        {{ summary }}
+      </div>
     </div>
     <div class="tips">
       <div class="icon">
@@ -56,15 +60,11 @@ if (summary.value === 'no cache') {
       <div class="content">
         <div>
           灵感来自
-          <a href="https://xlog.app/" target="_blank"
-            ><img src="@/assets/images/xlog.svg" /> xLog</a
-          >
+          <a href="https://xlog.app/" target="_blank"><img src="@/assets/images/xlog.svg"> xLog</a>
         </div>
         <div>
           基于
-          <a href="https://chat.openai.com/" target="_blank"
-            ><img src="@/assets/images/openai.svg" /> ChatGPT</a
-          >
+          <a href="https://chat.openai.com/" target="_blank"><img src="@/assets/images/openai.svg"> ChatGPT</a>
         </div>
       </div>
     </div>

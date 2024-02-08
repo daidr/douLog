@@ -25,7 +25,9 @@ useHead({
             :key="section.sectionId"
             class="section-wrapper"
           >
-            <div class="title">{{ section.title }}</div>
+            <div class="title">
+              {{ section.title }}
+            </div>
             <UiXScrollBox class="projects-group">
               <a
                 v-for="project of section.projects"

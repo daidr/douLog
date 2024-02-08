@@ -17,8 +17,7 @@ defineProps<{ article: IArticleListItem }>()
             v-for="tag of article.tags.slice(0, 1)"
             :key="tag"
             class="tag-item"
-            >#{{ tag }}</span
-          >
+          >#{{ tag }}</span>
         </div>
         <div class="detail-item">
           <IconEye />

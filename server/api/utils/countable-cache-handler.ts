@@ -4,10 +4,10 @@ export const defineCountableCachedEventHandler: typeof cachedEventHandler = (
   ...args: Parameters<typeof cachedEventHandler>
 ) => {
   const originHandler = cachedEventHandler(...args)
-  return eventHandler(event => {
+  return eventHandler((event) => {
     const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
 
-    if (isNaN(articleID)) {
+    if (Number.isNaN(articleID)) {
       throw createError({
         statusCode: 400,
         statusMessage: 'ID should be an integer',

@@ -2,7 +2,7 @@
   <div class="side-nav-wrapper">
     <div v-if="$slots.title" class="title">
       <slot name="title" />
-      <div class="decoration"></div>
+      <div class="decoration" />
     </div>
 
     <slot />

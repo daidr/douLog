@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
 import mediumZoom from 'medium-zoom'
+import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
 import '~~/article-gadgets/mdx-github-card/style.scss'
 import './hljs-light.scss'
 
@@ -8,8 +8,12 @@ const props = defineProps<{
   articleHtml: string
 }>()
 
-const WARN_ICON =
-  '<svg xmlns="http://www.w3.org/2000/svg" class="mdui-icon" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a1 1 0 1 0 1 1a1 1 0 0 0-1-1Zm10.67 1.47l-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51a1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg>'
+const emit = defineEmits<{
+  (event: 'activeTitle', payload: string | null): void
+}>()
+
+const WARN_ICON
+  = '<svg xmlns="http://www.w3.org/2000/svg" class="mdui-icon" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a1 1 0 1 0 1 1a1 1 0 0 0-1-1Zm10.67 1.47l-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51a1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg>'
 
 const _articleHtml = computed(() => {
   return (
@@ -21,10 +25,6 @@ const _articleHtml = computed(() => {
       )
   )
 })
-
-const emit = defineEmits<{
-  (event: 'active-title', payload: string | null): void
-}>()
 
 const onScroll = throttleAndDebounce(checkActiveTitle, 100)
 
@@ -54,25 +54,25 @@ onMounted(() => {
 function injectCodeToolbar() {
   if (typeof window === 'undefined') return
   const codeBlocks = document.querySelectorAll('.hljs-toolbar-wrapper')
-  codeBlocks.forEach(item => {
+  codeBlocks.forEach((item) => {
     const toolbar = document.createElement('div')
     toolbar.className = 'code-toolbar'
     const copyBtn = document.createElement('div')
     copyBtn.className = 'code-copy-btn'
-    copyBtn.innerText = '复制'
+    copyBtn.textContent = '复制'
     let timer: NodeJS.Timeout
     copyBtn.addEventListener('click', () => {
       const text = item.children[0].textContent || ''
       navigator.clipboard.writeText(text)
       clearTimeout(timer)
-      copyBtn.innerText = '已复制'
+      copyBtn.textContent = '已复制'
       timer = setTimeout(() => {
-        copyBtn.innerText = '复制'
+        copyBtn.textContent = '复制'
       }, 1000)
     })
     const codeLangText = document.createElement('div')
     codeLangText.className = 'code-lang-text'
-    codeLangText.innerText = item.children[0].getAttribute('lang') || '❌'
+    codeLangText.textContent = item.children[0].getAttribute('lang') || '❌'
     toolbar.append(copyBtn)
     toolbar.append(codeLangText)
     item.append(toolbar)
@@ -89,7 +89,7 @@ function injectCustomPlugins() {
 function injectElement() {
   if (typeof window === 'undefined') return
   const elements = document.querySelectorAll('blog-dynamic-inject')
-  elements.forEach(item => {
+  elements.forEach((item) => {
     const element = item.getAttribute('data-element')
     item.append(document.createRange().createContextualFragment(element!))
     item.remove()
@@ -118,7 +118,7 @@ function checkActiveTitle() {
   const offsetHeight = articlePageWrapper!.scrollHeight
   const isBottom = Math.abs(scrollY + innerHeight - offsetHeight) < 1
   if (titles.length && isBottom) {
-    emit('active-title', titles[titles.length - 1].id)
+    emit('activeTitle', titles[titles.length - 1].id)
     return
   }
   for (let i = 0; i < titles.length; i++) {
@@ -126,7 +126,7 @@ function checkActiveTitle() {
     const nextTitle = titles[i + 1]
     const [isActive, id] = isTitleActive(i, title, nextTitle)
     if (isActive) {
-      emit('active-title', id)
+      emit('activeTitle', id)
       return
     }
   }
@@ -158,7 +158,7 @@ function bindImageViewer() {
   {
     // 如果img标签外层有a标签，则去除a标签
     const images = document.querySelectorAll('.blog-article-wrapper img')
-    images.forEach(img => {
+    images.forEach((img) => {
       if (img.parentElement?.tagName.toLowerCase() === 'a') {
         img.parentElement.replaceWith(img)
       }
@@ -182,7 +182,7 @@ function bindImageViewer() {
     ref="ArticleContentWrapperRef"
     class="blog-article-wrapper"
     v-html="_articleHtml"
-  ></article>
+  />
 </template>
 
 <style lang="scss" scoped>

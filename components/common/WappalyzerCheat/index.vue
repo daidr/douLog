@@ -14,5 +14,5 @@ useHead({
 </script>
 
 <template>
-  <div id="svelte-announcer" class="svelte-hello"></div>
+  <div id="svelte-announcer" class="svelte-hello" />
 </template>

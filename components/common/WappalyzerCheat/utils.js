@@ -1,3 +1,4 @@
+/* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
 ;(function () {
   if (!addEventListener.toString().includes('[native code]')) {

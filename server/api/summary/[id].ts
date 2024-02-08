@@ -35,7 +35,7 @@ async function segmentedSummary(
   const segments = await splitter.createDocuments([content])
 
   const results: string[] = await Promise.all(
-    segments.map(async segment => {
+    segments.map(async (segment) => {
       const prompt = `Summarize this in ${lang} language in less than ${returnLimit} characters: ${segment.pageContent}`
 
       const response = (await $fetch(
@@ -44,7 +44,7 @@ async function segmentedSummary(
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${openAIKey}`,
+            'Authorization': `Bearer ${openAIKey}`,
           },
           body: JSON.stringify({
             model: 'gpt-3.5-turbo',
@@ -84,9 +84,9 @@ export async function getSummary(content: string, lang: string = 'zh') {
   }
 }
 
-export default defineEventHandler(async event => {
+export default defineEventHandler(async (event) => {
   const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
-  if (isNaN(articleID)) {
+  if (Number.isNaN(articleID)) {
     return 'not found'
   }
 

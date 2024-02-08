@@ -44,7 +44,7 @@ function getPath(r: number, w: number, h: number, lineWidth: number) {
 }
 
 const computedPath = computed(() =>
-  getPath(props.radius, props.width, props.height, props.strokeWidth)
+  getPath(props.radius, props.width, props.height, props.strokeWidth),
 )
 
 const pathRef: Ref<SVGPathElement | null> = ref(null)
@@ -62,7 +62,7 @@ watch(
   },
   {
     immediate: true,
-  }
+  },
 )
 </script>
 

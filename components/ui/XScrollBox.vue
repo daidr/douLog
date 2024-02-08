@@ -2,7 +2,7 @@
 const showStartShadow = ref(false)
 const showEndShadow = ref(true)
 
-const onScroll = e => {
+function onScroll(e) {
   const { scrollLeft, scrollWidth, clientWidth } = e.target
   showStartShadow.value = scrollLeft > 0
   showEndShadow.value = scrollWidth - scrollLeft > clientWidth
@@ -12,13 +12,13 @@ const onScroll = e => {
 <template>
   <div class="x-overflow-box">
     <Transition name="fade">
-      <div v-if="showStartShadow" class="start-shadow"></div>
+      <div v-if="showStartShadow" class="start-shadow" />
     </Transition>
     <Transition name="fade">
-      <div v-if="showEndShadow" class="end-shadow"></div>
+      <div v-if="showEndShadow" class="end-shadow" />
     </Transition>
     <div class="x-scroll-container x-scroll-box" @scroll.passive="onScroll">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

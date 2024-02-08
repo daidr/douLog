@@ -77,7 +77,7 @@ onUnmounted(() => {
             :key="douSlackingStore.stats.icon"
             :src="`https://dou-slacking.daidr.me/public/icons/${douSlackingStore.stats.icon}`"
             :alt="douSlackingStore.stats.text"
-          />
+          >
         </template>
         <template v-else>
           <div>
@@ -98,13 +98,13 @@ onUnmounted(() => {
           {{ friendTimeString }}
         </p>
       </div>
-      <div v-if="douSlackingStore.stats.media_playing" class="split-line"></div>
+      <div v-if="douSlackingStore.stats.media_playing" class="split-line" />
       <div v-if="douSlackingStore.stats.media_playing" class="media-wrapper">
         <div class="thumbnail">
           <img
             v-if="douSlackingStore.mediaInfo.thumbnail"
             :src="douSlackingStore.mediaInfo.thumbnail"
-          />
+          >
           <div v-else>
             <MusicIcon />
           </div>
@@ -122,11 +122,11 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-      <div class="split-line"></div>
+      <div class="split-line" />
       <div>
         <p class="text-xs text-primary text-right">
           <span class="text-xs">{{ t('dou_slacking.local_time') }}</span>
-          <br />
+          <br>
           <b>{{ localTime }}</b>
         </p>
       </div>

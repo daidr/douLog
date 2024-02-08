@@ -22,11 +22,17 @@ useHead({
     </div>
     <div class="transition-page-wrapper">
       <div class="page-container">
-        <div class="title">404</div>
+        <div class="title">
+          404
+        </div>
         <div class="content">
-          <div class="text">页面走丢了，不过好在你可以：</div>
+          <div class="text">
+            页面走丢了，不过好在你可以：
+          </div>
           <div class="btn-group">
-            <RouterLink to="/" class="link-btn">去首页</RouterLink>
+            <RouterLink to="/" class="link-btn">
+              去首页
+            </RouterLink>
             <ClientOnly>
               <span v-if="showBackBtn" class="link-btn" @click="back()">
                 去上一页

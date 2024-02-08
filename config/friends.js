@@ -35,7 +35,7 @@ export const FriendsList = [
     color: '#696077',
   },
   {
-    name: "Troy's Blog",
+    name: 'Troy\'s Blog',
     motto: 'Troy 的星球',
     url: 'https://itroy.cc',
     avatar: 'itroy.cc.png',
@@ -49,7 +49,7 @@ export const FriendsList = [
     color: '#E6DCD1',
   },
   {
-    name: "YiQike's Blog",
+    name: 'YiQike\'s Blog',
     motto: '世界无限大.且行且珍惜',
     url: 'https://blog.mashiro.us',
     avatar: 'blog.mashiro.us.png',
@@ -203,7 +203,7 @@ export const FriendsList = [
     color: '#E3BF7D',
   },
   {
-    name: 'Mashirl’s Blog',
+    name: 'Mashirl\'s Blog',
     motto: '予 世界温柔以待 惟愿 时光静好',
     url: 'https://mashirl.com',
     avatar: 'mashirl.com.png',

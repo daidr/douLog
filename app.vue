@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { CONFIG } from '@/config/base'
 import { useDouSlackingStore } from './stores/dou-slacking'
-import { SPLASH_IMAGES } from './server/api/utils/splash-images'
+import { SPLASH_IMAGES } from './utils/splash-images'
+import { CONFIG } from '@/config/base'
 
 const themeColorList = [
   '#b1dafb',
@@ -21,7 +21,7 @@ provide('themeColor', themeColorList[randomThemeColorIndex.value])
 
 // client only
 if (!import.meta.env.SSR) {
-  document.body.classList.add('theme-' + (randomThemeColorIndex.value + 1))
+  document.body.classList.add(`theme-${randomThemeColorIndex.value + 1}`)
 }
 
 const { t } = useI18n()
@@ -71,7 +71,7 @@ useHead({
     },
     ...SPLASH_IMAGES,
   ],
-  titleTemplate: titleChunk => {
+  titleTemplate: (titleChunk) => {
     return titleChunk
       ? `${titleChunk} - ${t('global.site_name')}`
       : t('global.site_name')

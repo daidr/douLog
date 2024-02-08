@@ -16,7 +16,7 @@ defineProps({
 
 const sqrt2 = Math.sqrt(2)
 
-const path = (d: string) => {
+function path(d: string) {
   return `path('${d.replace(/\s+/g, ' ').trim()}')`
 }
 
@@ -33,7 +33,7 @@ const onClick = useThrottleFn(() => {
 <template>
   <div
     class="avatar"
-    :class="{ hoverable: hoverable }"
+    :class="{ hoverable }"
     :style="{
       '--custom-size': `${size}px`,
       '--custom-stroke': `${stroke}px`,
@@ -42,8 +42,8 @@ const onClick = useThrottleFn(() => {
         L -30 ${size / 2 / sqrt2 + size / 2}
         L ${(size / 2) * (1 - 1 / sqrt2)} ${size / 2 / sqrt2 + size / 2}
         A ${size / 2} ${size / 2} 0 0 0 ${
-          size - (size / 2) * (1 - 1 / sqrt2)
-        } ${size / 2 / sqrt2 + size / 2}
+        size - (size / 2) * (1 - 1 / sqrt2)
+      } ${size / 2 / sqrt2 + size / 2}
         L ${size + 30} ${size / 2 / sqrt2 + size / 2}
         L ${size + 30} -${size / 2}
         Z`),
@@ -62,7 +62,7 @@ const onClick = useThrottleFn(() => {
         :stroke-width="stroke"
         class="stroke-primary-light"
         fill="none"
-      ></circle>
+      />
     </svg>
     <Transition name="blur-fade" :duration="500">
       <div v-if="currentAvatarIndex === 0" class="avatar-0">
@@ -72,19 +72,19 @@ const onClick = useThrottleFn(() => {
         <img
           class="avatar-decoration avatar-decoration-1"
           src="/images/avatar_d1.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-2"
           src="/images/avatar_d2.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-3"
           src="/images/avatar_d3.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-4"
           src="/images/avatar_d4.png"
-        />
+        >
       </div>
       <div v-else-if="currentAvatarIndex === 1" class="avatar-1">
         <div class="avatar-image">
@@ -96,19 +96,19 @@ const onClick = useThrottleFn(() => {
         <img
           class="avatar-decoration avatar-decoration-1"
           src="/images/extra-avatar/amazed/avatar_d1.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-2"
           src="/images/extra-avatar/amazed/avatar_d2.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-3"
           src="/images/extra-avatar/amazed/avatar_d3.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-4"
           src="/images/extra-avatar/amazed/avatar_d4.png"
-        />
+        >
       </div>
       <div v-else-if="currentAvatarIndex === 2" class="avatar-2">
         <div class="avatar-image">
@@ -120,19 +120,19 @@ const onClick = useThrottleFn(() => {
         <img
           class="avatar-decoration avatar-decoration-1"
           src="/images/extra-avatar/sad/avatar_d1.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-2"
           src="/images/extra-avatar/sad/avatar_d2.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-3"
           src="/images/extra-avatar/sad/avatar_d3.png"
-        />
+        >
         <img
           class="avatar-decoration avatar-decoration-4"
           src="/images/extra-avatar/sad/avatar_d4.png"
-        />
+        >
       </div>
     </Transition>
   </div>
