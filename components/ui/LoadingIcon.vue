@@ -15,7 +15,7 @@
     @apply absolute top-1/2 left-1/2 z-1;
     @apply w-8 h-8 rounded-full;
     @apply bg-primary-light;
-    @apply shadow-xl shadow-primary/20;
+    @apply shadow-xl shadow-primary-shadow;
     @apply transform-gpu -translate-x-1/2 -translate-y-1/2;
   }
 

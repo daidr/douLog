@@ -1,7 +1,7 @@
 @use "sass:map";
 @import "palette";
 
-$themeColorList: (#0077fa, #f93920, #9e28b3, #3bb346, #6a3ac7, #f0b114, #6ea0b9, #18c4ad);
+$themeColorList: (#1a94ff, #e65235, #9e28b3, #3bb346, #6a3ac7, #a1887f, #6ea0b9, #4db6ac);
 
 :root {
   $color: nth($themeColorList, 1);

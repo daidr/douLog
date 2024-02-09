@@ -118,7 +118,7 @@ function onAfterLeave(el) {
 
   .index-page-container {
     @apply transform-gpu translate-z-200vh h-full;
-    @apply shadow-2xl shadow-primary/30;
+    @apply shadow-2xl shadow-primary-shadow;
     @apply rounded-8;
     @apply bg-white;
     @apply flex flex-col;
@@ -154,13 +154,13 @@ function onAfterLeave(el) {
 
     .main-menu-wrapper {
       @apply rounded-8;
-      @apply shadow-2xl shadow-primary/30;
+      @apply shadow-2xl shadow-primary-shadow;
       @apply transform-gpu -translate-y-4;
     }
 
     .content-wrapper {
       @apply rounded-8;
-      @apply shadow-2xl shadow-primary/30;
+      @apply shadow-2xl shadow-primary-shadow;
     }
   }
 }

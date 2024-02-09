@@ -24,6 +24,8 @@ export default defineConfig({
         8: withOpacityValue('--color-primary-8'),
         9: withOpacityValue('--color-primary-9'),
         10: withOpacityValue('--color-primary-10'),
+        DEFAULT: withOpacityValue('--color-primary-6'),
+        shadow: withOpacityValue('--color-primary-1'),
       },
       // black: withOpacityValue('--color-black'),
       // white: withOpacityValue('--color-white'),

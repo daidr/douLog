@@ -146,7 +146,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
   .header-wrapper {
     @apply sm:rounded-8 bg-white select-none;
     @apply flex flex-col p-3 md:p-5;
-    @apply shadow-2xl shadow-primary/30;
+    @apply shadow-2xl shadow-primary-shadow;
     @apply z-90 translate-z-150vh;
     view-transition-name: main-header;
 

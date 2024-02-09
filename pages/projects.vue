@@ -92,7 +92,7 @@ useHead({
     @apply flex justify-center space-x-3;
     @apply py-5 w-full sm:w-auto px-5;
     @apply select-none;
-    @apply shadow-2xl shadow-primary/30;
+    @apply shadow-2xl shadow-primary-shadow;
     @apply z-90 translate-z-150vh;
   }
 
@@ -104,7 +104,7 @@ useHead({
     .block-wrapper {
       @apply bg-white px-5 md:px-8 py-8 w-full;
       @apply rounded-8;
-      @apply shadow-2xl shadow-primary/30;
+      @apply shadow-2xl shadow-primary-shadow;
       @apply space-y-8;
 
       .section-wrapper {
@@ -145,7 +145,7 @@ useHead({
             }
 
             &:hover {
-              @apply shadow-lg shadow-primary/10;
+              @apply shadow-lg shadow-primary-shadow/50;
               @apply border-1 border-primary/30;
               @apply -translate-y-2;
             }

@@ -40,10 +40,10 @@ useHead({
   .name {
     @apply text-2xl;
     @apply mt-11;
-    @apply text-primary/80 font-bold;
+    @apply text-primary font-bold;
 
     span {
-      @apply text-lg font-normal text-primary/50;
+      @apply text-lg font-normal text-primary;
     }
   }
 

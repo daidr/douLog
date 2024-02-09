@@ -3,10 +3,10 @@
 @import "tinycolor";
 
 $hue-step: 2;
-$saturation-step1: 12;
-$saturation-step2: 6;
+$saturation-step1: 11;
+$saturation-step2: 5;
 $brightness-step1: 5;
-$brightness-step2: 14;
+$brightness-step2: 12;
 $light-color-count: 5;
 $dark-color-count: 4;
 
@@ -59,8 +59,8 @@ $dark-color-count: 4;
         $saturation: 6;
     }
 
-    @if $saturation < 10 {
-        $saturation: 10;
+    @if $saturation < 7 {
+        $saturation: 7;
     }
 
     @return round($saturation);
@@ -75,8 +75,8 @@ $dark-color-count: 4;
         $value: $v - $brightness-step2 * $index;
     }
 
-    @if $value >100% {
-        $value: 100%;
+    @if $value > 95% {
+        $value: 95%;
     }
 
     @return round($value);

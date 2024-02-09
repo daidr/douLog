@@ -239,14 +239,14 @@ export default {
   .comments-wrapper {
     @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
     @apply sm:rounded-8 space-y-5;
-    @apply sm:shadow-2xl shadow-primary/30;
+    @apply sm:shadow-2xl shadow-primary-shadow;
     view-transition-name: article-comments;
   }
 
   .article-wrapper {
     @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
     @apply sm:rounded-8 space-y-5;
-    @apply sm:shadow-2xl shadow-primary/30;
+    @apply sm:shadow-2xl shadow-primary-shadow;
     view-transition-name: main-wrapper;
 
     word-wrap: break-word;

@@ -58,7 +58,7 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
 
 <style scoped lang="scss">
 .main-wrapper {
-  @apply bg-primary-light;
+  @apply bg-primary-2;
   @apply h-full;
   transform-style: preserve-3d;
   perspective-origin: 150% 150%;

@@ -219,7 +219,7 @@ onUnmounted(() => {
     @apply absolute mt-1 right-0 whitespace-nowrap p-2;
     @apply bg-white rounded-xl;
     @apply ring-primary-extralight ring-1;
-    @apply shadow-lg shadow-primary-extralight;
+    @apply shadow-lg shadow-primary-shadow;
     @apply opacity-0 transform-gpu translate-y-10 scale-140 blur-xl;
     @apply transition-all duration-500;
 

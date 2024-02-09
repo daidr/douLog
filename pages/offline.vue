@@ -54,7 +54,7 @@ useHead({
 
   .transition-page-wrapper {
     @apply bg-white w-full md:w-400px h-full;
-    @apply shadow-2xl shadow-primary/30;
+    @apply shadow-2xl shadow-primary-shadow;
     @apply rounded-8;
     @apply overflow-hidden;
 

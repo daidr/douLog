@@ -80,13 +80,13 @@ if (props.showProcess && props.boundingEl) {
   .to-top-button {
     @apply relative rounded-2xl bg-white w-12 h-12;
     @apply flex items-center justify-center text-2xl text-primary;
-    @apply shadow-md shadow-primary/5 cursor-pointer;
+    @apply shadow-md shadow-primary-shadow/80 cursor-pointer;
     @apply transition-all;
     @apply rounded-2xl;
     filter: drop-shadow(0 0 1px rgb(var(--color-primary-light)));
 
     &:hover {
-      @apply shadow-xl shadow-primary/15;
+      @apply shadow-xl shadow-primary-shadow;
       @apply bg-primary;
       @apply text-primary-extralight;
 
