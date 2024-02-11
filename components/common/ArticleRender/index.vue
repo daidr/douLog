@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import mediumZoom from 'medium-zoom'
 import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
-import '~~/article-gadgets/mdx-github-card/style.less'
-import './hljs-light.less'
+import '~~/article-gadgets/mdx-github-card/style.scss'
+import './hljs-light.scss'
+import './wp-block-gallery.scss'
 
 const props = defineProps<{
   articleHtml: string
@@ -308,16 +309,12 @@ article.blog-article-wrapper {
     @apply cursor-pointer;
   }
 
-  :deep(figure) {
+  :deep(.wp-block-image) {
     @apply m-0;
 
     img {
       @apply m-0;
     }
-  }
-
-  :deep(.wp-block-gallery.has-nested-images) {
-    @apply flex gap-2 flex-col sm:flex-row;
   }
 
   :deep(ol) {
