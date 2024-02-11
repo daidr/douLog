@@ -15,13 +15,11 @@ export const defineCountableCachedEventHandler: typeof cachedEventHandler = (
     }
 
     if ((event.node.req as any).__unenv__) {
-      try {
-        $fetch(`/wp-json/mdx-counter/v1/addcount/${articleID}`, {
-          baseURL: apiEntry,
-        })
-      } catch (error) {
-        /* empty */
-      }
+      $fetch(`/wp-json/mdx-counter/v1/addcount/${articleID}`, {
+        baseURL: apiEntry,
+      }).catch((error) => {
+        console.error(error)
+      })
     }
 
     return originHandler(event)
