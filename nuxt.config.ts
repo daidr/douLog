@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   experimental: {
     renderJsonPayloads: true,
+    appManifest: false,
   },
   app: {
     rootId: '__daidr_app',
