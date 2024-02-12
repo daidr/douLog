@@ -508,7 +508,7 @@ function onAfterLeave() {
 <style scoped lang="scss">
 .loading {
   @apply w-100px h-100px rounded-100px;
-  @apply bg-white;
+  @apply bg-light dark-bg-dark;
   @apply fixed top-1/2 left-1/2;
   @apply transform-gpu -translate-x-1/2 -translate-y-1/2 translate-z-200vh;
   @apply shadow-2xl general-shadow;
