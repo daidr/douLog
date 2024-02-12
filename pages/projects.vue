@@ -15,25 +15,14 @@ useHead({
         <SiteMainNav />
       </div>
       <div class="block-wrapper-group transition-extra-wrapper">
-        <div
-          v-for="block of BlockDefination"
-          :key="block.blockId"
-          class="block-wrapper"
-        >
-          <div
-            v-for="section of block.sections"
-            :key="section.sectionId"
-            class="section-wrapper"
-          >
+        <div v-for="block of BlockDefination" :key="block.blockId" class="block-wrapper">
+          <div v-for="section of block.sections" :key="section.sectionId" class="section-wrapper">
             <div class="title">
               {{ section.title }}
             </div>
             <UiXScrollBox class="projects-group">
               <a
-                v-for="project of section.projects"
-                :key="project.url"
-                class="project-wrapper"
-                :href="project.url"
+                v-for="project of section.projects" :key="project.url" class="project-wrapper" :href="project.url"
                 target="_blank"
               >
                 <div class="project-image">
@@ -59,8 +48,7 @@ useHead({
   @apply pb-18 md:pb-21;
 
   scrollbar-width: thin;
-  scrollbar-color: rgba(var(--color-primary), 0.8)
-    rgb(var(--color-primary-light));
+  scrollbar-color: rgba(var(--color-primary), 0.8) rgb(var(--color-primary-1));
 
   // 滚动条
   &::-webkit-scrollbar {
@@ -68,12 +56,12 @@ useHead({
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply bg-primary/80;
+    @apply bg-primary-5;
     @apply rounded-full;
   }
 
   &::-webkit-scrollbar-track {
-    @apply bg-primary-light;
+    @apply bg-primary-1;
     @apply rounded-full;
   }
 
@@ -88,11 +76,11 @@ useHead({
 
   .main-menu-wrapper {
     @apply rounded-8;
-    @apply bg-white;
+    @apply bg-light dark-bg-dark;
     @apply flex justify-center space-x-3;
     @apply py-5 w-full sm:w-auto px-5;
     @apply select-none;
-    @apply shadow-2xl shadow-primary-shadow;
+    @apply shadow-2xl general-shadow;
     @apply z-90 translate-z-150vh;
   }
 
@@ -102,34 +90,32 @@ useHead({
     @apply relative;
 
     .block-wrapper {
-      @apply bg-white px-5 md:px-8 py-8 w-full;
+      @apply bg-light dark-bg-dark px-5 md:px-8 py-8 w-full;
       @apply rounded-8;
-      @apply shadow-2xl shadow-primary-shadow;
+      @apply shadow-2xl general-shadow;
       @apply space-y-8;
 
       .section-wrapper {
         .title {
-          @apply text-primary/70 font-bold text-xl;
+          @apply text-primary-text font-bold text-xl;
           @apply pl-4 relative;
 
           &::before {
             content: '';
             @apply absolute top-0.5 bottom-0.5 left-0 w-1;
-            @apply bg-primary/70 rounded-full;
+            @apply bg-primary-text rounded-full;
           }
         }
 
         .projects-group {
-          :deep(.x-scroll-box) {
-            @apply flex space-x-3 overflow-auto py-3;
-          }
+          @apply flex space-x-3 overflow-auto py-3;
 
           .project-wrapper {
-            @apply p-2 rounded-3xl bg-white transition transform-gpu;
+            @apply p-2 rounded-3xl bg-primary-1/20 dark-bg-primary-1 transform-gpu;
             @apply w-266px;
-            @apply border-1 border-gray-200;
+            @apply border-1 border-gray-200 dark-border-gray-700;
             @apply cursor-pointer;
-            @apply duration-500;
+            @apply transition duration-500;
             transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
 
             .project-image {
@@ -137,7 +123,9 @@ useHead({
               @apply overflow-hidden;
               @apply rounded-2xl;
               @apply relative;
-              @apply border-1 border-gray-200;
+              @apply border-1 dark-border-gray-700;
+              @apply transition duration-500;
+              transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
 
               &:deep(.lazy-image) {
                 @apply h-auto min-h-full;
@@ -145,18 +133,22 @@ useHead({
             }
 
             &:hover {
-              @apply shadow-lg shadow-primary-shadow/50;
-              @apply border-1 border-primary/30;
+              @apply shadow-lg shadow-primary-shadow/30;
+              @apply border-1 border-primary-3 dark-border-primary-7;
               @apply -translate-y-2;
+
+              .project-image {
+                @apply border-1 border-primary-3 dark-border-primary-7;
+              }
             }
 
             .project-title {
-              @apply text-primary font-medium text-lg;
+              @apply text-primary dark-text-primary-8 font-medium text-lg;
               @apply mt-2 px-2;
             }
 
             .project-description {
-              @apply text-primary/70 text-sm;
+              @apply text-primary-4 dark-text-primary-7 text-sm;
               @apply px-2;
             }
           }

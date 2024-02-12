@@ -78,20 +78,20 @@ if (props.showProcess && props.boundingEl) {
   @apply lg:(bottom-20 right-20);
 
   .to-top-button {
-    @apply relative rounded-2xl bg-white w-12 h-12;
+    @apply relative rounded-2xl bg-light dark-bg-dark w-12 h-12;
     @apply flex items-center justify-center text-2xl text-primary;
-    @apply shadow-md shadow-primary-shadow/80 cursor-pointer;
+    @apply shadow-md general-shadow cursor-pointer;
     @apply transition-all;
     @apply rounded-2xl;
     filter: drop-shadow(0 0 1px rgb(var(--color-primary-light)));
 
     &:hover {
-      @apply shadow-xl shadow-primary-shadow;
+      @apply shadow-xl general-shadow;
       @apply bg-primary;
-      @apply text-primary-extralight;
+      @apply text-primary-1 dark-text-primary-9;
 
       & .process-bar path {
-        @apply stroke-primary-extralight;
+        @apply stroke-primary-1 dark-stroke-primary-9;
       }
     }
 

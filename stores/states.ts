@@ -13,12 +13,29 @@ export const useStatesStore = defineStore('states', () => {
   const randomThemeColorIndex = ref(
     Math.floor(Math.random() * themeColorList.value.length),
   )
+  const setRandomThemeColorIndex = (target: number) => {
+    randomThemeColorIndex.value = target
+  }
 
-  const themeColor = computed(() => themeColorList.value[randomThemeColorIndex.value])
+  const themeColor = computed(() => themeColorList.value[randomThemeColorIndex.value] || themeColorList.value[0])
+
+  const isDarkMode = ref(false)
+
+  const toggleDarkMode = () => {
+    isDarkMode.value = !isDarkMode.value
+  }
+
+  const setDarkMode = (value: boolean) => {
+    isDarkMode.value = value
+  }
 
   return {
     themeColor,
     randomThemeColorIndex,
-    themeColorList: readonly(themeColorList),
+    themeColorList,
+    isDarkMode,
+    toggleDarkMode,
+    setRandomThemeColorIndex,
+    setDarkMode,
   }
 })

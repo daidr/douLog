@@ -2,10 +2,10 @@
 @use "sass:map";
 @import "tinycolor";
 
-$hue-step: 2;
-$saturation-step1: 11;
+$hue-step: 1;
+$saturation-step1: 14;
 $saturation-step2: 5;
-$brightness-step1: 5;
+$brightness-step1: 6;
 $brightness-step2: 12;
 $light-color-count: 5;
 $dark-color-count: 4;
@@ -55,12 +55,12 @@ $dark-color-count: 4;
         $saturation: 100;
     }
 
-    @if $light and $index == light-color-count and $saturation >10 {
-        $saturation: 6;
+    @if $light and $index ==light-color-count and $saturation >10 {
+        $saturation: 10;
     }
 
-    @if $saturation < 7 {
-        $saturation: 7;
+    @if $saturation < 5 {
+        $saturation: 5;
     }
 
     @return round($saturation);
@@ -75,8 +75,8 @@ $dark-color-count: 4;
         $value: $v - $brightness-step2 * $index;
     }
 
-    @if $value > 95% {
-        $value: 95%;
+    @if $value >100% {
+        $value: 100%;
     }
 
     @return round($value);
@@ -112,18 +112,37 @@ $dark-color-count: 4;
     }
 
     $total: $dark-color-count + $light-color-count + 1;
+
     // dark theme patterns
     @for $i from 1 through $total {
         $hsv: ch-color-to-hsv(list.nth($patterns, $total - $i + 1));
         $h: list.nth($hsv, 1);
         $s: list.nth($hsv, 2);
         $v: list.nth($hsv, 3);
-        $color: ch-hsv-to-color($h, $s * 0.92, min($v + 1%, 100%));
+        $color: ch-hsv-to-color($h, $s * 0.6, min(max($v - 10%, 0%), 9% * $i));
+
         $dark-patterns: append($dark-patterns, $color);
     }
 
-    @return (
-        light: $patterns,
-        dark: $dark-patterns
-    );
+    @return (light: $patterns, dark: $dark-patterns);
+}
+
+@mixin color-palette($palette, $dark: false) {
+    opacity: 1;
+
+    @for $j from 1 through length($palette) {
+        $color: nth($palette, $j);
+        #{"--color-primary-"+$j}: get-color-value($color);
+    }
+
+    #{"--color-primary"}: if($dark, get-color-value(nth($palette, 6)), get-color-value(nth($palette, 5)));
+    #{"--color-primary-text"}: if($dark, get-color-value(nth($palette, 7)), get-color-value(nth($palette, 4)));
+    #{"--color-primary-shadow"}: if($dark, get-color-value(nth($palette, 3)), get-color-value(nth($palette, 1)));
+
+    // @if $dark {
+
+    // }
+    // @else {
+    //     #{"--color-primary-text"}: get-color-value(nth($palette, 4));
+    // }
 }

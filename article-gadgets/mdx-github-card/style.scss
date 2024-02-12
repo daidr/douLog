@@ -30,7 +30,7 @@
       }
 
       a {
-        @apply relative text-white/90;
+        @apply relative important-text-white/90;
         @apply underline-transparent;
         transition: text-decoration 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -54,7 +54,7 @@
     }
 
     .wp-block-mdx-github__homepage a {
-      @apply relative text-white/90;
+      @apply relative important-text-white/90;
       @apply underline-transparent;
 
       &:hover {
@@ -78,10 +78,10 @@
 
     .wp-block-mdx-github__link a {
       @apply absolute bottom-5 right-5 select-none text-lg md:text-xl;
-      @apply text-white/30;
+      @apply important-text-white/30;
 
       &:hover {
-        @apply text-white/50;
+        @apply important-text-white/50;
       }
     }
   }

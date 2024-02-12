@@ -10,55 +10,50 @@ function onScroll(e) {
 </script>
 
 <template>
-  <div class="x-overflow-box">
-    <Transition name="fade">
-      <div v-if="showStartShadow" class="start-shadow" />
-    </Transition>
-    <Transition name="fade">
-      <div v-if="showEndShadow" class="end-shadow" />
-    </Transition>
-    <div class="x-scroll-container x-scroll-box" @scroll.passive="onScroll">
-      <slot />
-    </div>
+  <div
+    class="x-scroll-container" :class="{
+      'start-shadow': showStartShadow,
+      'end-shadow': showEndShadow,
+    }" @scroll.passive="onScroll"
+  >
+    <slot />
   </div>
 </template>
 
 <style scoped lang="scss">
-.x-overflow-box {
-  @apply overflow-hidden relative;
+.x-scroll-container {
+  @apply overflow-x-auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--color-primary), 0.8) rgb(var(--color-primary-1));
 
-  .start-shadow {
-    @apply absolute left-0 top-0 bottom-2 w-6 z-10;
-    @apply bg-gradient-to-l from-transparent to-white;
-    @apply pointer-events-none;
+  --show-start-mask: 0;
+  --show-end-mask: 0;
+  --mask-size: 24px;
+  --gradient: linear-gradient(to right, transparent 0%, white calc(var(--show-start-mask) * var(--mask-size)), white calc(100% - calc(var(--mask-size)*var(--show-end-mask))), transparent 100%);
+  -webkit-mask: var(--gradient);
+  mask: var(--gradient);
+
+  &.start-shadow {
+    --show-start-mask: 1;
   }
 
-  .end-shadow {
-    @apply absolute right-0 top-0 bottom-2 w-6 z-10;
-    @apply bg-gradient-to-r from-transparent to-white;
-    @apply pointer-events-none;
+  &.end-shadow {
+    --show-end-mask: 1;
   }
 
-  .x-scroll-container {
-    @apply overflow-x-auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(var(--color-primary), 0.8)
-      rgb(var(--color-primary-light));
+  // 滚动条
+  &::-webkit-scrollbar {
+    @apply h-2;
+  }
 
-    // 滚动条
-    &::-webkit-scrollbar {
-      @apply h-1.5;
-    }
+  &::-webkit-scrollbar-thumb {
+    @apply bg-primary-5;
+    @apply rounded-full;
+  }
 
-    &::-webkit-scrollbar-thumb {
-      @apply bg-primary/80;
-      @apply rounded-full;
-    }
-
-    &::-webkit-scrollbar-track {
-      @apply bg-primary-light;
-      @apply rounded-full;
-    }
+  &::-webkit-scrollbar-track {
+    @apply bg-primary-1;
+    @apply rounded-full;
   }
 }
 </style>

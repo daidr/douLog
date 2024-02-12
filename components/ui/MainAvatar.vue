@@ -60,7 +60,7 @@ const onClick = useThrottleFn(() => {
         :cy="`${size / 2 + stroke}px`"
         :r="size / 2 + stroke / 2"
         :stroke-width="stroke"
-        class="stroke-primary-light"
+        class="stroke-primary-2 dark-stroke-primary-6"
         fill="none"
       />
     </svg>

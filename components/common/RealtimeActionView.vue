@@ -127,7 +127,7 @@ onUnmounted(() => {
         <p class="text-xs text-primary text-right">
           <span class="text-xs">{{ t('dou_slacking.local_time') }}</span>
           <br>
-          <b>{{ localTime }}</b>
+          <b class="important-font-mono">{{ localTime }}</b>
         </p>
       </div>
     </div>
@@ -155,8 +155,8 @@ onUnmounted(() => {
   .music-icon {
     @apply absolute z-11 -top-1 -right-1;
     @apply flex items-center justify-center;
-    @apply w-13px h-13px text-primary p-1px;
-    @apply bg-white rounded-full ring-1 ring-primary-light;
+    @apply w-13px h-13px text-primary-text p-1px;
+    @apply bg-light dark-bg-dark rounded-full ring-1 ring-primary-text;
   }
 
   .icon {
@@ -169,7 +169,7 @@ onUnmounted(() => {
 
     & > div {
       @apply flex items-center justify-center;
-      @apply bg-primary-light;
+      @apply bg-primary-2 dark-bg-primary-4;
     }
 
     &::before {
@@ -186,7 +186,7 @@ onUnmounted(() => {
       }
 
       &::before {
-        @apply rounded-lg text-primary-light;
+        @apply rounded-lg text-primary-2 dark-text-primary-7;
       }
     }
 
@@ -199,7 +199,7 @@ onUnmounted(() => {
       }
 
       &::before {
-        @apply rounded-full text-primary-light;
+        @apply rounded-full text-primary-2 dark-text-primary-7;
       }
     }
 
@@ -217,15 +217,15 @@ onUnmounted(() => {
   .tips {
     @apply pointer-events-none select-none;
     @apply absolute mt-1 right-0 whitespace-nowrap p-2;
-    @apply bg-white rounded-xl;
-    @apply ring-primary-extralight ring-1;
-    @apply shadow-lg shadow-primary-shadow;
+    @apply bg-light dark-bg-dark rounded-xl;
+    @apply ring-primary-1 dark-ring-primary-4 ring-1;
+    @apply shadow-lg general-shadow;
     @apply opacity-0 transform-gpu translate-y-10 scale-140 blur-xl;
     @apply transition-all duration-500;
 
     .split-line {
       @apply w-full h-2px my-2 rounded-3px;
-      @apply bg-primary-extralight;
+      @apply bg-primary-1 dark-bg-primary-3;
     }
   }
 
@@ -240,9 +240,9 @@ onUnmounted(() => {
     @apply flex;
 
     .thumbnail {
-      @apply bg-primary-medium text-white;
+      @apply bg-primary-4 text-white;
       @apply rounded-lg;
-      @apply border-3 border-primary-light;
+      @apply border-3 border-primary-1 dark-border-primary-2;
       img {
         @apply rounded-lg;
       }

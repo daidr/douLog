@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 <style lang="scss" scoped>
 p {
-  @apply text-sm text-right opacity-70;
+  @apply text-sm text-right;
 
   span {
     @apply font-bold;

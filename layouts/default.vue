@@ -27,22 +27,15 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
     <Head>
       <Title>{{ title }}</Title>
       <template v-for="link in head.link" :key="link.id">
-        <Link
-          :id="link.id"
-          :rel="link.rel"
-          :href="link.href"
-          :hreflang="link.hreflang"
-        />
+        <Link :id="link.id" :rel="link.rel" :href="link.href" :hreflang="link.hreflang" />
       </template>
       <template v-for="meta in head.meta" :key="meta.id">
         <Meta :id="meta.id" :property="meta.property" :content="meta.content" />
       </template>
     </Head>
+
     <Body>
       <div class="main-wrapper">
-        <DevOnly>
-          <DebugDevTrigger />
-        </DevOnly>
         <!-- <Component
       :is="
         randomBackground === 0 ? UiBackgroundGeometric : UiBackgroundLifeGame
@@ -51,6 +44,13 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
         <Component :is="UiBackgroundGeometric" />
         <slot />
         <SiteFooter />
+        <DevOnly>
+          <ClientOnly>
+            <Teleport to="body">
+              <DebugDevTrigger />
+            </Teleport>
+          </ClientOnly>
+        </DevOnly>
       </div>
     </Body>
   </Html>

@@ -227,6 +227,7 @@ export default {
 <style lang="scss" scoped>
 .content-wrapper {
   @apply w-full flex;
+  @apply text-dark dark-text-light;
 
   main {
     @apply w-full sm:space-y-5 <sm:mb-8;
@@ -237,30 +238,30 @@ export default {
   }
 
   .comments-wrapper {
-    @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
+    @apply bg-light dark-bg-dark px-5 py-5 md:px-8 md:py-8 w-full;
     @apply sm:rounded-8 space-y-5;
-    @apply sm:shadow-2xl shadow-primary-shadow;
+    @apply sm:shadow-2xl general-shadow;
     view-transition-name: article-comments;
   }
 
   .article-wrapper {
-    @apply bg-white px-5 py-5 md:px-8 md:py-8 w-full;
+    @apply bg-light dark-bg-dark px-5 py-5 md:px-8 md:py-8 w-full;
     @apply sm:rounded-8 space-y-5;
-    @apply sm:shadow-2xl shadow-primary-shadow;
+    @apply sm:shadow-2xl general-shadow;
     view-transition-name: main-wrapper;
 
     word-wrap: break-word;
 
     .title {
       @apply text-3xl md:text-4xl font-extrabold;
-      @apply text-primary;
+      @apply text-primary dark-text-primary-7;
       @apply mb-4;
       view-transition-name: article-title;
     }
 
     .details {
       @apply flex items-center space-x-2;
-      @apply text-sm text-primary-light;
+      @apply text-sm text-primary/50 dark-text-primary-7/70;
       @apply mb-4;
       view-transition-name: article-details;
 
@@ -273,7 +274,7 @@ export default {
       }
 
       .origin:hover {
-        @apply text-primary;
+        @apply text-primary dark-text-primary-7;
       }
     }
 

@@ -1,58 +1,23 @@
 @use "sass:map";
 @import "palette";
 
-$themeColorList: (#1a94ff, #e65235, #9e28b3, #3bb346, #6a3ac7, #a1887f, #6ea0b9, #4db6ac);
-
-:root {
-  $color: nth($themeColorList, 1);
-  $result: generate($color);
-  $light-palette: map.get($result, "light");
-  $dark-palette: map.get($result, "dark");
-
-  @for $j from 1 through length($light-palette) {
-    $color: nth($light-palette, $j);
-    #{"--color-primary-"+$j}: get-color-value($color);
-  }
-
-  &.dark {
-    @for $j from 1 through length($dark-palette) {
-      $color: nth($dark-palette, $j);
-      #{"--color-primary-"+$j}: get-color-value($color);
-    }
-  }
-}
-
-
-// @for $i from 1 through length($themeColorList) {
-//   $color: nth($themeColorList, $i);
-//   .theme-#{$i} {
-//     opacity: 1;
-//     @include spread-theme-map(theme-primary-map($color));
-//   }
-// }
+$theme-color-list: (#1879D6, #E33527, #9e28b3, #32a63d, #243ab5, #944E34, #5a8399, #1e9688);
 
 @function get-color-value($color) {
   @return #{red($color)}, #{green($color)}, #{blue($color)};
 }
 
-@for $i from 1 through length($themeColorList) {
-  $color: nth($themeColorList, $i);
-  $result: generate($color);
+@for $i from 1 through length($theme-color-list) {
+  $theme-color: nth($theme-color-list, $i);
+  $result: generate($theme-color);
   $light-palette: map.get($result, "light");
   $dark-palette: map.get($result, "dark");
-  .theme-#{$i} {
-    opacity: 1;
-    @for $j from 1 through length($light-palette) {
-      $color: nth($light-palette, $j);
-      #{"--color-primary-"+$j}: get-color-value($color);
-    }
-  }
 
-  .dark .theme-#{$i} {
-    opacity: 1;
-    @for $j from 1 through length($dark-palette) {
-      $color: nth($dark-palette, $j);
-      #{"--color-primary-"+$j}: get-color-value($color);
+  .theme-#{$i} {
+    @include color-palette($light-palette);
+
+    .dark & {
+      @include color-palette($dark-palette, true);
     }
   }
 }

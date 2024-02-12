@@ -11,12 +11,14 @@ function triggerPanel() {
 </script>
 
 <template>
-  <div
-    class="fixed top-5 right-5 z-9998 w-15 h-15 bg-white text-primary border-2 border-primary rounded-full flex items-center justify-center cursor-pointer select-none transform-gpu translate-z-202vh"
-    @click="triggerPanel"
-  >
-    {{ currentPanel === -1 ? 'DEV' : currentPanel === panelCount - 1 ? '⨉' : 'NEXT' }}
+  <div class="fixed z-9999">
+    <DebugPanelsControl v-if="currentPanel === 0" />
+    <DebugPanelsColors v-else-if="currentPanel === 1" />
+    <div
+      class="fixed top-5 right-5 w-15 h-15 bg-light dark-bg-dark text-primary border-2 border-primary rounded-full flex items-center justify-center cursor-pointer select-none text-center"
+      @click="triggerPanel"
+    >
+      {{ currentPanel === -1 ? 'DEV' : currentPanel === panelCount - 1 ? '⨉' : 'DEV\n ➡️' }}
+    </div>
   </div>
-  <DebugPanelsControl v-if="currentPanel === 0" />
-  <DebugPanelsColors v-else-if="currentPanel === 1" />
 </template>

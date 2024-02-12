@@ -39,7 +39,8 @@ defineProps<{ article: IArticleListItem }>()
 <style lang="scss" scoped>
 .article-item {
   @apply flex-col md:flex-row flex justify-between rounded-2xl p-2;
-  @apply border-gray-200/60 border-1;
+  @apply border-gray-200/60 dark-border-gray-700/60 border-1;
+  @apply dark-bg-primary-1/80;
   transition:
     border 0.5s linear,
     background-position-x 0.5s ease-out;
@@ -47,17 +48,27 @@ defineProps<{ article: IArticleListItem }>()
 
   background-image: linear-gradient(
     90deg,
-    rgba(var(--color-primary-extralight), 0.5) 0%,
-    rgba(var(--color-primary-extralight), 0.5) 45%,
+    rgba(var(--color-primary-1), 0.3) 0%,
+    rgba(var(--color-primary-1), 0.3) 45%,
     transparent 65%,
     transparent 100%
   );
+
+  .dark & {
+    background-image: linear-gradient(
+    90deg,
+    rgba(var(--color-primary-3), 0.5) 0%,
+    rgba(var(--color-primary-3), 0.5) 45%,
+    transparent 65%,
+    transparent 100%
+  );
+  }
 
   background-size: 300% 100%;
   background-position-x: 100%;
 
   &:hover {
-    @apply border-primary-light/80;
+    @apply border-primary-2 dark-border-primary-6;
     background-position-x: 0%;
   }
 
@@ -80,11 +91,11 @@ defineProps<{ article: IArticleListItem }>()
     @apply z-1;
 
     .title {
-      @apply text-2xl font-bold text-primary;
+      @apply text-2xl font-bold text-primary dark-text-primary-7;
     }
 
     .details {
-      @apply flex items-center text-primary-medium/80 text-sm space-x-3;
+      @apply flex items-center text-primary-4 dark-text-primary-6 text-sm space-x-3;
 
       .detail-item {
         @apply flex items-center space-x-1;
@@ -99,7 +110,7 @@ defineProps<{ article: IArticleListItem }>()
       }
     }
     .summary {
-      @apply mt-2 overflow-hidden text-ellipsis text-primary-medium/90;
+      @apply mt-2 overflow-hidden text-ellipsis text-primary-4/80 dark-text-primary-5;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;

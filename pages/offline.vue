@@ -53,8 +53,8 @@ useHead({
   @apply flex justify-between;
 
   .transition-page-wrapper {
-    @apply bg-white w-full md:w-400px h-full;
-    @apply shadow-2xl shadow-primary-shadow;
+    @apply bg-light dark-bg-dark w-full md:w-400px h-full;
+    @apply shadow-2xl general-shadow;
     @apply rounded-8;
     @apply overflow-hidden;
 
@@ -62,7 +62,7 @@ useHead({
       @apply w-full h-full flex flex-col items-center justify-center select-none;
 
       .title {
-        @apply text-7xl font-extrabold text-primary/70;
+        @apply text-7xl font-extrabold text-primary-text;
       }
 
       .content {
@@ -74,7 +74,7 @@ useHead({
 
         .link-btn {
           @apply text-base whitespace-nowrap;
-          @apply text-white bg-primary-medium;
+          @apply text-light dark-text-primary-10 bg-primary-5;
           @apply rounded-full relative;
           @apply cursor-pointer;
           @apply px-3 py-1.5;
@@ -83,7 +83,7 @@ useHead({
             content: '';
             @apply absolute -top-6px -left-6px -right-6px -bottom-6px -z-1;
             @apply rounded-full;
-            @apply border-4px border-primary-extralight;
+            @apply border-4px border-primary-1 dark-border-primary-3;
             @apply transition;
             @apply transform-gpu scale-50 opacity-0;
             @apply pointer-events-none;

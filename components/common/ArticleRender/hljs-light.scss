@@ -1,11 +1,16 @@
 .hljs {
-  @apply sm:border-2 border-primary-extralight;
-  @apply bg-primary-extralight/40;
+  @apply sm:border-2 border-primary-2 dark-border-primary-4;
+  @apply bg-primary-1/40 dark-bg-primary-2/80;
   @apply m-0 text-base;
   @apply rounded-none sm:rounded-2xl;
   @apply <sm:-mx-5 mt-2;
   & * {
-    font-family: Consolas, Monaco, monospace !important;
+    font-family: Consolas, Monaco, -apple-system,
+      BlinkMacSystemFont,
+      PingFang SC,
+      Hiragino Sans GB,
+      Microsoft YaHei,
+      sans-serif !important;
   }
 }
 
@@ -22,10 +27,10 @@
 .code-toolbar {
   @apply absolute top-1 right-1 text-base select-none;
   @apply flex items-center justify-end space-x-2;
-  @apply bg-white p-1;
+  @apply bg-light dark-bg-dark p-1;
   @apply rounded-xl;
   @apply transition-opacity opacity-0;
-  @apply border-1 border-primary-light;
+  @apply border-1 border-primary-2 dark-border-primary-4;
   @apply <sm:-mx-5;
 
   .code-copy-btn {
@@ -34,12 +39,12 @@
     @apply cursor-pointer;
 
     &:hover {
-      @apply bg-primary-medium text-white;
+      @apply bg-primary-4 text-white dark-text-white/90;
     }
   }
 
   .code-lang-text {
-    @apply text-primary-medium pr-2;
+    @apply text-primary-4 dark-text-primary-7 pr-2;
   }
 }
 

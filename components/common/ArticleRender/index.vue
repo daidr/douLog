@@ -188,15 +188,15 @@ function bindImageViewer() {
 
 <style lang="scss" scoped>
 article.blog-article-wrapper {
-  @apply bg-white;
+  @apply bg-light dark-bg-dark;
 
   :deep(blockquote) {
     @apply ml-0 pl-4 relative;
-    @apply text-primary-medium;
+    @apply text-primary-4 dark-text-primary-7;
 
     &:before {
       @apply absolute top-0 left-0 bottom-0 w-1.5;
-      @apply bg-primary-medium rounded-full;
+      @apply bg-primary-4 dark-bg-primary-7 rounded-full;
       content: '';
     }
 
@@ -206,9 +206,9 @@ article.blog-article-wrapper {
   }
 
   :deep(blockquote.mdx-warning) {
-    @apply text-red-700/80;
+    @apply text-red-700/80 dark-text-red-500/80;
     &:before {
-      @apply bg-red-700/80;
+      @apply bg-red-700/80 dark-text-red-500/80;
     }
   }
 
@@ -232,30 +232,30 @@ article.blog-article-wrapper {
   }
 
   :deep(a) {
-    @apply text-primary-medium;
+    @apply text-primary-4 dark-text-primary-7;
     @apply underline;
   }
 
   :deep(mark) {
-    @apply text-primary-medium;
+    @apply text-primary-4 dark-text-primary-7;
   }
 
   :deep(code:not([class='hljs-code'])) {
-    @apply bg-primary/10 px-1 rounded-md text-primary;
+    @apply bg-primary-1/70 dark-bg-primary-2 px-1 rounded-md text-primary text-primary-8;
   }
 
   :deep(.table-container),
   :deep(.mdui-table-fluid) {
-    @apply border-2 border-primary-light my-3;
+    @apply border-2 border-primary-2 dark-border-primary-4 my-3;
     @apply rounded-8px overflow-y-hidden;
 
     table {
       @apply mx-0 border-none border-separate;
-      @apply relative w-full bg-white;
+      @apply relative w-full bg-light dark-bg-dark;
       border-spacing: 0;
 
       thead {
-        @apply bg-primary-extralight/80;
+        @apply bg-primary-1/80;
       }
 
       td,
@@ -266,7 +266,7 @@ article.blog-article-wrapper {
       }
 
       th {
-        @apply text-primary font-bold text-sm leading-32px;
+        @apply text-primary-text font-bold text-sm leading-32px;
         @apply overflow-hidden whitespace-nowrap text-ellipsis;
       }
 
@@ -278,7 +278,7 @@ article.blog-article-wrapper {
       tbody td,
       tbody th,
       thead th {
-        @apply border-b-2 border-primary-light;
+        @apply border-b-2 border-primary-2 dark-border-primary-4;
       }
 
       tbody tr {
@@ -286,7 +286,7 @@ article.blog-article-wrapper {
       }
 
       tbody tr:hover {
-        @apply bg-primary-extralight/50;
+        @apply bg-primary-1/50 dark-bg-primary-2/50;
       }
 
       tbody tr:last-child td,
@@ -324,7 +324,7 @@ article.blog-article-wrapper {
     & > li {
       counter-increment: ol-step-counter;
       &::before {
-        @apply bg-primary-extralight text-primary rounded-full absolute;
+        @apply bg-primary-1/50 dark-bg-primary-2 text-primary dark-text-primary-8 rounded-full absolute;
         @apply inline-flex flex-shrink-0 h-1.5rem w-1.5rem justify-center;
         @apply -ml-2.5rem mr-1rem;
         content: counter(ol-step-counter);
@@ -334,12 +334,12 @@ article.blog-article-wrapper {
   }
 
   :deep(ul) {
-    @apply ml-3.5rem relative space-y-2  my-8;
+    @apply ml-3.5rem relative space-y-2 my-8;
 
     & > li {
       &::before {
         @apply h-0.5rem w-0.5rem inline-flex content-empty;
-        @apply bg-primary rounded-full absolute;
+        @apply bg-primary dark-bg-primary-8 rounded-full absolute;
         @apply -ml-1.5rem mr-0.5rem;
         transform: translateY(0.625rem);
       }

@@ -144,9 +144,9 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
   }
 
   .header-wrapper {
-    @apply sm:rounded-8 bg-white select-none;
+    @apply sm:rounded-8 bg-light dark-bg-dark select-none;
     @apply flex flex-col p-3 md:p-5;
-    @apply shadow-2xl shadow-primary-shadow;
+    @apply shadow-2xl general-shadow;
     @apply z-90 translate-z-150vh;
     view-transition-name: main-header;
 
@@ -170,15 +170,15 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
         @apply flex flex-col justify-center;
 
         .author-name {
-          @apply text-xl md:text-2xl font-bold text-primary/70;
+          @apply text-xl md:text-2xl font-bold text-primary dark-text-primary-8;
 
           span {
-            @apply text-primary/60 text-base font-normal;
+            @apply text-primary-text text-base font-normal;
           }
         }
 
         .author-description {
-          @apply text-primary/60 text-base;
+          @apply text-primary-4 dark-text-primary-7 text-base;
         }
       }
     }

@@ -16,6 +16,7 @@ import RealtimeViewCount from '../common/RealtimeViewCount.vue'
 
 <style scoped lang="scss">
 footer {
+  @apply opacity-70 dark-opacity-50;
   @apply select-none whitespace-nowrap;
   @apply fixed -z-1;
   @apply bottom-5 left-1/2;
@@ -25,7 +26,6 @@ footer {
 
   .main {
     font-family: BEYNO-online !important;
-    @apply opacity-70;
     a {
       font-family: BEYNO-online !important;
       @apply relative;

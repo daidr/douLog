@@ -11,6 +11,19 @@
     sans-serif !important;
   -webkit-tap-highlight-color: transparent;
   @apply antialiased;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--color-primary), 0.8) rgb(var(--color-primary-1));
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-primary-5;
+    @apply rounded-full;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply bg-primary-1;
+    @apply rounded-full;
+  }
 }
 
 html {
@@ -44,15 +57,19 @@ html {
   0% {
     transform: rotate(8deg);
   }
+
   25% {
     transform: rotate(-8deg);
   }
+
   50% {
     transform: rotate(8deg);
   }
+
   75% {
     transform: rotate(-8deg);
   }
+
   100% {
     transform: rotate(0deg);
   }
@@ -234,6 +251,7 @@ body {
 }
 
 @media (prefers-reduced-motion) {
+
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
@@ -269,4 +287,12 @@ body {
 .blur-fade-leave-from {
   filter: blur(0);
   opacity: 1;
+}
+
+.dark img:not(.medium-zoom-image--opened) {
+  filter: brightness(0.8);
+}
+
+.medium-zoom-overlay {
+  @apply important-dark-bg-dark/60;
 }

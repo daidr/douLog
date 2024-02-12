@@ -13,22 +13,17 @@ const colorVariable = [
   'bg-primary-10',
 ]
 
-const isDark = ref(false)
+const statesStore = useStatesStore()
+const { isDarkMode } = storeToRefs(statesStore)
 </script>
 
 <template>
   <div
-    class="fixed top-0 right-0 left-0 bottom-0 z-9997 transform-gpu translate-z-201vh p-20 pr-30" :class="{
-      ' bg-[#fcfcfc]': !isDark,
-      ' bg-[#141414]': isDark,
-      'dark': isDark,
-      'text-white': isDark,
-      'text-black': !isDark,
-    }"
+    class="fixed top-0 right-0 left-0 bottom-0 p-20 pr-30 bg-light dark-bg-dark text-dark dark-text-light"
   >
     <div>
-      <input v-model="isDark" type="checkbox">
-      <label for="isDark">Dark Mode</label>
+      <input v-model="isDarkMode" type="checkbox">
+      <label>Dark Mode</label>
     </div>
     <div
       class="h-full w-full grid gap-20px" :style="{

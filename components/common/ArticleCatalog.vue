@@ -56,20 +56,20 @@ watch(
   @apply space-y-1;
 
   .item-container {
-    @apply relative text-primary/90;
+    @apply relative text-primary/90 dark-text-primary-8/90;
     @apply px-4;
 
     &::before {
       content: '';
       @apply absolute left-0 top-4px;
       @apply h-16px w-4px mt-7px;
-      @apply bg-primary rounded-r-4px;
+      @apply bg-primary rounded-r-4px dark-bg-primary-8;
       @apply transition-opacity opacity-0;
     }
 
     &.active {
       @apply pointer-events-none;
-      @apply text-primary font-bold;
+      @apply text-primary font-bold dark-text-primary-8;
       &::before {
         @apply opacity-100;
       }
@@ -80,7 +80,7 @@ watch(
       @apply whitespace-nowrap overflow-hidden text-ellipsis;
 
       &:hover {
-        @apply bg-primary-extralight/70;
+        @apply bg-primary-1/50 dark-bg-primary-3/50;
       }
 
       &.level-1 {

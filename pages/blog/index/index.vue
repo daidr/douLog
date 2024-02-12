@@ -144,51 +144,51 @@ const { t } = useI18n()
 <style lang="scss" scoped>
 .loading-mask {
   @apply fixed top-0 left-0 right-0 bottom-0;
-  @apply z-9998;
-  @apply bg-white/50;
+  @apply z-9997;
+  @apply bg-light/50 dark-bg-dark/50;
   @apply flex items-center justify-center;
 
   .loading {
     @apply w-100px h-100px rounded-100px;
-    @apply bg-white;
+    @apply bg-light dark-bg-dark;
     @apply transform-gpu translate-z-200vh;
     @apply pointer-events-none;
     @apply flex items-center justify-center;
-    @apply border-1 border-primary-light;
+    @apply border-1 border-primary-2 dark-border-primary-6;
   }
 }
 .content-wrapper {
   @apply w-full flex flex-col items-stretch space-y-3;
 
   .announcement-item {
-    @apply w-full bg-white px-5 md:px-8 py-4 w-full;
+    @apply w-full bg-light dark-bg-dark px-5 md:px-8 py-4 w-full;
     @apply sm:rounded-8;
-    @apply sm:shadow-2xl shadow-primary-shadow;
+    @apply sm:shadow-2xl general-shadow;
     @apply flex items-center space-x-4;
-    @apply text-lg text-primary-light;
+    @apply text-lg text-primary-text;
     view-transition-name: main-announcement;
 
     p {
-      @apply text-primary/80;
+      @apply text-primary-text;
     }
   }
 
   .article-list {
-    @apply w-full bg-white w-full;
+    @apply w-full bg-light dark-bg-dark w-full;
     @apply px-5 py-5 sm:(px-8 py-8);
     @apply sm:rounded-8;
-    @apply sm:shadow-2xl shadow-primary-shadow;
+    @apply sm:shadow-2xl general-shadow;
     @apply flex flex-col space-y-4;
     view-transition-name: main-wrapper;
   }
 
   .load-more {
-    @apply w-full text-center text-base text-primary/90;
-    @apply cursor-pointer bg-primary-extralight/50;
+    @apply w-full text-center text-base text-primary-text dark-text-primary-9;
+    @apply cursor-pointer bg-primary-1 dark-bg-primary-5/50;
     @apply py-2 transition-colors rounded-xl;
 
     &:hover {
-      @apply bg-primary-extralight/80;
+      @apply bg-primary-2/50 dark-bg-primary-5/80;
     }
 
     &.disabled {

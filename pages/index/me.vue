@@ -49,7 +49,7 @@ useHead({
 
   .motto {
     @apply mt-3;
-    @apply font-normal text-primary/50;
+    @apply font-normal text-primary-4 dark-text-primary-5;
   }
 
   .socialmedia-wrapper {

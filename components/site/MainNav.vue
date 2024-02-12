@@ -51,7 +51,7 @@ function back() {
 <style scoped lang="scss">
 .menu-item {
   @apply relative;
-  @apply text-primary/70 font-semibold text-lg;
+  @apply text-primary-text font-semibold text-lg;
   @apply cursor-pointer z-0;
   @apply transition-all duration-300;
   @apply flex items-center whitespace-nowrap;
@@ -66,7 +66,7 @@ function back() {
     content: '';
     @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
     @apply rounded-xl;
-    @apply bg-primary-extralight;
+    @apply bg-primary-1 dark-bg-primary-3;
     @apply transition-all;
   }
 
@@ -97,7 +97,7 @@ function back() {
 
 .invert-menu-item {
   @apply relative;
-  @apply text-primary/70 font-semibold text-lg;
+  @apply text-primary-text font-semibold text-lg;
   @apply cursor-pointer z-0;
   @apply transition-all duration-300;
   @apply flex items-center whitespace-nowrap;
@@ -116,7 +116,7 @@ function back() {
     content: '';
     @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
     @apply rounded-xl;
-    @apply bg-primary-extralight;
+    @apply bg-primary-1 dark-bg-primary-3;
     @apply transition-all;
   }
 

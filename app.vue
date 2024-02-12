@@ -3,7 +3,7 @@ import { useDouSlackingStore } from './stores/dou-slacking'
 import { SPLASH_IMAGES } from './utils/splash-images'
 import { CONFIG } from '@/config/base'
 
-const { randomThemeColorIndex, themeColor } = storeToRefs(useStatesStore())
+const { randomThemeColorIndex, themeColor, isDarkMode } = storeToRefs(useStatesStore())
 
 watch(() => randomThemeColorIndex.value, (index, oldIndex) => {
   if (import.meta.env.SSR) return
@@ -21,6 +21,11 @@ const { t } = useI18n()
 useHead({
   htmlAttrs: {
     lang: 'zh-CN',
+    class: computed(() => {
+      return {
+        dark: isDarkMode,
+      }
+    }),
   },
   link: [
     {

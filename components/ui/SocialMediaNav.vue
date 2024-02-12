@@ -65,7 +65,7 @@ const urls = [
 
   .nav-item {
     @apply text-lg;
-    @apply text-primary-extralight bg-primary-medium;
+    @apply text-primary-1 bg-primary-4 dark-text-primary-8;
     @apply rounded-full relative;
     @apply cursor-pointer;
     @apply w-38px h-38px;
@@ -75,7 +75,7 @@ const urls = [
       content: '';
       @apply absolute -top-6px -left-6px -right-6px -bottom-6px -z-1;
       @apply rounded-full;
-      @apply border-4px border-primary-extralight;
+      @apply border-4px border-primary-1 dark-border-primary-3;
       @apply transition motion-reduce:transition-none;
       @apply transform-gpu scale-50 opacity-0;
       @apply pointer-events-none;
@@ -89,8 +89,8 @@ const urls = [
     &::after {
       content: attr(data-name);
       @apply absolute -bottom-10 left-1/2;
-      @apply text-sm text-center text-primary-extralight whitespace-nowrap;
-      @apply bg-primary-medium px-2 py-1;
+      @apply text-sm text-center text-primary-1 dark-text-primary-8 whitespace-nowrap;
+      @apply bg-primary-4 px-2 py-1;
       @apply transition duration-300 motion-reduce:transition-none;
       @apply transform-gpu -translate-x-1/2 -translate-y-20px opacity-0;
       @apply pointer-events-none;

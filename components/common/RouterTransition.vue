@@ -511,7 +511,7 @@ function onAfterLeave() {
   @apply bg-white;
   @apply fixed top-1/2 left-1/2;
   @apply transform-gpu -translate-x-1/2 -translate-y-1/2 translate-z-200vh;
-  @apply shadow-2xl shadow-primary-shadow;
+  @apply shadow-2xl general-shadow;
   @apply opacity-0;
   @apply pointer-events-none;
   @apply flex items-center justify-center;
@@ -524,7 +524,7 @@ function onAfterLeave() {
       @apply absolute top-1/2 left-1/2 z-1;
       @apply w-8 h-8 rounded-full;
       @apply bg-primary-light;
-      @apply shadow-xl shadow-primary-shadow;
+      @apply shadow-xl general-shadow;
       @apply transform-gpu -translate-x-1/2 -translate-y-1/2;
     }
 
