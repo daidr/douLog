@@ -1,4 +1,10 @@
-@import 'theme';
+@import "theme";
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #000;
+  }
+}
 
 * {
   box-sizing: border-box;
@@ -251,7 +257,6 @@ body {
 }
 
 @media (prefers-reduced-motion) {
-
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {

@@ -5,7 +5,10 @@
   @apply rounded-none sm:rounded-2xl;
   @apply <sm:-mx-5 mt-2;
   & * {
-    font-family: Consolas, Monaco, -apple-system,
+    font-family:
+      Consolas,
+      Monaco,
+      -apple-system,
       BlinkMacSystemFont,
       PingFang SC,
       Hiragino Sans GB,

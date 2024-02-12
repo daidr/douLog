@@ -138,11 +138,4 @@ $dark-color-count: 4;
     #{"--color-primary"}: if($dark, get-color-value(nth($palette, 6)), get-color-value(nth($palette, 5)));
     #{"--color-primary-text"}: if($dark, get-color-value(nth($palette, 7)), get-color-value(nth($palette, 4)));
     #{"--color-primary-shadow"}: if($dark, get-color-value(nth($palette, 3)), get-color-value(nth($palette, 1)));
-
-    // @if $dark {
-
-    // }
-    // @else {
-    //     #{"--color-primary-text"}: get-color-value(nth($palette, 4));
-    // }
 }

@@ -53,13 +53,14 @@ function back() {
   @apply relative;
   @apply text-primary-text font-semibold text-lg;
   @apply cursor-pointer z-0;
-  @apply transition-all duration-300;
+  @apply transition-padding duration-300;
   @apply flex items-center whitespace-nowrap;
 
   svg {
     @apply text-0em;
     @apply mr-0;
-    @apply transition-all;
+    @apply transition;
+    transition-property: font-size, margin;
   }
 
   &::before {
@@ -67,7 +68,7 @@ function back() {
     @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
     @apply rounded-xl;
     @apply bg-primary-1 dark-bg-primary-3;
-    @apply transition-all;
+    @apply transition-height;
   }
 
   &:hover,
@@ -99,17 +100,17 @@ function back() {
   @apply relative;
   @apply text-primary-text font-semibold text-lg;
   @apply cursor-pointer z-0;
-  @apply transition-all duration-300;
+  @apply transition-padding duration-300;
   @apply flex items-center whitespace-nowrap;
 
   span {
     @apply text-0em;
-    @apply transition-all;
+    @apply transition-font-size;
   }
 
   svg {
     @apply text-0.9em;
-    @apply transition-all;
+    @apply transition-font-size;
   }
 
   &::before {
@@ -117,7 +118,7 @@ function back() {
     @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
     @apply rounded-xl;
     @apply bg-primary-1 dark-bg-primary-3;
-    @apply transition-all;
+    @apply transition-height;
   }
 
   &:hover {

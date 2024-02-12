@@ -3,15 +3,13 @@ import { useDouSlackingStore } from './stores/dou-slacking'
 import { SPLASH_IMAGES } from './utils/splash-images'
 import { CONFIG } from '@/config/base'
 
+const { setDarkMode } = useStatesStore()
 const { randomThemeColorIndex, themeColor, isDarkMode } = storeToRefs(useStatesStore())
+const preferredDark = usePreferredDark()
 
-watch(() => randomThemeColorIndex.value, (index, oldIndex) => {
+watch(preferredDark, (value) => {
   if (import.meta.env.SSR) return
-  if (oldIndex !== undefined) {
-    document.body.classList.remove(`theme-${oldIndex + 1}`)
-  }
-
-  document.body.classList.add(`theme-${index + 1}`)
+  setDarkMode(value)
 }, {
   immediate: true,
 })
@@ -23,7 +21,7 @@ useHead({
     lang: 'zh-CN',
     class: computed(() => {
       return {
-        dark: isDarkMode,
+        dark: isDarkMode.value,
       }
     }),
   },
@@ -98,6 +96,20 @@ useHead({
       content: 'yes',
     },
   ]),
+})
+
+watch(() => randomThemeColorIndex.value, (index, oldIndex) => {
+  if (import.meta.env.SSR) return
+  if (oldIndex !== undefined) {
+    document.body.classList.remove(`theme-${oldIndex + 1}`)
+  }
+
+  document.body.classList.add(`theme-${index + 1}`)
+  if (preferredDark.value) {
+    document.documentElement.classList.add('dark')
+  }
+}, {
+  immediate: true,
 })
 
 const nuxtApp = useNuxtApp()
