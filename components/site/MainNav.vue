@@ -67,7 +67,7 @@ function back() {
     content: '';
     @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
     @apply rounded-xl;
-    @apply bg-primary-1 dark-bg-primary-3;
+    @apply bg-primary-1/90 dark-bg-primary-3;
     @apply transition-height;
   }
 
@@ -117,7 +117,7 @@ function back() {
     content: '';
     @apply absolute bottom-0 left-0 right-0 h-3px -z-1;
     @apply rounded-xl;
-    @apply bg-primary-1 dark-bg-primary-3;
+    @apply bg-primary-1/90 dark-bg-primary-3;
     @apply transition-height;
   }
 

@@ -12,21 +12,15 @@ const colorVariable = [
   'bg-primary-9',
   'bg-primary-10',
 ]
-
-const statesStore = useStatesStore()
-const { isDarkMode } = storeToRefs(statesStore)
 </script>
 
 <template>
   <div
-    class="fixed top-0 right-0 left-0 bottom-0 p-20 pr-30 bg-light dark-bg-dark text-dark dark-text-light"
+    class="fixed top-0 right-0 left-0 bottom-0 p-10 lg-p-20 pr-30 bg-light dark-bg-dark text-dark dark-text-light"
   >
-    <div>
-      <input v-model="isDarkMode" type="checkbox">
-      <label>Dark Mode</label>
-    </div>
+    <DebugDarkSwitch />
     <div
-      class="h-full w-full grid gap-20px" :style="{
+      class="h-full w-full grid gap-5px md-gap-10px lg-gap-20px" :style="{
         gridTemplateColumns: `repeat(${themeColorList.length}, minmax(0, 1fr))`,
       }"
     >

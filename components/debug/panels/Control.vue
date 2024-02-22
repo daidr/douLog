@@ -1,17 +1,14 @@
 <script setup lang="ts">
 const statesStore = useStatesStore()
 const { setRandomThemeColorIndex } = statesStore
-const { themeColorList, randomThemeColorIndex, isDarkMode } = storeToRefs(statesStore)
+const { themeColorList, randomThemeColorIndex } = storeToRefs(statesStore)
 </script>
 
 <template>
   <div
     class="p-3 fixed top-5 right-25 min-h-100 min-w-70 rounded-5 bg-light dark-bg-dark text-dark dark-text-light ring-primary ring-2 "
   >
-    <div>
-      <input v-model="isDarkMode" type="checkbox">
-      <label> Dark Mode</label>
-    </div>
+    <DebugDarkSwitch />
     <div>
       <p>Theme</p>
       <div class="flex gap-1">

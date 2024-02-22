@@ -183,8 +183,8 @@ const { t } = useI18n()
   }
 
   .load-more {
-    @apply w-full text-center text-base text-primary-text dark-text-primary-9;
-    @apply cursor-pointer bg-primary-1 dark-bg-primary-5/50;
+    @apply w-full text-center text-base text-primary dark-text-primary-9;
+    @apply cursor-pointer bg-primary-1/70 dark-bg-primary-5/50;
     @apply py-2 transition-colors rounded-xl;
 
     &:hover {

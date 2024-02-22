@@ -1,7 +1,7 @@
 @use "sass:map";
 @import "palette";
 
-$theme-color-list: (#1879D6, #E33527, #9e28b3, #32a63d, #243ab5, #944E34, #5a8399, #1e9688);
+$theme-color-list: (#2862AB, #b5301f, #8939A1, #509e3c, #2D4AAD, #a15d42, #5080A0, #209e8f);
 
 @function get-color-value($color) {
   @return #{red($color)}, #{green($color)}, #{blue($color)};

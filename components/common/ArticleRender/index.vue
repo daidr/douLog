@@ -241,7 +241,7 @@ article.blog-article-wrapper {
   }
 
   :deep(code:not([class='hljs-code'])) {
-    @apply bg-primary-1/70 dark-bg-primary-2 px-1 rounded-md text-primary text-primary-8;
+    @apply bg-primary-1/70 dark-bg-primary-2 px-1 rounded-md text-primary-7 dark-text-primary-8;
   }
 
   :deep(.table-container),
@@ -324,7 +324,7 @@ article.blog-article-wrapper {
     & > li {
       counter-increment: ol-step-counter;
       &::before {
-        @apply bg-primary-1/50 dark-bg-primary-2 text-primary dark-text-primary-8 rounded-full absolute;
+        @apply bg-primary-1/70 dark-bg-primary-2 text-primary-7 dark-text-primary-8 rounded-full absolute;
         @apply inline-flex flex-shrink-0 h-1.5rem w-1.5rem justify-center;
         @apply -ml-2.5rem mr-1rem;
         content: counter(ol-step-counter);
