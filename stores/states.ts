@@ -1,3 +1,5 @@
+import { skipHydrate } from 'pinia'
+
 const lightThemeColor = [
   '#abdcff',
   '#ffc3ba',
@@ -21,36 +23,35 @@ const darkThemeColor = [
 ]
 
 export const useStatesStore = defineStore('states', () => {
-  const isDarkMode = ref(false)
+  const colorMode = useColorMode()
 
   const themeColorList = computed(() => {
-    return isDarkMode.value ? darkThemeColor : lightThemeColor
+    return colorMode.value === 'dark' ? darkThemeColor : lightThemeColor
   })
 
   const randomThemeColorIndex = ref(
-    -1,
+    Math.floor(Math.random() * themeColorList.value.length),
   )
-  const setRandomThemeColorIndex = (target: number) => {
-    randomThemeColorIndex.value = target
+
+  const setRandomThemeColorIndex = (index: number) => {
+    randomThemeColorIndex.value = index
   }
 
   const themeColor = computed(() => themeColorList.value[randomThemeColorIndex.value] || '#ffffff')
 
-  const toggleDarkMode = () => {
-    isDarkMode.value = !isDarkMode.value
-  }
-
-  const setDarkMode = (value: boolean) => {
-    isDarkMode.value = value
-  }
+  const isDarkMode = computed({
+    get: () => colorMode.value === 'dark',
+    set: (value) => {
+      colorMode.value = value ? 'dark' : 'light'
+    },
+  })
 
   return {
-    themeColor,
-    randomThemeColorIndex,
-    themeColorList,
-    isDarkMode,
-    toggleDarkMode,
+    themeColor: skipHydrate(themeColor),
+    randomThemeColorIndex: skipHydrate(randomThemeColorIndex),
+    themeColorList: skipHydrate(themeColorList),
+    colorMode: skipHydrate(colorMode),
+    isDarkMode: skipHydrate(isDarkMode),
     setRandomThemeColorIndex,
-    setDarkMode,
   }
 })
