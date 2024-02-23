@@ -189,6 +189,7 @@ function bindImageViewer() {
 <style lang="scss" scoped>
 article.blog-article-wrapper {
   @apply bg-light dark-bg-dark;
+  @apply text-dark dark-text-light/80;
 
   :deep(blockquote) {
     @apply ml-0 pl-4 relative;
