@@ -1,25 +1,25 @@
 import { skipHydrate } from 'pinia'
 
 const lightThemeColor = [
-  '#BCD0E6',
-  '#EABFB3',
-  '#D8CBDD',
-  '#D4DBCF',
-  '#C2CDE8',
-  '#DDD7D4',
-  '#D4DADE',
-  '#B2DAD2',
+  '#b7d0e8',
+  '#f2bdb1',
+  '#dbcade',
+  '#d2dbce',
+  '#c0cdeb',
+  '#ded7d3',
+  '#d3dade',
+  '#a7dbd2',
 ]
 
 const darkThemeColor = [
-  '#171F2D',
-  '#2B1614',
-  '#23182A',
-  '#1D2818',
-  '#161A2D',
-  '#291D19',
-  '#1C242A',
-  '#172927',
+  '#151f2e',
+  '#2e1513',
+  '#25172b',
+  '#192916',
+  '#161a2e',
+  '#2b1d18',
+  '#1a242b',
+  '#122927',
 ]
 
 export const useStatesStore = defineStore('states', () => {
