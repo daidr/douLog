@@ -5,7 +5,7 @@ const showEndShadow = ref(true)
 function onScroll(e) {
   const { scrollLeft, scrollWidth, clientWidth } = e.target
   showStartShadow.value = scrollLeft > 0
-  showEndShadow.value = scrollWidth - scrollLeft > clientWidth
+  showEndShadow.value = scrollWidth - scrollLeft - 5 > clientWidth
 }
 </script>
 

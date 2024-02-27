@@ -69,7 +69,7 @@ useHead({
     @apply flex flex-col items-start;
     @apply p-3;
     // 其实应该用gap-y更好，但是flex布局gap-y兼容性不太好
-    @apply space-y-3;
+    @apply gap-y-3;
     @apply max-w-1300px;
     margin: 0 auto;
   }
@@ -77,7 +77,7 @@ useHead({
   .main-menu-wrapper {
     @apply rounded-8;
     @apply bg-light dark-bg-dark;
-    @apply flex justify-center space-x-3;
+    @apply flex justify-center gap-x-3;
     @apply py-5 w-full sm:w-auto px-5;
     @apply select-none;
     @apply shadow-2xl general-shadow;
@@ -86,14 +86,14 @@ useHead({
 
   .block-wrapper-group {
     @apply w-full flex flex-col z-91;
-    @apply space-y-3;
+    @apply gap-y-3;
     @apply relative;
 
     .block-wrapper {
       @apply bg-light dark-bg-dark px-5 md:px-8 py-8 w-full;
       @apply rounded-8;
       @apply shadow-2xl general-shadow;
-      @apply space-y-8;
+      @apply gap-y-8;
 
       .section-wrapper {
         .title {
@@ -108,15 +108,20 @@ useHead({
         }
 
         .projects-group {
-          @apply flex space-x-3 overflow-auto py-3;
+          @apply flex gap-x-3 overflow-auto py-5;
 
           .project-wrapper {
             @apply p-2 rounded-3xl bg-primary-1/20 dark-bg-primary-1 transform-gpu;
-            @apply w-266px;
+            @apply w-266px relative;
             @apply border-1 border-gray-200 dark-border-gray-700;
             @apply cursor-pointer;
-            @apply transition duration-500;
+            @apply duration-500 transition-margin, transform, box-shadow, border-color;
             transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
+
+            &::before {
+              @apply -z-1;
+              @apply content-empty absolute top-0 -left-2 -right-2 bottom-0;
+            }
 
             .project-image {
               @apply w-250px h-145px;
@@ -124,21 +129,34 @@ useHead({
               @apply rounded-2xl;
               @apply relative;
               @apply border-1 dark-border-gray-700;
-              @apply transition duration-500;
+              @apply transition duration-500 transform-gpu;
               transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
 
-              &:deep(.lazy-image) {
+              :deep(.lazy-image) {
                 @apply h-auto min-h-full;
+              }
+
+              :deep(img) {
+                @apply transition-filter duration-500;
               }
             }
 
             &:hover {
               @apply shadow-lg shadow-primary-shadow/30;
               @apply border-1 border-primary-3 dark-border-primary-7;
-              @apply -translate-y-2;
+              @apply -translate-y-2 mx-5;
 
               .project-image {
                 @apply border-1 border-primary-3 dark-border-primary-7;
+                @apply scale-113 shadow-lg shadow-primary-shadow/30 z-999;
+
+                :deep(img) {
+                  filter: brightness(1);
+                }
+              }
+
+              &::before {
+                @apply -left-7 -right-7;
               }
             }
 
