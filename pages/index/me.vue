@@ -4,7 +4,7 @@ import RealtimeActionView from '~/components/common/RealtimeActionView.vue'
 const { t } = useI18n()
 
 useHead({
-  title: t('main_nav.me'),
+  title: computed(() => t('main_nav.me')),
 })
 </script>
 

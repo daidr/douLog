@@ -5,7 +5,7 @@ import type { IArticleItem } from '~/server/api/article/[id]'
 const { t } = useI18n()
 
 useHead({
-  title: t('main_nav.posts'),
+  title: computed(() => t('main_nav.posts')),
 })
 
 definePageMeta({
@@ -71,11 +71,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
           <SiteMainNav />
         </div>
         <div class="author-block">
-          <UiMainAvatar
-            :hoverable="true"
-            :size="mdAndSmaller ? 54 : 70"
-            :stroke="mdAndSmaller ? 2 : 4"
-          />
+          <UiMainAvatar :hoverable="true" :size="mdAndSmaller ? 54 : 70" :stroke="mdAndSmaller ? 2 : 4" />
           <div class="author-info">
             <div class="author-name">
               {{ t('global.name') }} <span>@{{ t('global.en_name') }}</span>
@@ -109,8 +105,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
   @apply pb-25 md:pb-21;
 
   scrollbar-width: thin;
-  scrollbar-color: rgba(var(--color-primary), 0.8)
-    rgb(var(--color-primary-light));
+  scrollbar-color: rgba(var(--color-primary), 0.8) rgb(var(--color-primary-light));
 
   // 滚动条
   &::-webkit-scrollbar {

@@ -4,7 +4,7 @@ import { BlockDefination } from '@/config/projects'
 const { t } = useI18n()
 
 useHead({
-  title: t('main_nav.projects'),
+  title: computed(() => t('main_nav.projects')),
 })
 </script>
 

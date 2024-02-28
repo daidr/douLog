@@ -18,7 +18,7 @@ function onScroll(e) {
 const { t } = useI18n()
 
 useHead({
-  title: t('main_nav.friends'),
+  title: computed(() => t('main_nav.friends')),
 })
 </script>
 

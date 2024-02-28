@@ -8,7 +8,7 @@ import IconSubway from '~icons/mingcute/train-3-line'
 
 const { t } = useI18n()
 
-const urls = [
+const urls = computed(() => [
   {
     url: 'https://daidr.me/feed',
     icon: IconRss,
@@ -39,18 +39,13 @@ const urls = [
     icon: IconSubway,
     name: t('social.travelling'),
   },
-]
+])
 </script>
 
 <template>
   <div class="socialmedia-nav-wrapper">
     <a
-      v-for="item in urls"
-      :key="item.url"
-      :href="item.url"
-      target="_blank"
-      class="nav-item"
-      :data-name="item.name"
+      v-for="item in urls" :key="item.url" :href="item.url" target="_blank" class="nav-item" :data-name="item.name"
       @click="umTrackEvent('social-link', { name: item.name })"
     >
       <Component :is="item.icon" />

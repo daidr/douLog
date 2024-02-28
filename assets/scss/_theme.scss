@@ -15,6 +15,7 @@ $theme-color-list: (#2862AB, #b5301f, #8939A1, #509e3c, #2D4AAD, #a15d42, #5080A
 
   .theme-#{$i} {
     @include color-palette($light-palette);
+    transition: opacity 0.5s ease-in-out 0.3s;
 
     .dark & {
       @include color-palette($dark-palette, true);

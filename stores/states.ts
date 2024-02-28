@@ -39,19 +39,10 @@ export const useStatesStore = defineStore('states', () => {
 
   const themeColor = computed(() => themeColorList.value[randomThemeColorIndex.value] || '#ffffff')
 
-  const isDarkMode = computed({
-    get: () => colorMode.value === 'dark',
-    set: (value) => {
-      colorMode.value = value ? 'dark' : 'light'
-    },
-  })
-
   return {
     themeColor: skipHydrate(themeColor),
     randomThemeColorIndex: skipHydrate(randomThemeColorIndex),
     themeColorList: skipHydrate(themeColorList),
-    colorMode: skipHydrate(colorMode),
-    isDarkMode: skipHydrate(isDarkMode),
     setRandomThemeColorIndex,
   }
 })

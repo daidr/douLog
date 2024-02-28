@@ -1,11 +1,12 @@
+import { currentLocales } from './config/i18n'
+
 export default defineNuxtConfig({
   typescript: {
     shim: false,
   },
   devtools: { enabled: true },
   experimental: {
-    renderJsonPayloads: true,
-    appManifest: false,
+    appManifest: true,
   },
   app: {
     rootId: '__daidr_app',
@@ -29,33 +30,27 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
+    '@nuxtjs/color-mode',
   ],
+  colorMode: {
+    classSuffix: '',
+  },
   i18n: {
-    baseUrl: 'https://im.daidr.me',
-    strategy: 'no_prefix',
-    vueI18n: './i18n.config.ts',
-    locales: [
-      {
-        code: 'en-US',
-        file: 'en-US.json',
-        iso: 'en-US',
-      },
-      {
-        code: 'zh-CN',
-        file: 'zh-CN.json',
-        iso: 'zh-CN',
-      },
-    ],
+    locales: currentLocales,
     lazy: true,
+    strategy: 'no_prefix',
+    detectBrowserLanguage: false,
     langDir: 'locales',
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'i18n_redirected',
-      redirectOn: 'no prefix',
-      fallbackLocale: 'en-US',
-    },
-    // debug: true,
     defaultLocale: 'en-US',
+    vueI18n: './config/i18n.config.ts',
+  },
+  imports: {
+    imports: [{
+      name: 'useI18n',
+      from: '~/utils/i18n',
+      priority: 100,
+    }],
+    injectAtEnd: true,
   },
   pwa: {
     injectRegister: 'auto',
@@ -194,7 +189,7 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    prerender: { routes: ['/', '/offline', '/404'] },
+    prerender: { routes: ['/', '/offline', '/404', '/projects', '/me'] },
     storage: {
       redis: {
         driver: 'redis',

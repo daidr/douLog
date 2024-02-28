@@ -1,6 +1,14 @@
 <script setup lang="ts">
-const statesStore = useStatesStore()
-const { isDarkMode, colorMode } = storeToRefs(statesStore)
+const colorMode = useColorMode()
+
+const isDarkMode = computed({
+  get() {
+    return colorMode.value === 'dark'
+  },
+  set(value) {
+    colorMode.preference = value ? 'dark' : 'light'
+  },
+})
 </script>
 
 <template>
@@ -9,8 +17,8 @@ const { isDarkMode, colorMode } = storeToRefs(statesStore)
       <input v-model="isDarkMode" type="checkbox">
       <label> Dark Mode</label>
     </div>
-    <button class="border-primary border-1 px-2" @click="colorMode = 'auto'">
-      Auto
+    <button class="border-primary border-1 px-2" @click="colorMode.preference = 'system'">
+      Default (current: {{ colorMode.preference }})
     </button>
   </div>
 </template>

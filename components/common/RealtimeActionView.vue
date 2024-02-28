@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useTimeAgoOptions } from '~/composables/i18n'
 import { useDouSlackingStore } from '~/stores/dou-slacking'
 import MusicIcon from '~icons/mingcute/music-2-line'
 
@@ -14,29 +15,32 @@ const currentTimeInterval = setInterval(() => {
 
 const { language } = useNavigatorLanguage()
 
-const friendTimeString = computed(() => {
-  const time = new Date(currentTime.value)
-  const prevTime = new Date(douSlackingStore.stats.update)
-  const formatter = new Intl.RelativeTimeFormat(language.value, {
-    style: 'narrow',
-  })
-  const diff = time.getTime() - prevTime.getTime()
-  const diffDays = Math.floor(diff / (24 * 3600 * 1000))
-  const diffHours = Math.floor(diff / (3600 * 1000))
-  const diffMinutes = Math.floor(diff / (60 * 1000))
-  const diffSeconds = Math.floor(diff / 1000)
-  if (diffDays > 0) {
-    return formatter.format(-diffDays, 'day')
-  } else if (diffHours > 0) {
-    return formatter.format(-diffHours, 'hour')
-  } else if (diffMinutes > 0) {
-    return formatter.format(-diffMinutes, 'minute')
-  } else if (diffSeconds > 0) {
-    return formatter.format(-diffSeconds, 'second')
-  } else {
-    return '刚刚'
-  }
-})
+// const friendTimeString = computed(() => {
+//   const time = new Date(currentTime.value)
+//   const prevTime = new Date(douSlackingStore.stats.update)
+//   const formatter = new Intl.RelativeTimeFormat(language.value, {
+//     style: 'narrow',
+//   })
+//   const diff = time.getTime() - prevTime.getTime()
+//   const diffDays = Math.floor(diff / (24 * 3600 * 1000))
+//   const diffHours = Math.floor(diff / (3600 * 1000))
+//   const diffMinutes = Math.floor(diff / (60 * 1000))
+//   const diffSeconds = Math.floor(diff / 1000)
+//   if (diffDays > 0) {
+//     return formatter.format(-diffDays, 'day')
+//   } else if (diffHours > 0) {
+//     return formatter.format(-diffHours, 'hour')
+//   } else if (diffMinutes > 0) {
+//     return formatter.format(-diffMinutes, 'minute')
+//   } else if (diffSeconds > 0) {
+//     return formatter.format(-diffSeconds, 'second')
+//   } else {
+//     return '刚刚'
+//   }
+// })
+
+const timeAgoOptions = useTimeAgoOptions(true)
+const friendTimeString = useTimeAgo(() => douSlackingStore.stats.update, timeAgoOptions)
 
 // 设置国际化时间Option
 const localTimeOption: Intl.DateTimeFormatOptions = {

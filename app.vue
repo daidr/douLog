@@ -3,16 +3,17 @@ import { useDouSlackingStore } from './stores/dou-slacking'
 import { SPLASH_IMAGES } from './utils/splash-images'
 import { CONFIG } from '@/config/base'
 
-const { randomThemeColorIndex, themeColor, isDarkMode } = storeToRefs(useStatesStore())
+const { randomThemeColorIndex, themeColor } = storeToRefs(useStatesStore())
+const colorMode = useColorMode()
 
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
 useHead({
   htmlAttrs: {
-    lang: 'zh-CN',
+    lang: computed(() => locale.value),
     class: computed(() => {
       return {
-        dark: isDarkMode.value,
+        dark: colorMode.value === 'dark',
       }
     }),
   },

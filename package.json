@@ -27,6 +27,7 @@
     "@iconify-json/mingcute": "^1.1.16",
     "@nuxt/devtools": "^1.0.8",
     "@nuxt/eslint-config": "^0.2.0",
+    "@nuxtjs/color-mode": "^3.3.2",
     "@nuxtjs/i18n": "8.1.0",
     "@types/html-minifier": "^4.0.5",
     "@types/jsdom": "^21.1.6",
