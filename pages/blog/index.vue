@@ -152,6 +152,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
     .main-menu-wrapper {
       @apply flex space-x-3 mb-7 md:mb-8 ml-0 md:ml-5;
       @apply justify-center md:justify-start;
+      @apply mt-[env(safe-area-inset-top,0)];
     }
 
     .author-block {
