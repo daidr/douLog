@@ -53,7 +53,7 @@ useHead({
   @apply flex justify-between;
 
   .transition-page-wrapper {
-    @apply bg-light dark-bg-dark w-full md:w-400px h-full mt-[env(safe-area-inset-top,0)];
+    @apply bg-light dark-bg-dark w-full md:w-400px h-full;
     @apply shadow-2xl general-shadow;
     @apply rounded-8;
     @apply overflow-hidden;
@@ -70,7 +70,7 @@ useHead({
       }
 
       .btn-group {
-        @apply mt-5 flex space-x-4 justify-center;
+        @apply mt-5 flex gap-x-4 justify-center;
 
         .link-btn {
           @apply text-base whitespace-nowrap;

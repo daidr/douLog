@@ -64,7 +64,7 @@
 
     .wp-block-mdx-github__stats {
       @apply text-sm md:text-base text-white/70 select-none;
-      @apply flex items-center space-x-3;
+      @apply flex items-center gap-x-3;
       @apply mt-6;
 
       .wp-block-mdx-github__stats__item {

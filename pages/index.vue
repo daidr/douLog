@@ -127,7 +127,7 @@ function onAfterLeave(el) {
     .main-menu-wrapper {
       @apply rounded-t-8;
       @apply bg-light dark-bg-dark;
-      @apply flex justify-center space-x-3;
+      @apply flex justify-center gap-x-3;
       @apply py-6;
       @apply select-none;
       transition-property: transform, border-radius;

@@ -310,7 +310,7 @@ article.blog-article-wrapper {
     @apply cursor-pointer;
   }
 
-  :deep(.wp-block-image) {
+  :deep(.wp-block-gallery .wp-block-image) {
     @apply m-0;
 
     img {

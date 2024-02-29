@@ -95,10 +95,10 @@ defineProps<{ article: IArticleListItem }>()
     }
 
     .details {
-      @apply flex items-center text-primary-4 dark-text-primary-6 text-sm space-x-3;
+      @apply flex items-center text-primary-4 dark-text-primary-6 text-sm gap-x-3;
 
       .detail-item {
-        @apply flex items-center space-x-1;
+        @apply flex items-center gap-x-1;
 
         // .tag-item {
         //   @apply ml-2 !important;

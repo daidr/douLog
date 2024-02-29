@@ -16,9 +16,6 @@ function getNavigationType(fromName: string, toName: string) {
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
-  //   // TODO: 暂时禁用
-  //   // TODO: 由于整个过渡的触发时机有问题，导致用户体验不是很好
-  //   return
   if (!document.startViewTransition) {
     return
   }

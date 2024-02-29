@@ -6,6 +6,8 @@ const back = useRouter().back
 
 const showBackBtn = ref(false)
 
+const { t } = useI18n()
+
 onMounted(() => {
   showBackBtn.value = history.length > 1
 })
@@ -27,15 +29,15 @@ useHead({
         </div>
         <div class="content">
           <div class="text">
-            页面走丢了，不过好在你可以：
+            {{ t("not_found.desc") }}
           </div>
           <div class="btn-group">
             <RouterLink to="/" class="link-btn">
-              去首页
+              {{ t("not_found.to_index") }}
             </RouterLink>
             <ClientOnly>
               <span v-if="showBackBtn" class="link-btn" @click="back()">
-                去上一页
+                {{ t("not_found.to_previous") }}
               </span>
             </ClientOnly>
           </div>
@@ -70,7 +72,7 @@ useHead({
       }
 
       .btn-group {
-        @apply mt-5 flex space-x-4 justify-center;
+        @apply mt-5 flex gap-x-4 justify-center;
 
         .link-btn {
           @apply text-base whitespace-nowrap;

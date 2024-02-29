@@ -18,6 +18,6 @@ export function useI18n() {
 
 export function wrapI18n<T extends (...args: any[]) => any>(t: T): T {
   return <T>((...args: any[]) => {
-    return isHydrated.value ? t(...args) : ' '
+    return isHydrated.value ? t(...args) : ''
   })
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Directions, LocaleObject } from '@nuxtjs/i18n'
 import { useDouSlackingStore } from './stores/dou-slacking'
 import { SPLASH_IMAGES } from './utils/splash-images'
 import { CONFIG } from '@/config/base'
@@ -6,17 +7,51 @@ import { CONFIG } from '@/config/base'
 const { randomThemeColorIndex, themeColor } = storeToRefs(useStatesStore())
 const colorMode = useColorMode()
 
-const { locale, t } = useI18n()
+const { locale, locales, t } = useI18n()
 
-useHead({
+const localeMap = (locales.value as LocaleObject[]).reduce((acc, l) => {
+  acc[l.code!] = l.dir ?? 'ltr'
+  return acc
+}, {} as Record<string, Directions>)
+
+function unescapeTitleTemplate(titleTemplate: string, replacements: [string, string[]][]) {
+  let result = titleTemplate
+  for (const [replacement, entities] of replacements) {
+    for (const e of entities) {
+      result = result.replaceAll(e, replacement)
+    }
+  }
+  return result.trim()
+}
+
+useHydratedHead({
+  meta: [
+    () => ({
+      name: 'theme-color',
+      content: themeColor.value,
+    }),
+  ],
+  link: [
+    () => import.meta.client
+      ? {
+          key: 'webmanifest',
+          rel: 'manifest',
+          href: `/manifest-${locale.value}${colorMode.value === 'dark' ? '-dark' : ''}.webmanifest`,
+        }
+      : {},
+  ],
   htmlAttrs: {
-    lang: computed(() => locale.value),
-    class: computed(() => {
+    lang: () => locale.value,
+    dir: () => localeMap[locale.value] ?? 'ltr',
+    class: () => {
       return {
         dark: colorMode.value === 'dark',
       }
-    }),
+    },
   },
+})
+
+useHead({
   link: [
     {
       rel: 'icon',
@@ -58,10 +93,36 @@ useHead({
     },
     ...SPLASH_IMAGES,
   ],
-  titleTemplate: (titleChunk) => {
-    return titleChunk
-      ? `${titleChunk} - ${t('global.site_name')}`
-      : t('global.site_name')
+  titleTemplate: (title?: string) => {
+    let titleTemplate = title ?? ''
+
+    if (titleTemplate.match(/&[a-z0-9#]+;/gi)) {
+      titleTemplate = unescapeTitleTemplate(titleTemplate, [
+        ['"', ['&#34;', '&quot;']],
+        ['&', ['&#38;', '&amp;']],
+        ['\'', ['&#39;', '&apos;']],
+        ['\u003C', ['&#60;', '&lt;']],
+        ['\u003E', ['&#62;', '&gt;']],
+      ])
+      if (titleTemplate.length > 60) {
+        titleTemplate = `${titleTemplate.slice(0, 60)}...${titleTemplate.endsWith('"') ? '"' : ''}`
+      }
+
+      if (!titleTemplate.includes('"')) {
+        titleTemplate = `"${titleTemplate}"`
+      }
+    } else if (titleTemplate.length > 60) {
+      titleTemplate = `${titleTemplate.slice(0, 60)}...${titleTemplate.endsWith('"') ? '"' : ''}`
+    }
+
+    const site_name = t('global.site_name')
+
+    if (titleTemplate.length && site_name.length) {
+      titleTemplate += ' | '
+      titleTemplate += site_name
+    }
+
+    return titleTemplate
   },
   meta: computed(() => [
     {
@@ -73,10 +134,6 @@ useHead({
       hid: 'keywords',
       name: 'keywords',
       content: CONFIG.keywords.join(','),
-    },
-    {
-      name: 'theme-color',
-      content: themeColor.value,
     },
     {
       name: 'viewport',
@@ -115,7 +172,6 @@ onMounted(() => {
 <template>
   <CommonWappalyzerCheat />
   <NuxtLayout>
-    <VitePwaManifest />
     <RouterView v-slot="{ Component }">
       <CommonRouterTransition>
         <Suspense

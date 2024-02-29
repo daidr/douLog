@@ -1,4 +1,5 @@
 import { currentLocales } from './config/i18n'
+import type { BuildInfo } from './types'
 
 export default defineNuxtConfig({
   typescript: {
@@ -27,14 +28,25 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@unocss/nuxt',
     'unplugin-icons/nuxt',
-    '@vite-pwa/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
+    '~/modules/pwa/index',
     '~/modules/purge-comments',
   ],
   colorMode: {
     classSuffix: '',
+  },
+  routeRules: {
+    // Static generation
+    '/': { prerender: true },
+    '/blog/**': { prerender: false },
+    '/manifest.webmanifest': {
+      headers: {
+        'Content-Type': 'application/manifest+json',
+        'Cache-Control': 'public, max-age=0, must-revalidate',
+      },
+    },
   },
   i18n: {
     locales: currentLocales,
@@ -54,126 +66,42 @@ export default defineNuxtConfig({
     injectAtEnd: true,
   },
   pwa: {
-    injectRegister: 'auto',
-    includeAssets: [
-      'favicon.ico',
-      'favicon-16x16.png',
-      'favicon-32x32.png',
-      '/pwa/apple-touch-icon.png',
-      '/pwa/safari-pinned-tab.svg',
-    ],
-    registerType: 'autoUpdate',
+    scope: '/',
+    srcDir: './service-worker',
+    filename: 'sw.ts',
+    strategies: 'injectManifest',
+    injectRegister: false,
+    includeManifestIcons: false,
+    manifest: false,
+    injectManifest: {
+      globPatterns: ['**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}'],
+      globIgnores: ['manifest**.webmanifest'],
+    },
     devOptions: {
       enabled: false,
       type: 'module',
     },
-    workbox: {
-      navigateFallback: undefined,
-      cleanupOutdatedCaches: true,
-      globPatterns: ['**/*.{js,css,html,png,svg,ico,woff2}'],
-      runtimeCaching: [
-        // 阿里云CDN，缓存优先，存30天
-        {
-          urlPattern: ({ url }) => {
-            return url.host === 'cdn.daidr.me'
-          },
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'cdn-image-cache',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 30,
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        // sm.ms 图床，缓存优先，存30天
-        {
-          urlPattern: ({ url }) => {
-            return url.host === 'i.loli.net'
-          },
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'cdn-image-smms',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 30,
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        // /api/articles 接口，缓存 10 分钟，NetworkFirst
-        {
-          urlPattern: /\/api\/articles.*/i,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-articles-cache',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60,
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        // /api/article/\d+ 接口，缓存 10 分钟，返回过期数据再重新请求
-        {
-          urlPattern: /\/api\/article\/\d+.*/i,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-article-cache',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 10,
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        // /api/summary 接口，缓存 1 小时，返回过期数据再重新请求
-        {
-          urlPattern: /\/api\/summary.*/i,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-summary-cache',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60,
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-      ],
-    },
-    manifest: {
-      name: '戴兜的小屋',
-      short_name: 'DouLOG',
-      description: 'Coding the world.',
-      theme_color: '#ffffff',
-      scope: '/',
-      start_url: '/',
-      display: 'standalone',
-      icons: [
-        {
-          src: '/pwa/android-chrome-192x192.png',
-          sizes: '192x192',
-          type: 'image/png',
-        },
-        {
-          src: '/pwa/android-chrome-512x512.png',
-          sizes: '512x512',
-          type: 'image/png',
-        },
-      ],
-    },
+    // manifest: {
+    //   name: '戴兜的小屋',
+    //   short_name: 'DouLOG',
+    //   description: 'Coding the world.',
+    //   theme_color: '#ffffff',
+    //   scope: '/',
+    //   start_url: '/',
+    //   display: 'standalone',
+    //   icons: [
+    //     {
+    //       src: '/pwa/android-chrome-192x192.png',
+    //       sizes: '192x192',
+    //       type: 'image/png',
+    //     },
+    //     {
+    //       src: '/pwa/android-chrome-512x512.png',
+    //       sizes: '512x512',
+    //       type: 'image/png',
+    //     },
+    //   ],
+    // },
   },
   css: [
     '@unocss/reset/tailwind.css',
@@ -190,7 +118,9 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    prerender: { routes: ['/', '/offline', '/404', '/projects', '/me'] },
+    prerender: {
+      crawlLinks: true,
+    },
     storage: {
       redis: {
         driver: 'redis',
@@ -227,3 +157,10 @@ export default defineNuxtConfig({
     },
   },
 })
+
+declare module '@nuxt/schema' {
+  interface AppConfig {
+    env: BuildInfo['env']
+    buildInfo: BuildInfo
+  }
+}

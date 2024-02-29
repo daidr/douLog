@@ -230,7 +230,7 @@ export default {
   @apply text-dark dark-text-light;
 
   main {
-    @apply w-full sm:space-y-5 <sm:mb-8;
+    @apply w-full flex flex-col sm:gap-y-5 <sm:mb-8;
 
     .sidebar-limit {
       @apply max-w-856px;
@@ -246,7 +246,7 @@ export default {
 
   .article-wrapper {
     @apply bg-light dark-bg-dark px-5 py-5 md:px-8 md:py-8 w-full;
-    @apply sm:rounded-8 space-y-5;
+    @apply sm:rounded-8 gap-y-5 flex flex-col;
     @apply sm:shadow-2xl general-shadow;
     view-transition-name: main-wrapper;
 
@@ -260,7 +260,7 @@ export default {
     }
 
     .details {
-      @apply flex items-center space-x-2;
+      @apply flex items-center gap-x-2;
       @apply text-sm text-primary/50 dark-text-primary-7/70;
       @apply mb-4;
       view-transition-name: article-details;

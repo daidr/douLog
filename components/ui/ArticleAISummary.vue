@@ -60,11 +60,15 @@ if (summary.value === 'no cache') {
       <div class="content">
         <div>
           灵感来自
-          <a href="https://xlog.app/" target="_blank"><IconsXlog />xLog</a>
+          <a href="https://xlog.app/" target="_blank">
+            <IconsXlog />xLog
+          </a>
         </div>
         <div>
           基于
-          <a href="https://chat.openai.com/" target="_blank"><IconsOpenai />ChatGPT</a>
+          <a href="https://chat.openai.com/" target="_blank">
+            <IconsOpenai />ChatGPT
+          </a>
         </div>
       </div>
     </div>
@@ -73,7 +77,7 @@ if (summary.value === 'no cache') {
 
 <style lang="scss" scoped>
 .summary-block {
-  @apply  rounded-xl mt-4 p-4 space-y-2;
+  @apply rounded-xl mt-4 p-4 space-y-2;
   @apply relative;
   @apply border-1 border-gray-200 dark-border-gray-700;
 

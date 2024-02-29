@@ -29,7 +29,7 @@
 
 .code-toolbar {
   @apply absolute top-1 right-1 text-base select-none;
-  @apply flex items-center justify-end space-x-2;
+  @apply flex items-center justify-end gap-x-2;
   @apply bg-light dark-bg-dark p-1;
   @apply rounded-xl;
   @apply transition-opacity opacity-0;

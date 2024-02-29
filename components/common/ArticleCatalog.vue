@@ -53,7 +53,7 @@ watch(
 <style lang="scss" scoped>
 .catalog-content {
   @apply flex flex-col items-stretch select-none pb-4;
-  @apply space-y-1;
+  @apply gap-y-1;
 
   .item-container {
     @apply relative text-primary/90 dark-text-primary-8/90;

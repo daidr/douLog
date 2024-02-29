@@ -69,5 +69,49 @@
     "week_past": "现在|上周|{n} 周前",
     "year_future": "现在|明年|{n} 年后",
     "year_past": "现在|去年|{n} 年前"
+  },
+  "not_found": {
+    "desc": "页面走丢了，不过好在你可以：",
+    "to_index": "去首页",
+    "to_previous": "去上一页"
+  },
+  "pwa": {
+    "upgrade": "新版本",
+    "dismiss": "忽略",
+    "install": "安装",
+    "install_title": "安装戴兜的小屋",
+    "title": "戴兜的小屋存在新的更新",
+    "update": "更新",
+    "update_available_short": "更新戴兜的小屋",
+    "webmanifest": {
+      "canary": {
+        "description": "Coding the world. (canary)",
+        "name": "戴兜的小屋 (canary)",
+        "short_name": "戴兜的小屋 (canary)"
+      },
+      "dev": {
+        "description": "Coding the world. (dev)",
+        "name": "戴兜的小屋 (dev)",
+        "short_name": "戴兜的小屋 (dev)"
+      },
+      "preview": {
+        "description": "Coding the world. (preview)",
+        "name": "戴兜的小屋 (preview)",
+        "short_name": "戴兜的小屋 (preview)"
+      },
+      "release": {
+        "description": "Coding the world.",
+        "name": "戴兜的小屋",
+        "short_name": "戴兜的小屋"
+      }
+    }
+  },
+  "build_info": {
+    "build_time": "构建时间：",
+    "commit_hash": "最近提交：",
+    "branch": "构建分支：",
+    "env": "环境：",
+    "title": "构建信息",
+    "close": "关闭"
   }
 }

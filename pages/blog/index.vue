@@ -125,8 +125,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
   .limit-wrapper {
     @apply flex flex-col items-start;
     @apply p-0 sm:p-3;
-    // 其实应该用gap-y更好，但是flex布局gap-y兼容性不太好
-    @apply sm:space-y-3;
+    @apply sm:gap-y-3;
     @apply max-w-1000px;
     margin: 0 auto;
 
@@ -150,7 +149,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
     }
 
     .main-menu-wrapper {
-      @apply flex space-x-3 mb-7 md:mb-8 ml-0 md:ml-5;
+      @apply flex gap-x-3 mb-7 md:mb-8 ml-0 md:ml-5;
       @apply justify-center md:justify-start;
       @apply mt-[env(safe-area-inset-top,0)];
     }

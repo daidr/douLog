@@ -19,22 +19,18 @@ async function fetchList(page: number = 1) {
     },
   })
   isFetching.value = false
+  if (_articleList.length < 10) {
+    isEnded.value = true
+  }
 
   return _articleList
 }
 
 const articles = shallowRef(await fetchList())
 
-if (articles.value.length < 10) {
-  isEnded.value = true
-}
-
 async function requestFetch() {
   if (isEnded.value || isFetching.value) return
   const _articleList = await fetchList(articles.value.length / 10 + 1)
-  if (_articleList.length < 10) {
-    isEnded.value = true
-  }
   articles.value.push(..._articleList)
   triggerRef(articles)
 }
@@ -121,19 +117,11 @@ const { t } = useI18n()
     </div>
     <div class="article-list">
       <SiteArticleItem
-        v-for="article of articles.filter(i => i.format === 'standard')"
-        :key="article.id"
-        :article="article"
-        @click.prevent="onArticleItemClick(article.id)"
+        v-for="article of articles.filter(i => i.format === 'standard')" :key="article.id"
+        :article="article" @click.prevent="onArticleItemClick(article.id)"
       />
       <ClientOnly>
-        <div
-          v-if="!isEnded"
-          ref="loadMoreRef"
-          class="load-more"
-          :class="{ disabled: isFetching }"
-          @click="requestFetch"
-        >
+        <div v-if="!isEnded" ref="loadMoreRef" class="load-more" :class="{ disabled: isFetching }" @click="requestFetch">
           {{ isFetching ? t('global.loading') : t('global.load_more') }}
         </div>
       </ClientOnly>
@@ -157,14 +145,15 @@ const { t } = useI18n()
     @apply border-1 border-primary-2 dark-border-primary-6;
   }
 }
+
 .content-wrapper {
-  @apply w-full flex flex-col items-stretch space-y-3;
+  @apply w-full flex flex-col items-stretch gap-y-3;
 
   .announcement-item {
     @apply w-full bg-light dark-bg-dark px-5 md:px-8 py-4 w-full;
     @apply sm:rounded-8;
     @apply sm:shadow-2xl general-shadow;
-    @apply flex items-center space-x-4;
+    @apply flex items-center gap-x-4;
     @apply text-lg text-primary-text;
     view-transition-name: main-announcement;
 
@@ -178,7 +167,7 @@ const { t } = useI18n()
     @apply px-5 py-5 sm:(px-8 py-8);
     @apply sm:rounded-8;
     @apply sm:shadow-2xl general-shadow;
-    @apply flex flex-col space-y-4;
+    @apply flex flex-col gap-y-4;
     view-transition-name: main-wrapper;
   }
 

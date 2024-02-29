@@ -69,5 +69,49 @@
     "week_past": "0 weeks ago|last week|{n} weeks ago",
     "year_future": "in 0 years|next year|in {n} years",
     "year_past": "0 years ago|last year|{n} years ago"
+  },
+  "not_found": {
+    "desc": "Page is lost, but luckily you can:",
+    "to_index": "Go Home",
+    "to_previous": "Back to Previous"
+  },
+  "pwa": {
+    "upgrade": "Upgrade",
+    "dismiss": "Dismiss",
+    "install": "Install",
+    "install_title": "Install DouLog",
+    "title": "New DouLog update available!",
+    "update": "Update",
+    "update_available_short": "Update DouLog",
+    "webmanifest": {
+      "canary": {
+        "description": "Coding the world. (canary)",
+        "name": "DAIDR's House (canary)",
+        "short_name": "DouLog (canary)"
+      },
+      "dev": {
+        "description": "Coding the world. (dev)",
+        "name": "DAIDR's House (dev)",
+        "short_name": "DouLog (dev)"
+      },
+      "preview": {
+        "description": "Coding the world. (preview)",
+        "name": "DAIDR's House (preview)",
+        "short_name": "DouLog (preview)"
+      },
+      "release": {
+        "description": "Coding the world.",
+        "name": "DAIDR's House",
+        "short_name": "DouLog"
+      }
+    }
+  },
+  "build_info": {
+    "build_time": "Build Time:",
+    "commit_hash": "Commit Hash:",
+    "branch": "Branch:",
+    "env": "Environment:",
+    "title": "Build Info",
+    "close": "Close"
   }
 }
