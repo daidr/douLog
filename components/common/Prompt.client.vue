@@ -19,7 +19,7 @@ defineSlots<{
     <div v-if="visible" class="common-prompt">
       <div class="common-prompt-mask" />
       <div class="common-prompt-wrapper">
-        <div class="horizontal">
+        <div class="horizontal max-w-screen-lg">
           <div class="common-prompt-modal flex flex-col gap-3">
             <div
               class="p-1 bg-primary-6/20 dark-bg-primary-4 flex self-start gap-1 rounded-full text-primary dark-text-white/70"
@@ -56,7 +56,8 @@ defineSlots<{
   }
 
   .common-prompt-wrapper {
-    @apply fixed top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2;
+    @apply fixed top-0 left-0 right-0 bottom-0 px-5;
+    @apply flex justify-center items-center;
   }
 
   .common-prompt-modal {

@@ -108,9 +108,9 @@
   },
   "build_info": {
     "build_time": "Build Time:",
-    "commit_hash": "Commit Hash:",
+    "commit_hash": "Commit:",
     "branch": "Branch:",
-    "env": "Environment:",
+    "env": "Env:",
     "title": "Build Info",
     "close": "Close"
   }
