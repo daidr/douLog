@@ -42,6 +42,7 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
       "
     /> -->
         <Component :is="UiBackgroundGeometric" />
+        <CommonPwaHeader />
         <slot />
         <SiteFooter />
         <DevOnly>

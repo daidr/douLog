@@ -53,7 +53,7 @@ useHead({
   @apply flex justify-between;
 
   .transition-page-wrapper {
-    @apply bg-light dark-bg-dark w-full md:w-400px h-full;
+    @apply bg-light dark-bg-dark w-full md:w-400px h-full mt-[env(safe-area-inset-top,0)];
     @apply shadow-2xl general-shadow;
     @apply rounded-8;
     @apply overflow-hidden;

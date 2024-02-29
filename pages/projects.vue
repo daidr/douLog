@@ -41,6 +41,10 @@ useHead({
 </template>
 
 <style scoped lang="scss">
+.transition-page-wrapper {
+  @apply mt-[env(safe-area-inset-top,0)];
+}
+
 .projects-page-wrapper {
   @apply w-full h-full;
   @apply fixed top-0 left-0;
