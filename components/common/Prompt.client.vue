@@ -120,7 +120,7 @@ defineSlots<{
 
 @keyframes model-move {
   0% {
-    transform: translateY(calc(50vh + 50%)) scale(1.5) rotateZ(40deg);
+    transform: translateY(calc(50vh + 100%)) scale(1.5) rotateZ(40deg);
   }
 
   100% {
