@@ -31,6 +31,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
+    '~/modules/purge-comments',
   ],
   colorMode: {
     classSuffix: '',
