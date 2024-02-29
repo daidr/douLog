@@ -21,7 +21,7 @@ export async function getEnv() {
     ? 'dev'
     : isPreview
       ? 'preview'
-      : branch === 'main'
+      : branch !== 'main'
         ? 'canary'
         : 'release'
   return { commit, shortCommit, branch, env } as const
