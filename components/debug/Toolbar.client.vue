@@ -23,11 +23,11 @@ function onClick() {
 }
 
 onMounted(() => {
-  window.addEventListener('click', onClick)
+  window.addEventListener('pointerup', onClick)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('click', onClick)
+  window.removeEventListener('pointerup', onClick)
   clearTimeout(timer)
 })
 </script>
@@ -42,7 +42,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .debug-toolbar {
-    @apply border-1 bg-white rounded-3 fixed top-5 left-5 z-99 transform-gpu translate-z-203vh;
+    @apply border-1 bg-white rounded-3 fixed top-[calc(env(safe-area-inset-top,0)+1.25rem)] left-5 z-99 transform-gpu translate-z-203vh;
     @apply p-3;
     @apply border-1.5 border-primary-3 text-primary;
 }
