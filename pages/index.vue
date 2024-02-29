@@ -112,7 +112,7 @@ function onAfterLeave(el) {
 
 <style scoped lang="scss">
 .transition-page-wrapper {
-  @apply w-[350px] sm:w-[400px] h-[500px] mt-[env(safe-area-inset-top,0)];
+  @apply w-[350px] sm:w-[400px] h-[500px];
   @apply absolute top-1/2 left-1/2 rounded-8;
   @apply -translate-x-1/2 -translate-y-1/2;
 
