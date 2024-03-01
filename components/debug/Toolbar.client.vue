@@ -56,6 +56,9 @@ function showBuildInfo() {
   <Transition name="fade">
     <div v-if="showToolbar" class="debug-toolbar">
       <HummerIcon class="cursor-pointer" :title="$t('build_info.title')" @click="showBuildInfo" />
+      <Teleport to="body">
+        <DebugDevTrigger />
+      </Teleport>
     </div>
   </Transition>
 </template>

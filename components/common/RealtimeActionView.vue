@@ -39,9 +39,6 @@ const { language } = useNavigatorLanguage()
 //   }
 // })
 
-const timeAgoOptions = useTimeAgoOptions(true)
-const friendTimeString = useTimeAgo(() => douSlackingStore.stats.update, timeAgoOptions)
-
 // 设置国际化时间Option
 const localTimeOption: Intl.DateTimeFormatOptions = {
   hour: 'numeric',
@@ -98,8 +95,8 @@ onUnmounted(() => {
         <p v-else class="text-xs text-right text-primary">
           {{ t('dou_slacking.resting') }}
         </p>
-        <p class="text-xs text-right text-primary">
-          {{ friendTimeString }}
+        <p v-if="isHydrated" class="text-xs text-right text-primary">
+          {{ useTimeAgo(() => douSlackingStore.stats.update, useTimeAgoOptions(true)).value }}
         </p>
       </div>
       <div v-if="douSlackingStore.stats.media_playing" class="split-line" />
