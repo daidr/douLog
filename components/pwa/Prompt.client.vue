@@ -1,14 +1,34 @@
 <script setup lang="ts">
+import { useModal } from '~/composables/useModal'
 import UpdateIcon from '~icons/mingcute/arrow-up-circle-line'
+
+const { t } = useI18n()
+
+let closeFn = () => { }
+
+watch(() => useNuxtApp().$pwa?.needRefresh, (value) => {
+  if (!value) {
+    closeFn()
+    return
+  }
+  const { close } = useModal({
+    title: t('pwa.upgrade'),
+    confirmText: t('pwa.update'),
+    cancelText: t('pwa.dismiss'),
+    icon: UpdateIcon,
+    content: t('pwa.title'),
+    onConfirm: () => useNuxtApp().$pwa?.updateServiceWorker(true),
+  })
+  closeFn = close
+}, {
+  immediate: true,
+})
+
+onUnmounted(() => {
+  closeFn()
+})
 </script>
 
 <template>
-  <CommonPrompt
-    :visible="Boolean(useNuxtApp().$pwa?.needRefresh)" :title="$t('pwa.upgrade')"
-    :cancel-text="$t('pwa.dismiss')" :confirm-text="$t('pwa.update')" :icon="UpdateIcon"
-    @cancel="useNuxtApp().$pwa?.close()"
-    @confirm="useNuxtApp().$pwa?.updateServiceWorker(true)"
-  >
-    {{ $t('pwa.title') }}
-  </CommonPrompt>
+  <div />
 </template>

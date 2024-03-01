@@ -1,4 +1,6 @@
 <script setup>
+import { ModalContainer } from '~/composables/useModal'
+
 const head = useLocaleHead({
   addDirAttribute: true,
   identifierAttribute: 'id',
@@ -35,6 +37,7 @@ const UiBackgroundGeometric = defineAsyncComponent(() =>
     </Head>
 
     <Body>
+      <ModalContainer />
       <div class="main-wrapper">
         <!-- <Component
       :is="
