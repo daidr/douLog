@@ -7,37 +7,7 @@ const { t } = useI18n()
 
 const douSlackingStore = useDouSlackingStore()
 
-const currentTime = ref(0)
-
-const currentTimeInterval = setInterval(() => {
-  currentTime.value = Date.now()
-}, 1000)
-
 const { language } = useNavigatorLanguage()
-
-// const friendTimeString = computed(() => {
-//   const time = new Date(currentTime.value)
-//   const prevTime = new Date(douSlackingStore.stats.update)
-//   const formatter = new Intl.RelativeTimeFormat(language.value, {
-//     style: 'narrow',
-//   })
-//   const diff = time.getTime() - prevTime.getTime()
-//   const diffDays = Math.floor(diff / (24 * 3600 * 1000))
-//   const diffHours = Math.floor(diff / (3600 * 1000))
-//   const diffMinutes = Math.floor(diff / (60 * 1000))
-//   const diffSeconds = Math.floor(diff / 1000)
-//   if (diffDays > 0) {
-//     return formatter.format(-diffDays, 'day')
-//   } else if (diffHours > 0) {
-//     return formatter.format(-diffHours, 'hour')
-//   } else if (diffMinutes > 0) {
-//     return formatter.format(-diffMinutes, 'minute')
-//   } else if (diffSeconds > 0) {
-//     return formatter.format(-diffSeconds, 'second')
-//   } else {
-//     return '刚刚'
-//   }
-// })
 
 // 设置国际化时间Option
 const localTimeOption: Intl.DateTimeFormatOptions = {
@@ -61,7 +31,6 @@ const localTimeInterval = setInterval(() => {
 }, 1000)
 
 onUnmounted(() => {
-  clearInterval(currentTimeInterval)
   clearInterval(localTimeInterval)
 })
 </script>
@@ -90,13 +59,13 @@ onUnmounted(() => {
     <div class="tips">
       <div class="status-wrapper">
         <p v-if="!douSlackingStore.stats.idle" class="text-sm text-primary">
-          {{ t('dou_slacking.doing') }} <b>{{ douSlackingStore.stats.text }}</b>
+          {{ t('dou_slacking.doing') }} <b>{{ t(`dou_slacking.status.${douSlackingStore.stats.text}`) }}</b>
         </p>
         <p v-else class="text-xs text-right text-primary">
           {{ t('dou_slacking.resting') }}
         </p>
         <p v-if="isHydrated" class="text-xs text-right text-primary">
-          {{ useTimeAgo(() => douSlackingStore.stats.update, useTimeAgoOptions(true)).value }}
+          {{ useTimeAgo(() => douSlackingStore.stats.update, useTimeAgoOptions()).value }}
         </p>
       </div>
       <div v-if="douSlackingStore.stats.media_playing" class="split-line" />

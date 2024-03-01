@@ -24,7 +24,27 @@
     "tips": "individuals are visiting",
     "local_time": "Local Time",
     "resting": "I'm resting",
-    "doing": "I'm"
+    "doing": "I'm",
+    "status": {
+      "睡觉": "sleeping",
+      "锻炼身体": "exercising",
+      "玩游戏": "playing games",
+      "学习": "learning",
+      "搬砖中": "working",
+      "敲代码": "coding",
+      "网上冲浪": "surfing the Internet",
+      "处理邮件": "dealing with emails",
+      "聊天": "chatting",
+      "激情修图": "retouching",
+      "激情作图": "drawing",
+      "玩星铁": "playing HSR",
+      "写文档": "writing a document",
+      "做PPT": "making a presentation",
+      "做表格": "making a spreadsheet",
+      "大原特原": "playing GI",
+      "上网课": "learning online",
+      "聊天/开会": "having a meeting"
+    }
   },
   "social": {
     "rss": "RSS",
