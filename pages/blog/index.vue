@@ -107,7 +107,7 @@ const isOnlineOnce = computed(() => {
         />
       </div>
       <div v-else class="block-wrapper-group transition-extra-wrapper flex-grow-1">
-        <div class="h-full flex flex-col items-center justify-center text-white/70">
+        <div class="h-[calc(100vh-300px)] flex flex-col items-center justify-center text-white/70">
           <NoWifiIcon class="text-7xl" :title="$t('offline.desc')" />
         </div>
       </div>
@@ -141,7 +141,7 @@ const isOnlineOnce = computed(() => {
   }
 
   .limit-wrapper {
-    @apply flex flex-col items-start h-full;
+    @apply flex flex-col items-start;
     @apply p-0 sm:p-3;
     @apply sm:gap-y-3;
     @apply max-w-1000px;

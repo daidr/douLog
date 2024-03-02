@@ -1,12 +1,15 @@
 import qs from 'qs'
-import hljs from 'highlight.js'
 
 import { JSDOM } from 'jsdom'
 import { decode } from 'html-entities'
+import { bundledLanguages, codeToHtml } from 'shiki'
 import { defineCountableCachedEventHandler } from '../utils/countable-cache-handler'
 import { htmlToPureText } from '~/utils/stringify'
 import minifyHtml from '~~/utils/minifyHtml'
 import { replaceMediaCDN } from '~~/utils/mediaCDN'
+import { createRecord } from '~~/utils/record'
+
+const bundledLanguagesList = Object.keys(bundledLanguages)
 
 const { apiEntry } = useRuntimeConfig()
 
@@ -35,6 +38,7 @@ export interface IArticleItem {
   tags: string[]
   format: string
   date: string
+  duration?: Record<string, number>
 }
 
 function encodeHtmlAttr(str: string) {
@@ -65,8 +69,7 @@ function preHandleArticleContent(html: string) {
   )
 }
 
-function handleArticleHeading(html: string) {
-  const dom = new JSDOM(html)
+function handleArticleHeading(dom: JSDOM) {
   const { document } = dom.window
   let minTitleLevel = 6
   const title = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
@@ -87,12 +90,12 @@ function handleArticleHeading(html: string) {
   })
 
   return {
-    html: dom.serialize(),
+    dom,
     titleList,
   }
 }
 
-function handleArticleCodeHighlight(html: string) {
+async function handleArticleCodeHighlight(html: string) {
   const dom = new JSDOM(html)
   const { document } = dom.window
   // 获取所有 pre 标签
@@ -101,38 +104,34 @@ function handleArticleCodeHighlight(html: string) {
   preList = preList.filter(
     item => item.children.length === 1 && item.children[0].tagName === 'CODE',
   )
-  if (preList.length === 0) return html
+  if (preList.length === 0) return dom
   // 获取所有语言
-  const langList = preList.map((item) => {
+  const getLang = (item: HTMLPreElement) => {
     const lang = /language-(\w*)/.exec(item.children[0].className) || []
-    return lang[1]
-  })
+    return lang[1] || ''
+  }
 
   for (let i = 0; i < preList.length; i++) {
     const str = preList[i].textContent || ''
-    let lang = langList[i] || ''
+    let lang = getLang(preList[i])
     switch (lang) {
       case 'markup':
         lang = 'html'
         break
     }
-    if (lang && hljs.getLanguage(lang)) {
-      const _result = hljs.highlight(str, {
-        language: lang,
-        ignoreIllegals: true,
-      })
-      preList[i].outerHTML
-        = `<div class="hljs-toolbar-wrapper"><pre class="hljs" lang="${lang}"><code class="hljs-code">${
-         _result.value
-         }</code></pre></div>`
-    } else {
-      preList[
-        i
-      ].outerHTML = `<div class="hljs-toolbar-wrapper"><pre class="hljs" lang="❌"><code class="hljs-code">${str}</code></pre></div>`
-    }
+    lang = lang && bundledLanguagesList.includes(lang) ? lang : 'text'
+
+    const _result = (await codeToHtml(str, {
+      lang,
+      themes: {
+        light: 'vitesse-light',
+        dark: 'vitesse-dark',
+      },
+    })).replace('background-color:#ffffff;--shiki-dark-bg:#121212;', '')
+    preList[i].outerHTML = `<div class="shiki-toolbar-wrapper" lang="${lang}">${_result}</div>`
   }
 
-  return dom.serialize()
+  return dom
 }
 
 export default defineCountableCachedEventHandler(
@@ -144,6 +143,8 @@ export default defineCountableCachedEventHandler(
         statusMessage: 'ID should be an integer',
       })
     }
+
+    const { record, recordAsync, getRecords } = createRecord()
 
     const query = qs.stringify(
       {
@@ -173,25 +174,27 @@ export default defineCountableCachedEventHandler(
     )
 
     try {
-      const result = (await $fetch(
+      const result = await recordAsync('fetch', () => $fetch(
         `/wp-json/wp/v2/posts/${articleID}?${query}`,
         {
           baseURL: apiEntry,
         },
       )) as any
 
-      const { html, titleList } = handleArticleHeading(
-        handleArticleCodeHighlight(
-          preHandleArticleContent(result.content.rendered),
-        ),
-      )
+      const preHandledHtml = record('preHandle', () => preHandleArticleContent(result.content.rendered))
+
+      const highlightDom = await recordAsync('codeHighlight', () => handleArticleCodeHighlight(preHandledHtml))
+
+      const { dom, titleList } = record('toc', () => handleArticleHeading(highlightDom))
+
+      const serializedHtml = record('serialize', () => minifyHtml(dom.window.document.body.innerHTML))
 
       const _result = {
         id: result.id,
         link: result.link,
         title: decode(result.title.rendered),
         excerpt: htmlToPureText(result.excerpt.rendered),
-        content: minifyHtml(html),
+        content: serializedHtml,
         titleList,
         image: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_full_image)
@@ -209,6 +212,7 @@ export default defineCountableCachedEventHandler(
         tags: result._embedded['wp:term'][1].map((tag: any) => tag.name),
         format: result.format,
         date: result.post_date,
+        duration: getRecords(),
       } as IArticleItem
 
       return _result
@@ -222,6 +226,6 @@ export default defineCountableCachedEventHandler(
   },
   {
     swr: true,
-    maxAge: 60,
+    maxAge: 1,
   },
 )

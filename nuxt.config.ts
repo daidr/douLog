@@ -81,27 +81,6 @@ export default defineNuxtConfig({
       enabled: false,
       type: 'module',
     },
-    // manifest: {
-    //   name: '戴兜的小屋',
-    //   short_name: 'DouLOG',
-    //   description: 'Coding the world.',
-    //   theme_color: '#ffffff',
-    //   scope: '/',
-    //   start_url: '/',
-    //   display: 'standalone',
-    //   icons: [
-    //     {
-    //       src: '/pwa/android-chrome-192x192.png',
-    //       sizes: '192x192',
-    //       type: 'image/png',
-    //     },
-    //     {
-    //       src: '/pwa/android-chrome-512x512.png',
-    //       sizes: '512x512',
-    //       type: 'image/png',
-    //     },
-    //   ],
-    // },
   },
   css: [
     '@unocss/reset/tailwind.css',

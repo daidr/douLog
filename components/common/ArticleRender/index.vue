@@ -2,8 +2,8 @@
 import mediumZoom from 'medium-zoom'
 import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
 import '~~/article-gadgets/mdx-github-card/style.scss'
-import './hljs-light.scss'
 import './wp-block-gallery.scss'
+import './shiki.scss'
 
 const props = defineProps<{
   articleHtml: string
@@ -54,7 +54,7 @@ onMounted(() => {
 
 function injectCodeToolbar() {
   if (typeof window === 'undefined') return
-  const codeBlocks = document.querySelectorAll('.hljs-toolbar-wrapper')
+  const codeBlocks = document.querySelectorAll('.shiki-toolbar-wrapper')
   codeBlocks.forEach((item) => {
     const toolbar = document.createElement('div')
     toolbar.className = 'code-toolbar'
@@ -73,7 +73,7 @@ function injectCodeToolbar() {
     })
     const codeLangText = document.createElement('div')
     codeLangText.className = 'code-lang-text'
-    codeLangText.textContent = item.children[0].getAttribute('lang') || '❌'
+    codeLangText.textContent = item.getAttribute('lang') || '❌'
     toolbar.append(copyBtn)
     toolbar.append(codeLangText)
     item.append(toolbar)
@@ -241,7 +241,7 @@ article.blog-article-wrapper {
     @apply text-primary-4 dark-text-primary-7;
   }
 
-  :deep(code:not([class='hljs-code'])) {
+  :deep(code:not(.shiki code)) {
     @apply bg-primary-1/70 dark-bg-primary-2 px-1 rounded-md text-primary-7 dark-text-primary-8;
   }
 
