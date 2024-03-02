@@ -139,10 +139,50 @@ if (import.meta.env.PROD) {
       ],
     }),
   )
+
+  // 文章列表接口 /\/api\/articles.*/i
+  registerRoute(
+    ({ url }) => /\/api\/articles.*/i.test(url.pathname),
+    new NetworkFirst({
+      cacheName: 'doulog-api-articles',
+      plugins: [
+        new CacheableResponsePlugin({ statuses: [200] }),
+      ],
+    }),
+  )
+
+  // 文章接口 /\/api\/article\/\d+.*/i
+  registerRoute(
+    ({ url }) => /\/api\/article\/\d+.*/i.test(url.pathname),
+    new NetworkFirst({
+      cacheName: 'doulog-api-article',
+      plugins: [
+        new CacheableResponsePlugin({ statuses: [200] }),
+      ],
+    }),
+  )
+
+  // 文章摘要接口 /\/api\/summary.*/i
+  registerRoute(
+    ({ url }) => /\/api\/summary.*/i.test(url.pathname),
+    new NetworkFirst({
+      cacheName: 'doulog-api-summary',
+      plugins: [
+        new CacheableResponsePlugin({ statuses: [200] }),
+      ],
+    }),
+  )
 }
 
 // to allow work offline
 registerRoute(new NavigationRoute(
-  createHandlerBoundToURL('/'),
+  new NetworkFirst({
+    cacheName: 'doulog-runtime-navigation',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [200] }),
+      // we only need a few entries
+      new ExpirationPlugin({ maxEntries: 100 }),
+    ],
+  }),
   { allowlist, denylist },
 ))
