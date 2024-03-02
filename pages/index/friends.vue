@@ -3,9 +3,6 @@ import { FriendsList } from '@/config/friends.js'
 import { shuffle } from '@/utils/_'
 import IconSubway from '~icons/mingcute/train-3-line'
 
-const FriendsListShuffled = useState('FriendsListShuffled', () =>
-  shuffle(FriendsList))
-
 const showTopShadow = ref(false)
 const showBottomShadow = ref(true)
 
@@ -41,7 +38,7 @@ useHead({
           </div>
         </a>
         <a
-          v-for="item of FriendsListShuffled" :key="item.url" class="friend-item" :href="item.url" target="_blank"
+          v-for="item of isHydrated ? shuffle(FriendsList) : FriendsList" :key="item.url" class="friend-item" :href="item.url" target="_blank"
           rel="noopener noreferrer"
         >
           <div class="avatar" :style="{ backgroundColor: item.color }">
