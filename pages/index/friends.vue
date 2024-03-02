@@ -17,6 +17,8 @@ const { t } = useI18n()
 useHead({
   title: computed(() => t('main_nav.friends')),
 })
+
+const shuffledFriendsList = shuffle(FriendsList)
 </script>
 
 <template>
@@ -38,7 +40,7 @@ useHead({
           </div>
         </a>
         <a
-          v-for="item of isHydrated ? shuffle(FriendsList) : FriendsList" :key="item.url" class="friend-item" :href="item.url" target="_blank"
+          v-for="item of isHydrated ? shuffledFriendsList : FriendsList" :key="item.url" class="friend-item" :href="item.url" target="_blank"
           rel="noopener noreferrer"
         >
           <div class="avatar" :style="{ backgroundColor: item.color }">
