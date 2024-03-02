@@ -133,5 +133,8 @@
     "env": "Env:",
     "title": "Build Info",
     "close": "Close"
+  },
+  "offline": {
+    "desc": "You are offline, please check your network."
   }
 }

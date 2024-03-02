@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
 import type { IArticleItem } from '~/server/api/article/[id]'
+import NoWifiIcon from '~icons/mingcute/wifi-off-line'
 
 const { t } = useI18n()
 
@@ -83,7 +84,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
         </div>
       </div>
 
-      <div class="block-wrapper-group transition-extra-wrapper">
+      <div v-if="isOnline || !isHydrated" class="block-wrapper-group transition-extra-wrapper">
         <NuxtPage
           :transition="{
             css: false,
@@ -92,6 +93,11 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
             exclude: ['ArticlePage'],
           }"
         />
+      </div>
+      <div v-else class="block-wrapper-group transition-extra-wrapper flex-grow-1">
+        <div class="h-full flex flex-col items-center justify-center text-white/70">
+          <NoWifiIcon class="text-7xl" :title="$t('offline.desc')" />
+        </div>
       </div>
     </div>
   </div>
@@ -123,7 +129,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
   }
 
   .limit-wrapper {
-    @apply flex flex-col items-start;
+    @apply flex flex-col items-start h-full;
     @apply p-0 sm:p-3;
     @apply sm:gap-y-3;
     @apply max-w-1000px;

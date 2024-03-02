@@ -98,19 +98,17 @@ const { t } = useI18n()
 
 <template>
   <div class="content-wrapper">
-    <ClientOnly>
-      <Teleport to="body">
-        <Transition name="fade">
-          <template v-if="isPrefetching">
-            <div class="loading-mask">
-              <div class="loading">
-                <UiLoadingIcon />
-              </div>
+    <Teleport v-if="isHydrated" to="body">
+      <Transition name="fade">
+        <template v-if="isPrefetching">
+          <div class="loading-mask">
+            <div class="loading">
+              <UiLoadingIcon />
             </div>
-          </template>
-        </Transition>
-      </Teleport>
-    </ClientOnly>
+          </div>
+        </template>
+      </Transition>
+    </Teleport>
     <div class="announcement-item">
       <IconAlarm />
       <p>{{ t('global.blog_announcement') }}</p>
@@ -120,11 +118,9 @@ const { t } = useI18n()
         v-for="article of articles.filter(i => i.format === 'standard')" :key="article.id"
         :article="article" @click.prevent="onArticleItemClick(article.id)"
       />
-      <ClientOnly>
-        <div v-if="!isEnded" ref="loadMoreRef" class="load-more" :class="{ disabled: isFetching }" @click="requestFetch">
-          {{ isFetching ? t('global.loading') : t('global.load_more') }}
-        </div>
-      </ClientOnly>
+      <div v-if="!isEnded && isHydrated" ref="loadMoreRef" class="load-more" :class="{ disabled: isFetching }" @click="requestFetch">
+        {{ isFetching ? t('global.loading') : t('global.load_more') }}
+      </div>
     </div>
   </div>
 </template>
