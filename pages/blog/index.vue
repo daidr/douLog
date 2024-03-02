@@ -56,6 +56,18 @@ const ArticleSummaryCache = ref<string>('')
 provide('ArticleCacheId', ArticleCacheId)
 provide('ArticleCache', ArticleCache)
 provide('ArticleSummaryCache', ArticleSummaryCache)
+
+let isOnlineLocked = false
+const isOnlineOnce = computed(() => {
+  if (isOnlineLocked) {
+    return true
+  }
+  if (isOnline.value) {
+    isOnlineLocked = true
+    return true
+  }
+  return false
+})
 </script>
 
 <template>
@@ -84,7 +96,7 @@ provide('ArticleSummaryCache', ArticleSummaryCache)
         </div>
       </div>
 
-      <div v-if="isOnline || !isHydrated" class="block-wrapper-group transition-extra-wrapper">
+      <div v-if="isOnlineOnce || !isHydrated" class="block-wrapper-group transition-extra-wrapper">
         <NuxtPage
           :transition="{
             css: false,
