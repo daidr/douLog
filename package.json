@@ -61,9 +61,6 @@
   "pnpm": {
     "overrides": {
       "sourcemap-codec": "npm:@jridgewell/sourcemap-codec"
-    },
-    "patchedDependencies": {
-      "decode-named-character-reference@1.0.2": "patches/decode-named-character-reference@1.0.2.patch"
     }
   },
   "simple-git-hooks": {
