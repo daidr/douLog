@@ -191,7 +191,7 @@ export default {
           <UiLazyImage :src="article.image" :thumbnail="article.thumbnail" />
         </div>
         <CommonArticleRender
-          :article-html="article.content"
+          :article="article.content"
           @active-title="setActiveTitle"
         />
       </div>

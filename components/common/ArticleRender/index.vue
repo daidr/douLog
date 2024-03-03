@@ -1,31 +1,15 @@
 <script setup lang="ts">
-import mediumZoom from 'medium-zoom'
-import { initMdxGitCards } from '~~/article-gadgets/mdx-github-card'
+import type { Root } from 'hast'
 import '~~/article-gadgets/mdx-github-card/style.scss'
 import './wp-block-gallery.scss'
-import './shiki.scss'
 
-const props = defineProps<{
-  articleHtml: string
+defineProps<{
+  article: Root
 }>()
 
 const emit = defineEmits<{
   (event: 'activeTitle', payload: string | null): void
 }>()
-
-const WARN_ICON
-  = '<svg xmlns="http://www.w3.org/2000/svg" class="mdui-icon" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a1 1 0 1 0 1 1a1 1 0 0 0-1-1Zm10.67 1.47l-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51a1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg>'
-
-const _articleHtml = computed(() => {
-  return (
-    props.articleHtml
-      // 替换警告图标
-      .replaceAll(
-        '<i class="mdui-icon material-icons">warning</i><br>',
-        WARN_ICON,
-      )
-  )
-})
 
 const onScroll = throttleAndDebounce(checkActiveTitle, 100)
 
@@ -42,50 +26,11 @@ onMounted(() => {
   articlePageWrapper!.addEventListener('scroll', onScroll)
 
   // 解析并注入 iframe 等短代码
-  injectElement()
+  // injectElement()
 
   // 绑定灯箱
-  bindImageViewer()
-
-  injectCustomPlugins()
-
-  injectCodeToolbar()
+  // bindImageViewer()
 })
-
-function injectCodeToolbar() {
-  if (typeof window === 'undefined') return
-  const codeBlocks = document.querySelectorAll('.shiki-toolbar-wrapper')
-  codeBlocks.forEach((item) => {
-    const toolbar = document.createElement('div')
-    toolbar.className = 'code-toolbar'
-    const copyBtn = document.createElement('div')
-    copyBtn.className = 'code-copy-btn'
-    copyBtn.textContent = '复制'
-    let timer: NodeJS.Timeout
-    copyBtn.addEventListener('click', () => {
-      const text = item.children[0].textContent || ''
-      navigator.clipboard.writeText(text)
-      clearTimeout(timer)
-      copyBtn.textContent = '已复制'
-      timer = setTimeout(() => {
-        copyBtn.textContent = '复制'
-      }, 1000)
-    })
-    const codeLangText = document.createElement('div')
-    codeLangText.className = 'code-lang-text'
-    codeLangText.textContent = item.getAttribute('lang') || '❌'
-    toolbar.append(copyBtn)
-    toolbar.append(codeLangText)
-    item.append(toolbar)
-  })
-}
-
-function injectCustomPlugins() {
-  if (typeof window === 'undefined') return
-
-  // 解析 Github 卡片短代码
-  initMdxGitCards()
-}
 
 function injectElement() {
   if (typeof window === 'undefined') return
@@ -153,37 +98,12 @@ function isTitleActive(
   }
   return [false, null]
 }
-
-function bindImageViewer() {
-  if (typeof window === 'undefined') return
-  {
-    // 如果img标签外层有a标签，则去除a标签
-    const images = document.querySelectorAll('.blog-article-wrapper img')
-    images.forEach((img) => {
-      if (img.parentElement?.tagName.toLowerCase() === 'a') {
-        img.parentElement.replaceWith(img)
-      }
-    })
-  }
-
-  {
-    const images = document.querySelectorAll(
-      '.blog-article-wrapper img:not(.wp-smiley)',
-    )
-    mediumZoom(images, {
-      background: 'rgba(255, 255, 255, 0.6)',
-      margin: 16,
-    })
-  }
-}
 </script>
 
 <template>
-  <article
-    ref="ArticleContentWrapperRef"
-    class="blog-article-wrapper"
-    v-html="_articleHtml"
-  />
+  <article ref="ArticleContentWrapperRef" class="blog-article-wrapper">
+    <CommonArticleRenderPartEntry :nodes="article.children" />
+  </article>
 </template>
 
 <style lang="scss" scoped>

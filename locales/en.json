@@ -136,5 +136,10 @@
   },
   "offline": {
     "desc": "You are offline, please check your network."
+  },
+  "code_block": {
+    "copy": "Copy",
+    "copy_success": "Copied!",
+    "copy_failure": "Copy failed"
   }
 }

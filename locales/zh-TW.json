@@ -136,5 +136,10 @@
   },
   "offline": {
     "desc": "需要連接網路才能存取此頁面"
+  },
+  "code_block": {
+    "copy": "拷貝",
+    "copy_success": "已經拷貝",
+    "copy_failure": "拷貝失敗"
   }
 }

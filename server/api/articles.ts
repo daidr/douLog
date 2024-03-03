@@ -1,7 +1,6 @@
 import qs from 'qs'
 import { decode } from 'html-entities'
 import { replaceMediaCDN } from '~~/utils/mediaCDN'
-import { htmlToPureText } from '~/utils/stringify'
 
 const { apiEntry } = useRuntimeConfig()
 

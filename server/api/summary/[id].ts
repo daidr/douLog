@@ -1,4 +1,5 @@
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { hastRootToPureText } from '~/server/utils/stringify'
 
 const returnLimit = 400
 const chunkSize = 4000
@@ -109,7 +110,7 @@ export default defineEventHandler(async (event) => {
         return 'no cache'
       }
 
-      articleSummary = (await getSummary(article.content, lang)) || ''
+      articleSummary = (await getSummary(hastRootToPureText(article.content), lang)) || ''
 
       if (articleSummary) {
         await useStorage().setItem(cacheKey, articleSummary)

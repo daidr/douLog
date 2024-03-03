@@ -1,15 +1,16 @@
 import qs from 'qs'
 
-import { JSDOM } from 'jsdom'
 import { decode } from 'html-entities'
-import { bundledLanguages, codeToHtml } from 'shiki'
-import { defineCountableCachedEventHandler } from '../utils/countable-cache-handler'
-import { htmlToPureText } from '~/utils/stringify'
-import minifyHtml from '~~/utils/minifyHtml'
-import { replaceMediaCDN } from '~~/utils/mediaCDN'
-import { createRecord } from '~~/utils/record'
+import slugify from 'slug'
 
-const bundledLanguagesList = Object.keys(bundledLanguages)
+import type { Element, ElementContent, Root, RootContent } from 'hast'
+import { fromHtmlIsomorphic } from 'hast-util-from-html-isomorphic'
+import { pinyin } from '@napi-rs/pinyin'
+import { defineCountableCachedEventHandler } from '../utils/countable-cache-handler'
+import { replaceMediaCDN } from '~~/utils/mediaCDN'
+
+const WARN_ICON
+  = '<svg xmlns="http://www.w3.org/2000/svg" class="mdui-icon" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a1 1 0 1 0 1 1a1 1 0 0 0-1-1Zm10.67 1.47l-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51a1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg>'
 
 const { apiEntry } = useRuntimeConfig()
 
@@ -23,11 +24,11 @@ export interface IArticleItem {
   id: number
   link: string
   title: string
-  content: string
+  content: Root
   excerpt: string
   titleList: ICatalogItem[]
-  image: string
-  thumbnail: string
+  image?: string
+  thumbnail?: string
   commentCount: number
   viewCount: number
   categoryName: string
@@ -66,72 +67,69 @@ function preHandleArticleContent(html: string) {
           return `<div class="table-container">${p1}</div>`
         },
       )
+      // 替换警告图标
+      .replaceAll(
+        '<i class="mdui-icon material-icons">warning</i><br>',
+        WARN_ICON,
+      )
   )
 }
 
-function handleArticleHeading(dom: JSDOM) {
-  const { document } = dom.window
+function handleArticleHeading(root: Root) {
+  const titleNodes: Element[] = []
   let minTitleLevel = 6
-  const title = document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+  const traverse = (node: ElementContent | RootContent) => {
+    if (node.type !== 'element') return
+    if (node.tagName === 'h1' || node.tagName === 'h2' || node.tagName === 'h3' || node.tagName === 'h4' || node.tagName === 'h5' || node.tagName === 'h6') {
+      const level = Number(node.tagName.replace('h', ''))
+      if (level < minTitleLevel) minTitleLevel = level
+      titleNodes.push(node)
+    }
+    if (node.children) {
+      node.children.forEach(traverse)
+    }
+  }
+  root.children.forEach(traverse)
   const titleList: ICatalogItem[] = []
-  title.forEach((item) => {
-    const level = Number(item.tagName.replace('H', ''))
-    if (level < minTitleLevel) minTitleLevel = level
-  })
-  let tagIndex = 0
-  title.forEach((item) => {
-    const level = Number(item.tagName.replace('H', ''))
+  const conflictingSlugMap = new Map<string, number>()
+
+  for (const title of titleNodes) {
+    const level = Number(title.tagName.replace('h', ''))
+    const content = hastToPureText(title)
+    let slug = slugify(pinyin(content).join('-'))
+    const conflictingSlugCount = conflictingSlugMap.get(slug) || 0
+    conflictingSlugMap.set(slug, conflictingSlugCount + 1)
+    if (conflictingSlugCount > 0) {
+      slug = `${slug}-${conflictingSlugCount}`
+    }
+
     const titleItem: ICatalogItem = {
-      key: (item.id = `ah-${tagIndex++}`),
-      title: (item as HTMLElement).textContent || '',
+      key: (title.properties.id = `h-${slug}`),
+      title: content,
       level: level - minTitleLevel,
     }
     titleList.push(titleItem)
-  })
-
-  return {
-    dom,
-    titleList,
   }
+
+  return titleList
 }
 
-async function handleArticleCodeHighlight(html: string) {
-  const dom = new JSDOM(html)
-  const { document } = dom.window
-  // 获取所有 pre 标签
-  let preList = [...document.querySelectorAll('pre')]
-  // 过滤掉子标签不是 code 的 pre 标签
-  preList = preList.filter(
-    item => item.children.length === 1 && item.children[0].tagName === 'CODE',
-  )
-  if (preList.length === 0) return dom
-  // 获取所有语言
-  const getLang = (item: HTMLPreElement) => {
-    const lang = /language-(\w*)/.exec(item.children[0].className) || []
-    return lang[1] || ''
-  }
-
-  for (let i = 0; i < preList.length; i++) {
-    const str = preList[i].textContent || ''
-    let lang = getLang(preList[i])
-    switch (lang) {
-      case 'markup':
-        lang = 'html'
-        break
+// 移除图片外层的a标签
+function handleExtraImageLink(root: Root) {
+  const traverse = (node: ElementContent | RootContent) => {
+    if (node.type !== 'element') return
+    if (node.tagName === 'a' && node.children.length === 1 && node.children[0].type === 'element' && node.children[0].tagName === 'img') {
+      const img = node.children[0] as Element
+      node.properties = img.properties
+      node.children = img.children
+      node.tagName = img.tagName
+      return
     }
-    lang = lang && bundledLanguagesList.includes(lang) ? lang : 'text'
-
-    const _result = (await codeToHtml(str, {
-      lang,
-      themes: {
-        light: 'vitesse-light',
-        dark: 'vitesse-dark',
-      },
-    })).replace('background-color:#ffffff;--shiki-dark-bg:#121212;', '')
-    preList[i].outerHTML = `<div class="shiki-toolbar-wrapper" lang="${lang}">${_result}</div>`
+    if (node.children) {
+      node.children.forEach(traverse)
+    }
   }
-
-  return dom
+  root.children.forEach(traverse)
 }
 
 export default defineCountableCachedEventHandler(
@@ -183,25 +181,25 @@ export default defineCountableCachedEventHandler(
 
       const preHandledHtml = record('preHandle', () => preHandleArticleContent(result.content.rendered))
 
-      const highlightDom = await recordAsync('codeHighlight', () => handleArticleCodeHighlight(preHandledHtml))
+      const parseAst = record('parseTree', () => fromHtmlIsomorphic(preHandledHtml, { fragment: true }))
 
-      const { dom, titleList } = record('toc', () => handleArticleHeading(highlightDom))
+      const titleList = record('toc', () => handleArticleHeading(parseAst))
 
-      const serializedHtml = record('serialize', () => minifyHtml(dom.window.document.body.innerHTML))
+      record('extraImageLink', () => handleExtraImageLink(parseAst))
 
-      const _result = {
+      const _result: IArticleItem = {
         id: result.id,
         link: result.link,
         title: decode(result.title.rendered),
         excerpt: htmlToPureText(result.excerpt.rendered),
-        content: serializedHtml,
+        content: parseAst,
         titleList,
         image: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_full_image)
-          : null,
+          : undefined,
         thumbnail: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_medium_image)
-          : null,
+          : undefined,
         commentCount: result.total_comments,
         viewCount: result.pageviews,
         categoryName: result.category_name,
@@ -213,7 +211,7 @@ export default defineCountableCachedEventHandler(
         format: result.format,
         date: result.post_date,
         duration: getRecords(),
-      } as IArticleItem
+      }
 
       return _result
     } catch (e) {

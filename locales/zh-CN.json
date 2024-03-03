@@ -136,5 +136,10 @@
   },
   "offline": {
     "desc": "需要连接网络才能访问此页面"
+  },
+  "code_block": {
+    "copy": "复制",
+    "copy_success": "已复制",
+    "copy_failure": "复制失败"
   }
 }

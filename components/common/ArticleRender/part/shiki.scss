@@ -1,27 +1,29 @@
-.shiki {
+article .shiki {
     @apply sm:border-2 border-primary-2 dark-border-primary-4;
     @apply bg-primary-1/40 dark-bg-primary-2/80;
     @apply m-0 text-base;
     @apply rounded-none sm:rounded-2xl;
     @apply <sm:-mx-5 mt-2;
-    & * {
-        font-family: Consolas, Monaco, "Courier New" !important;
-    }
+}
 
-    &-toolbar-wrapper {
-        @apply relative;
-
-        &:hover {
-            .code-toolbar {
-                @apply opacity-100;
-            }
-        }
-    }
-
+.shiki {
     code {
         display: block;
         overflow-x: auto;
         padding: 16px;
+        &, & * {
+            font-family: Consolas, Monaco, "Courier New" !important;
+        }
+    }
+}
+
+.shiki-toolbar-wrapper {
+    @apply relative;
+
+    &:hover {
+        .code-toolbar {
+            @apply opacity-100;
+        }
     }
 }
 

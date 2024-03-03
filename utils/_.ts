@@ -37,3 +37,12 @@ export function isDev() {
 }
 
 export const wait = (ms: number) => new Promise(r => setTimeout(r, ms))
+
+export function normalizeProperties(properties: Record<string, any>) {
+  const normalized = {
+    ...properties,
+    class: properties.className,
+  } as Record<string, any>
+  delete normalized.className
+  return normalized
+}

@@ -1,11 +1,10 @@
-import { createResolver, defineNuxtModule } from '@nuxt/kit'
-import { isCI } from 'std-env'
+import { defineNuxtModule } from '@nuxt/kit'
 import { getEnv } from '../config/env'
 import type { BuildInfo } from '~/types'
 
 export default defineNuxtModule({
   meta: {
-    name: 'elk:build-env',
+    name: 'doulog:build-env',
   },
   async setup(_options, nuxt) {
     const { env, commit, shortCommit, branch } = await getEnv()

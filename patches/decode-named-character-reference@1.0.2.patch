@@ -1,0 +1,28 @@
+diff --git a/index.dom.d.ts b/index.dom.d.ts
+deleted file mode 100644
+index 83b9debeba2648165cef4d66d2809b998b01b64e..0000000000000000000000000000000000000000
+diff --git a/index.dom.js b/index.dom.js
+deleted file mode 100644
+index 5d0abe28bc8341a32470810212417a7546a3dac4..0000000000000000000000000000000000000000
+diff --git a/package.json b/package.json
+index 5fef2811aa86f3f1f8228daef7d867863e71db72..1626c7c1bdc0ad546ef5c960ccbe5872d6c04a82 100644
+--- a/package.json
++++ b/package.json
+@@ -25,16 +25,13 @@
+   "types": "index.d.ts",
+   "files": [
+     "index.js",
+-    "index.d.ts",
+-    "index.dom.js",
+-    "index.dom.d.ts"
++    "index.d.ts"
+   ],
+   "exports": {
+     ".": {
+       "deno": "./index.js",
+       "react-native": "./index.js",
+       "worker": "./index.js",
+-      "browser": "./index.dom.js",
+       "default": "./index.js"
+     }
+   },

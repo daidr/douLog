@@ -66,6 +66,7 @@ html {
 
 ::selection {
   @apply bg-primary text-primary-1;
+  @apply dark-bg-primary-4 dark-text-primary-10;
 }
 
 @keyframes backshake {
