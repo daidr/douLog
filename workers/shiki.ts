@@ -1,11 +1,11 @@
-import { codeToHast, hastToHtml } from 'shiki'
+import { codeToHast, hastToHtml } from 'https://esm.sh/shiki@1.1.7'
 import {
   transformerNotationDiff,
   transformerNotationErrorLevel,
   transformerNotationFocus,
   transformerNotationHighlight,
   transformerNotationWordHighlight,
-} from '@shikijs/transformers'
+} from 'https://esm.sh/@shikijs/transformers@1.1.7'
 import type { Element } from 'hast'
 
 addEventListener('message', async (event) => {
