@@ -224,6 +224,6 @@ export default defineCountableCachedEventHandler(
   },
   {
     swr: true,
-    maxAge: 1,
+    maxAge: 60,
   },
 )
