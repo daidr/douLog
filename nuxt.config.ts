@@ -134,6 +134,9 @@ export default defineNuxtConfig({
         },
       },
     },
+    worker: {
+      format: 'es',
+    },
   },
 })
 
