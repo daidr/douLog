@@ -81,6 +81,7 @@ if (props.showProcess && props.boundingEl) {
     @apply relative rounded-2xl bg-light dark-bg-dark w-12 h-12;
     @apply flex items-center justify-center text-2xl text-primary;
     @apply shadow-md general-shadow cursor-pointer;
+    @apply ring-1 ring-primary/10 dark-ring-primary-10/20;
     @apply transition-all;
     @apply rounded-2xl;
     filter: drop-shadow(0 0 1px rgb(var(--color-primary-light)));
