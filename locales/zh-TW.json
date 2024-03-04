@@ -141,5 +141,12 @@
     "copy": "拷貝",
     "copy_success": "已經拷貝",
     "copy_failure": "拷貝失敗"
+  },
+  "ai_summary": {
+    "title": "AI 文章摘要",
+    "loading": "載入中...",
+    "no_summary": "暫無摘要",
+    "inspired_by": "靈感來自：",
+    "based_on": "基於："
   }
 }

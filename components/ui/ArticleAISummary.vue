@@ -8,6 +8,7 @@ const props = defineProps<{
 }>()
 
 const isLoading = ref(false)
+const { t } = useI18n()
 
 const summary = ref('')
 
@@ -33,7 +34,7 @@ if (summary.value === 'no cache') {
     isLoading.value = pending.value
 
     if (!pending.value) {
-      summary.value = _summary.value || '暂无摘要'
+      summary.value = _summary.value || t('ai_summary.no_summary')
     }
   })
 }
@@ -43,11 +44,11 @@ if (summary.value === 'no cache') {
   <div class="summary-block">
     <div class="block-title">
       <IconLightbulb />
-      <span>AI 文章摘要</span>
+      <span>{{ $t('ai_summary.title') }}</span>
     </div>
     <div class="block-content">
       <div v-if="isLoading">
-        加载中...
+        {{ $t('ai_summary.loading') }}
       </div>
       <div v-else>
         {{ summary }}
@@ -59,13 +60,13 @@ if (summary.value === 'no cache') {
       </div>
       <div class="content">
         <div>
-          灵感来自
+          {{ $t('ai_summary.inspired_by') }}
           <a href="https://xlog.app/" target="_blank">
             <IconsXlog />xLog
           </a>
         </div>
         <div>
-          基于
+          {{ $t('ai_summary.based_on') }}
           <a href="https://chat.openai.com/" target="_blank">
             <IconsOpenai />ChatGPT
           </a>

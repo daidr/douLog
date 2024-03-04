@@ -141,5 +141,12 @@
     "copy": "Copy",
     "copy_success": "Copied!",
     "copy_failure": "Copy failed"
+  },
+  "ai_summary": {
+    "title": "AI Summary",
+    "loading": "Loading...",
+    "no_summary": "No summary yet",
+    "inspired_by": "Inspired by ",
+    "based_on": "Based on "
   }
 }

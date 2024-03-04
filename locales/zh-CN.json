@@ -141,5 +141,12 @@
     "copy": "复制",
     "copy_success": "已复制",
     "copy_failure": "复制失败"
+  },
+  "ai_summary": {
+    "title": "AI 文章摘要",
+    "loading": "加载中...",
+    "no_summary": "暂无摘要",
+    "inspired_by": "灵感来自：",
+    "based_on": "基于："
   }
 }
