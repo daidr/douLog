@@ -28,6 +28,10 @@ export interface IArticleItem {
   excerpt: string
   titleList: ICatalogItem[]
   image?: string
+  imageSize?: {
+    width: number
+    height: number
+  }
   thumbnail?: string
   commentCount: number
   viewCount: number
@@ -161,6 +165,7 @@ export default defineCountableCachedEventHandler(
           'previous_post_title',
           'next_post_id',
           'next_post_title',
+          'featured_image_size',
           'total_comments',
           '_links.wp:term',
           '_links.wp:featuredmedia',
@@ -197,6 +202,7 @@ export default defineCountableCachedEventHandler(
         image: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_full_image)
           : undefined,
+        imageSize: result.featured_image_size || undefined,
         thumbnail: result._links['wp:featuredmedia']
           ? replaceMediaCDN(result.post_medium_image)
           : undefined,

@@ -183,42 +183,32 @@ export default {
             </div>
           </div>
         </div>
-        <UiArticleAISummary
-          :article-id="article.id"
-          :cached-summary="ArticleSummaryCache"
-        />
+        <UiArticleAISummary :article-id="article.id" :cached-summary="ArticleSummaryCache" />
         <div v-if="article.image" class="article-image">
-          <UiLazyImage :src="article.image" :thumbnail="article.thumbnail" />
+          <!-- <UiLazyImage :src="article.image" :thumbnail="article.thumbnail" /> -->
+          <img
+            :src="article.image" :style="{
+              'aspect-ratio': article.imageSize ? `${article.imageSize.width} / ${article.imageSize.height}` : 'auto',
+            }"
+          >
         </div>
-        <CommonArticleRender
-          :article="article.content"
-          @active-title="setActiveTitle"
-        />
+        <CommonArticleRender :article="article.content" @active-title="setActiveTitle" />
       </div>
       <div class="comments-wrapper">
         留言功能还在努力开发中，你可以前往<a
-          :href="`${article.link}#respond`"
-          target="_blank"
+          :href="`${article.link}#respond`" target="_blank"
           class="text-primary hover:underline"
         >旧版博客</a>留下评论
       </div>
     </main>
 
     <div v-if="showSidebar" class="sidebar">
-      <CommonArticleCatalog
-        v-if="catalogList.length"
-        :catalog="catalogList"
-        :active-title="activeTitleId"
-      />
+      <CommonArticleCatalog v-if="catalogList.length" :catalog="catalogList" :active-title="activeTitleId" />
     </div>
 
     <ClientOnly>
       <Teleport to="body">
-        <SiteToTopButton
-          :show-process="true"
-          scroll-el=".articles-page-wrapper"
-          bounding-el=".blog-article-wrapper"
-        />
+        <SiteToTopButton :show-process="true" scroll-el=".articles-page-wrapper" bounding-el=".blog-article-wrapper" />
       </Teleport>
     </ClientOnly>
   </div>
@@ -279,12 +269,17 @@ export default {
     }
 
     .article-image {
-      view-transition-name: article-hero;
+      @apply w-full rounded-2xl;
 
-      &,
-      :deep(img) {
+      img {
+        view-transition-name: article-hero;
         @apply w-full rounded-2xl;
       }
+      // &,
+      // :deep(img) {
+      //   view-transition-name: article-hero;
+      //   @apply w-full rounded-2xl;
+      // }
     }
   }
 
