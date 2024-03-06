@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Root } from 'hast'
-import '~~/article-gadgets/mdx-github-card/style.scss'
 import './wp-block-gallery.scss'
 
 defineProps<{
@@ -27,9 +26,6 @@ onMounted(() => {
 
   // 解析并注入 iframe 等短代码
   // injectElement()
-
-  // 绑定灯箱
-  // bindImageViewer()
 })
 
 function injectElement() {
