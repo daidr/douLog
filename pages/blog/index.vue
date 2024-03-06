@@ -95,8 +95,12 @@ const isOnlineOnce = computed(() => {
           </div>
         </div>
       </div>
-
-      <div v-if="isOnlineOnce || !isHydrated" class="block-wrapper-group transition-extra-wrapper">
+      <div v-if="isHydrated && !isOnlineOnce" class="block-wrapper-group transition-extra-wrapper flex-grow-1">
+        <div class="h-[calc(100vh-300px)] flex flex-col items-center justify-center text-white/70">
+          <NoWifiIcon class="text-7xl" :title="$t('offline.desc')" />
+        </div>
+      </div>
+      <div v-else class="block-wrapper-group transition-extra-wrapper">
         <NuxtPage
           :transition="{
             css: false,
@@ -105,11 +109,6 @@ const isOnlineOnce = computed(() => {
             exclude: ['ArticlePage'],
           }"
         />
-      </div>
-      <div v-else class="block-wrapper-group transition-extra-wrapper flex-grow-1">
-        <div class="h-[calc(100vh-300px)] flex flex-col items-center justify-center text-white/70">
-          <NoWifiIcon class="text-7xl" :title="$t('offline.desc')" />
-        </div>
       </div>
     </div>
   </div>
