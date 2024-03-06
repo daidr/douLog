@@ -60,7 +60,7 @@ const urls = computed(() => [
 
   .nav-item {
     @apply text-lg;
-    @apply text-primary-1 bg-primary-4 dark-text-primary-8;
+    @apply text-white/90 bg-primary-4 dark-text-primary-9;
     @apply rounded-full relative;
     @apply cursor-pointer;
     @apply w-38px h-38px;
@@ -84,7 +84,7 @@ const urls = computed(() => [
     &::after {
       content: attr(data-name);
       @apply absolute -bottom-10 left-1/2;
-      @apply text-sm text-center text-primary-1 dark-text-primary-8 whitespace-nowrap;
+      @apply text-sm text-center text-white dark-text-primary-9 whitespace-nowrap;
       @apply bg-primary-4 px-2 py-1;
       @apply transition duration-300 motion-reduce:transition-none;
       @apply transform-gpu -translate-x-1/2 -translate-y-20px opacity-0;
