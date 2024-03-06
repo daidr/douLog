@@ -78,7 +78,7 @@ if (summary.value === 'no cache') {
 
 <style lang="scss" scoped>
 .summary-block {
-  @apply rounded-xl mt-4 p-4 space-y-2;
+  @apply rounded-xl p-4 space-y-2;
   @apply relative;
   @apply border-1 border-gray-200 dark-border-gray-700;
 
