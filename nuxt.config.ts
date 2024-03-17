@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   },
   devtools: { enabled: true },
   experimental: {
-    appManifest: true,
+    appManifest: false,
   },
   app: {
     rootId: '__daidr_app',
