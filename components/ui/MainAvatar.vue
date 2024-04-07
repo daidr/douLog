@@ -21,12 +21,12 @@ function path(d: string) {
 }
 
 const currentAvatarIndex = useState('avatar-state', () => {
-  // random 0 1 2
+  // random 0 1 2 3
   return Math.floor(Math.random() * 3)
 })
 
 const onClick = useThrottleFn(() => {
-  currentAvatarIndex.value = (currentAvatarIndex.value + 1) % 3
+  currentAvatarIndex.value = (currentAvatarIndex.value + 1) % 4
 }, 500)
 </script>
 
@@ -132,6 +132,30 @@ const onClick = useThrottleFn(() => {
         <img
           class="avatar-decoration avatar-decoration-4"
           src="/images/extra-avatar/sad/avatar_d4.png"
+        >
+      </div>
+      <div v-else-if="currentAvatarIndex === 3" class="avatar-3">
+        <div class="avatar-image">
+          <UiLazyImage
+            src="/images/extra-avatar/doubt/avatar_d0.png"
+            alt="AVATAR"
+          />
+        </div>
+        <img
+          class="avatar-decoration avatar-decoration-1"
+          src="/images/extra-avatar/doubt/avatar_d1.png"
+        >
+        <img
+          class="avatar-decoration avatar-decoration-2"
+          src="/images/extra-avatar/doubt/avatar_d2.png"
+        >
+        <img
+          class="avatar-decoration avatar-decoration-3"
+          src="/images/extra-avatar/doubt/avatar_d3.png"
+        >
+        <img
+          class="avatar-decoration avatar-decoration-4"
+          src="/images/extra-avatar/doubt/avatar_d4.png"
         >
       </div>
     </Transition>
@@ -254,6 +278,35 @@ const onClick = useThrottleFn(() => {
     }
   }
 
+  .avatar-3 {
+    .avatar-image :deep(.lazy-image) {
+      @apply scale-135 translate-y-[calc(-1*var(--custom-size)/10)];
+    }
+
+    .avatar-decoration {
+      &-1 {
+        @apply w-[calc(var(--custom-size)/5*2)];
+        @apply -top-5% -right-40% opacity-0;
+        filter: drop-shadow(0 0 1px rgba(255,255,255,1));
+      }
+
+      &-2 {
+        @apply w-[calc(var(--custom-size)/8)];
+        @apply -bottom-10% -left-5%;
+      }
+
+      &-3 {
+        @apply w-[calc(var(--custom-size)/9)];
+        @apply bottom-5% -right-5%;
+      }
+
+      &-4 {
+        @apply w-[calc(var(--custom-size)/7)];
+        @apply bottom-30% -left-25%;
+      }
+    }
+  }
+
   &:hover {
     .avatar-0 {
       :deep(.lazy-image) {
@@ -318,6 +371,28 @@ const onClick = useThrottleFn(() => {
 
       .avatar-decoration-4 {
         @apply translate-y-[-10%] rotate-[180deg];
+      }
+    }
+
+    .avatar-3 {
+      :deep(.lazy-image) {
+        @apply scale-145 translate-y-[calc(-1*var(--custom-size)/5)];
+      }
+
+      .avatar-decoration-1 {
+        @apply translate-[-30%] opacity-100;
+      }
+
+      .avatar-decoration-2 {
+        @apply translate-y-[-40%];
+      }
+
+      .avatar-decoration-3 {
+        @apply translate-y-[-20%];
+      }
+
+      .avatar-decoration-4 {
+        @apply translate-y-[-40%];
       }
     }
   }
