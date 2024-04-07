@@ -9,6 +9,22 @@ export const BlockDefination = [
         title: '实用工具',
         projects: [
           {
+            url: 'https://ds.daidr.me',
+            title: 'DualSense 测试工具',
+            description:
+              '基于WebHID的DualSense在线测试工具，可能是唯一一个能在浏览器测试自适应扳机的工具。',
+            image: '/images/projects/ds.daidr.me.png',
+            time: '2023',
+          },
+          {
+            url: 'https://github.com/daidr/pompom-webext',
+            title: '帕姆浏览器扩展',
+            description:
+              '在浏览器中查看崩坏：星穹铁道开拓力信息，不错的UI&还行的本地化支持。',
+            image: '/images/projects/pompom-webext.png',
+            time: '2023',
+          },
+          {
             url: 'https://github.com/daidr/paimon-webext',
             title: '派蒙浏览器扩展',
             description:
