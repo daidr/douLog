@@ -293,4 +293,11 @@ export const FriendsList = [
     avatar: '1024.dev.png',
     color: '#000000',
   },
+  {
+    name: 'MiaoMint',
+    motto: '喵喵喵~',
+    url: 'https://0u0.ren/',
+    avatar: '0u0.ren.png',
+    color: '#e7e2e6',
+  },
 ]
