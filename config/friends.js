@@ -300,4 +300,11 @@ export const FriendsList = [
     avatar: '0u0.ren.png',
     color: '#e7e2e6',
   },
+  {
+    name: '狱杰的博客',
+    motto: 'BUILD NEW WORLD WITH KEYBORD.',
+    url: 'https://uegee.com/',
+    avatar: 'uegee.com.png',
+    color: '#85614f',
+  },
 ]

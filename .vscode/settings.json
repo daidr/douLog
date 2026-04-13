@@ -73,5 +73,6 @@
     "jsonc",
     "yaml",
     "toml"
-  ]
+  ],
+  "i18next.i18nPaths": "e:/devFolder/douLog/locales"
 }
