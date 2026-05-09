@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IArticleItem } from '~/server/api/article/[id]'
+import type { IArticleItem } from '~~/server/api/article/[id]'
 import IconAlarm from '~icons/mingcute/notification-line'
 
 preloadRouteComponents('/blog/[id]')

@@ -2,7 +2,7 @@
 import type { Directions, LocaleObject } from '@nuxtjs/i18n'
 import { useDouSlackingStore } from './stores/dou-slacking'
 import { SPLASH_IMAGES } from './utils/splash-images'
-import { CONFIG } from '@/config/base'
+import { CONFIG } from '~~/config/base'
 
 const { randomThemeColorIndex, themeColor } = storeToRefs(useStatesStore())
 const colorMode = useColorMode()
@@ -145,6 +145,10 @@ useHead({
       content: 'yes',
     },
     {
+      name: 'mobile-web-app-capable',
+      content: 'yes',
+    },
+    {
       name: 'apple-mobile-web-app-status-bar-style',
       content: 'black-translucent',
     },
@@ -164,6 +168,37 @@ watch(() => randomThemeColorIndex.value, (index, oldIndex) => {
 
 const nuxtApp = useNuxtApp()
 
+const routerTransition = ref()
+const pageTransition = {
+  css: false,
+  onBeforeLeave: (el) => {
+    routerTransition.value?.onBeforeLeave(el)
+  },
+  onLeave: (el, done) => {
+    if (routerTransition.value) {
+      routerTransition.value.onLeave(el, done)
+    } else {
+      done()
+    }
+  },
+  onAfterLeave: (el) => {
+    routerTransition.value?.onAfterLeave(el)
+  },
+  onBeforeEnter: (el) => {
+    routerTransition.value?.onBeforeEnter(el)
+  },
+  onEnter: (el, done) => {
+    if (routerTransition.value) {
+      routerTransition.value.onEnter(el, done)
+    } else {
+      done()
+    }
+  },
+  onAfterEnter: (el) => {
+    routerTransition.value?.onAfterEnter(el)
+  },
+}
+
 onMounted(() => {
   useDouSlackingStore()
 })
@@ -172,18 +207,7 @@ onMounted(() => {
 <template>
   <CommonWappalyzerCheat />
   <NuxtLayout>
-    <RouterView v-slot="{ Component }">
-      <CommonRouterTransition>
-        <Suspense
-          @pending="() => {
-            nuxtApp.callHook('page:start')
-          }" @resolve="() => {
-            nextTick(() => nuxtApp.callHook('page:finish'))
-          }"
-        >
-          <component :is="Component" />
-        </Suspense>
-      </CommonRouterTransition>
-    </RouterView>
+    <NuxtPage :transition="pageTransition" />
+    <CommonRouterTransition ref="routerTransition" />
   </NuxtLayout>
 </template>

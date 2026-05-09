@@ -1,7 +1,37 @@
+import Icons from 'unplugin-icons/vite'
 import { currentLocales } from './config/i18n'
 import type { BuildInfo } from './types'
 
+// Patch unplugin-icons so the resolved virtual id keeps a leading slash.
+// Without it, Vite 7's import-analysis fails to resolve `vue` from the
+// virtual icon module (it tries to resolve relative to a non-existent
+// importer path). With a leading slash Vite treats it as root-relative
+// and resolution works.
+function IconsWithLeadingSlash() {
+  const plugin = Icons({ compiler: 'vue3' }) as any
+  const wrap = (target: any) => {
+    if (!target) return
+    const origResolveId = target.resolveId
+    if (origResolveId) {
+      target.resolveId = async function (...args: any[]) {
+        const r = await origResolveId.apply(this, args)
+        if (typeof r === 'string' && !r.startsWith('/') && !r.startsWith('\0')) {
+          return `/${r}`
+        }
+        return r
+      }
+    }
+  }
+  if (Array.isArray(plugin)) {
+    plugin.forEach(wrap)
+  } else {
+    wrap(plugin)
+  }
+  return plugin
+}
+
 export default defineNuxtConfig({
+  compatibilityDate: '2026-05-10',
   typescript: {
     shim: false,
   },
@@ -13,7 +43,6 @@ export default defineNuxtConfig({
     rootId: '__daidr_app',
     buildAssetsDir: '/_doulog/',
   },
-  extends: ['nuxt-umami'],
   appConfig: {
     umami: {
       host:
@@ -27,12 +56,12 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
-    'unplugin-icons/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
-    '~/modules/pwa/index',
-    '~/modules/purge-comments',
+    'nuxt-umami',
+    './modules/pwa/index',
+    './modules/purge-comments',
   ],
   colorMode: {
     classSuffix: '',
@@ -55,6 +84,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
     langDir: 'locales',
     defaultLocale: 'en-US',
+    baseUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://im.daidr.me',
     vueI18n: './config/i18n.config.ts',
   },
   imports: {
@@ -124,6 +154,12 @@ export default defineNuxtConfig({
       cache: {
         driver: 'memory',
       },
+    },
+  },
+  hooks: {
+    'vite:extendConfig': (config) => {
+      config.plugins ||= []
+      config.plugins.push(IconsWithLeadingSlash())
     },
   },
   vite: {

@@ -1,5 +1,5 @@
 <script setup>
-import { FriendsList } from '@/config/friends.js'
+import { FriendsList } from '~~/config/friends.js'
 import { shuffle } from '@/utils/_'
 import IconSubway from '~icons/mingcute/train-3-line'
 

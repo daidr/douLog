@@ -1,4 +1,4 @@
-import ShikiWorker from '~/workers/shiki?worker'
+import ShikiWorker from '~~/workers/shiki?worker'
 
 export interface UseCodeHighlightProps {
   lang: MaybeRefOrGetter<string>

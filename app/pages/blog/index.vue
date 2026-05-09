@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
-import type { IArticleItem } from '~/server/api/article/[id]'
+import type { IArticleItem } from '~~/server/api/article/[id]'
 import NoWifiIcon from '~icons/mingcute/wifi-off-line'
 
 const { t } = useI18n()

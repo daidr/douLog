@@ -1,5 +1,5 @@
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import { hastRootToPureText } from '~/server/utils/stringify'
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters'
+import { hastRootToPureText } from '~~/server/utils/stringify'
 
 const returnLimit = 400
 const chunkSize = 4000
@@ -40,7 +40,7 @@ async function segmentedSummary(
       const prompt = `Summarize this in ${lang} language in less than ${returnLimit} characters: ${segment.pageContent}`
 
       const response = (await $fetch(
-        'https://api.openai.com/v1/chat/completions',
+        'https://newapi.daidr.me/v1/chat/completions',
         {
           method: 'POST',
           headers: {
@@ -48,7 +48,7 @@ async function segmentedSummary(
             'Authorization': `Bearer ${openAIKey}`,
           },
           body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-4o-mini',
             temperature: 1,
             top_p: 1,
             frequency_penalty: 1,

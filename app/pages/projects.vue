@@ -1,5 +1,5 @@
 <script setup>
-import { BlockDefination } from '@/config/projects'
+import { BlockDefination } from '~~/config/projects'
 
 const { t } = useI18n()
 

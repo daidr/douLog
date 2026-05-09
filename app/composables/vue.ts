@@ -1,5 +1,5 @@
 import type { ComponentInternalInstance } from 'vue'
-import { onActivated, onDeactivated, ref } from 'vue'
+import { onActivated, onDeactivated, ref, toValue } from 'vue'
 import type { ActiveHeadEntry, UseHeadInput, UseHeadOptions } from '@unhead/vue'
 import type { SchemaAugmentations } from '@unhead/schema'
 
@@ -59,6 +59,6 @@ export function useHydratedHead<T extends SchemaAugmentations>(input: UseHeadInp
     if (!isHydrated.value) {
       return {}
     }
-    return resolveUnref(input)
+    return toValue(input)
   }) as UseHeadInput<T>, options)
 }

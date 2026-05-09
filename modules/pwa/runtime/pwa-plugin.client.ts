@@ -1,7 +1,7 @@
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import type { UnwrapNestedRefs } from 'vue'
 import type { PwaInjection } from './types'
-import { STORAGE_KEY_PWA_HIDE_INSTALL } from '~/constants'
+import { STORAGE_KEY_PWA_HIDE_INSTALL } from '~~/constants'
 
 export default defineNuxtPlugin(() => {
   const online = useOnline()

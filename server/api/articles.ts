@@ -1,6 +1,6 @@
 import qs from 'qs'
 import { decode } from 'html-entities'
-import { replaceMediaCDN } from '~~/utils/mediaCDN'
+import { replaceMediaCDN } from '~/utils/mediaCDN'
 
 const { apiEntry } = useRuntimeConfig()
 

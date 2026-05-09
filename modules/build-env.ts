@@ -1,6 +1,6 @@
 import { defineNuxtModule } from '@nuxt/kit'
 import { getEnv } from '../config/env'
-import type { BuildInfo } from '~/types'
+import type { BuildInfo } from '~~/types'
 
 export default defineNuxtModule({
   meta: {
