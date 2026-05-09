@@ -72,7 +72,6 @@ useHead({
   .limit-wrapper {
     @apply flex flex-col items-start;
     @apply p-3;
-    // 其实应该用gap-y更好，但是flex布局gap-y兼容性不太好
     @apply gap-y-3;
     @apply max-w-1300px;
     margin: 0 auto;
@@ -148,11 +147,11 @@ useHead({
             &:hover {
               @apply shadow-lg shadow-primary-shadow/30;
               @apply border-1 border-primary-3 dark-border-primary-7;
-              @apply -translate-y-2 mx-5;
+              @apply translate-y-2 mx-5;
 
               .project-image {
                 @apply border-1 border-primary-3 dark-border-primary-7;
-                @apply scale-113 shadow-lg shadow-primary-shadow/30 z-999;
+                @apply scale-113 -rotate-3 -translate-y-2 shadow-lg shadow-primary-shadow/30 z-999;
 
                 :deep(img) {
                   filter: brightness(1);
