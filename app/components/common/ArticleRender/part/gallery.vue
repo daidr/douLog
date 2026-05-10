@@ -72,66 +72,120 @@ function relation(i: number): 'active' | 'prev' | 'next' | 'far' {
 }
 
 // ────────────────────────────────────────────────────────────────────────
-// stage 高度自适应
+// 尺寸模型
 // ────────────────────────────────────────────────────────────────────────
 //
-// 设计意图：
-//   - 每张图保持自身宽高比（slide 内 img width:100% + height:auto），各张
-//     图实际渲染高度可能不同。
-//   - stage 用 `position: relative` 做 absolute 子布局的锚，但本身高度需要
-//     由"当前 active slide 的实际渲染高度"撑起来；切换时 height 走 CSS
-//     transition，画面无突兀跳变。
-//   - 由于 slide 是 absolute 的，stage 自身没有自然高度——必须 JS 测量。
+// 关键思路：每个 slide 的 box 完全由"对应图片的自然宽高比"决定 —— 而不是
+// 用一刀切的 80% × stage_h（早期版本会让 prev/next 这种瘦图片在 80% 宽的
+// 槽里有大片空白，transform-origin 锚定的是空白槽边缘而不是图片自身的边
+// 缘，scale 视觉错位）。
 //
-// 实现细节：
-//   - `stageHeight` 仅在 client 端设值；SSR 阶段 inline style 缺省，避免
-//     hydration 比较时 server / client 不一致。
-//   - 用 ResizeObserver 监听整个 stage 内部的尺寸变化（包括图片懒加载导致
-//     的高度变化），永远以"当前 active slide 的 offsetHeight"为高度源。
-const slideEls = ref<HTMLElement[]>([])
+// 步骤：
+//   1. 通过 <img> 的 `load` 事件拿到 naturalWidth / naturalHeight，存进
+//      `naturalSizes[i]`
+//   2. 用 ResizeObserver 拿 stage 容器的当前宽度 `stageWidth`
+//   3. `stageHeight` 由 active 那张图的自然比例反算出来：在宽度撑满 80%
+//      stage 的前提下，对应的渲染高度
+//   4. `slideBox(i)` 给每张图算自己的最终像素 box：
+//        - 上限：max-width = 80% stage_w，max-height = stage_h（= active 高）
+//        - 在上限里保住自然宽高比，返回 (w, h)
+//   5. `targetVariant(rel, i)` 把 slide 的 width / height / x 都用像素值
+//      喂给 motion，让 motion 既能正确放置又能在切换时把尺寸一起插值过去
+//
+// 用像素而不是百分比的原因：prev/next 的 x 位置目标是"slide 外侧边贴 stage
+// 内边"，这是一个相对 stage 的绝对位置，与 slide 自身宽度无关；用百分比
+// 的话每张图的 slide 宽度不一样，translateX 系数就要随之变，反而麻烦
 const stageEl = ref<HTMLElement | null>(null)
-const stageHeight = ref<number | null>(null)
+const stageWidth = ref(0)
+const naturalSizes = ref<Record<number, { w: number, h: number }>>({})
 
-function setSlideRef(i: number) {
-  return (el: any) => {
-    if (!el) return
-    // <Motion> 组件 ref 暴露的可能是组件实例（含 $el），也可能直接是 root
-    // element；两种都兼容
-    const dom: HTMLElement | null = el.$el ?? (el instanceof HTMLElement ? el : null)
-    if (dom) slideEls.value[i] = dom
-  }
+// active slide 占 stage 宽的比例，与 prev/next 缩放系数（见下）配套
+const ACTIVE_WIDTH_RATIO = 0.8
+// prev/next slide 外侧边缘到 stage 内边留的安全 padding（占 stage 宽）
+const SAFE_PADDING_RATIO = 0.005
+
+const activeRatio = computed(() => {
+  const s = naturalSizes.value[currentIndex.value]
+  return s ? s.w / s.h : null
+})
+
+const stageHeight = computed<number | null>(() => {
+  const r = activeRatio.value
+  if (!r || !stageWidth.value) return null
+  return ACTIVE_WIDTH_RATIO * stageWidth.value / r
+})
+
+/**
+ * 在 (max-width, max-height) 这个边界框里，按 ratio 求"最大且保持比例"的盒
+ * 子。两种限制谁先撞死：
+ *   - 如果撞 max-width：w = max-w，h = w / ratio
+ *   - 否则撞 max-height：h = max-h，w = h * ratio
+ */
+function slideBox(i: number): { w: number, h: number } | null {
+  const sw = stageWidth.value
+  const sh = stageHeight.value
+  if (!sw || !sh) return null
+  const maxW = ACTIVE_WIDTH_RATIO * sw
+  const maxH = sh
+  const s = naturalSizes.value[i]
+  // 还没拿到自然尺寸：退到 active 尺寸（一旦 load 完成会自动 reflow）
+  if (!s) return { w: maxW, h: maxH }
+  const r = s.w / s.h
+  if (maxW / r <= maxH) return { w: maxW, h: maxW / r }
+  return { w: maxH * r, h: maxH }
 }
 
 /**
- * 计算每个 slide 在 motion-v 上的 animate 目标。
+ * 计算每个 slide 在 motion-v 上的 animate 目标。x / y / width / height 均
+ * 为像素值（motion 把裸 number 当 px 处理），让 motion 在切换时把"位置 +
+ * 尺寸 + 缩放 + 透明度"几个量一起 spring 插值，没有 CSS 中转。
  *
- * 三个属性都用单值（数字 / percent string），让 motion-v 走自己的 spring
- * mixer（数字插值 + 单位保持），不要把 calc 表达式塞进 transform 字符串
- * ——motion 内部不会逐项解析 calc，那样会退回到 CSS transition。
+ * 垂直方向：所有 slide 一致 `top: 50%` + `y: '-50%'`（自身高度的一半），把
+ * slide 中线锚定到 stage 中线。
+ *   - active 因为 slide_h = stage_h，结果与"top: 0"一致：slide 顶边贴 stage
+ *     顶边、底边贴 stage 底边
+ *   - prev/next 高度小于 stage_h 时，slide 在 stage 中线两侧对称展开，自动
+ *     垂直居中
+ * 统一基准而不是"active 用 top:0、prev/next 用 top:50%"的旧方案——后者切
+ * 换时 CSS top 瞬时变化、motion y 只能从 0 插值，会有上下跳变。
  *
- * `x` 是 translateX，相对 slide 自身宽度（slide 自身 = stage 宽 × 80%）：
- *   - active: -50%（中心对齐 stage 中央，origin 默认 center）
- *   - prev:   `transform-origin: left` 锚定左边缘缩放，translate 让左边缘贴
- *            stage 左内 ~0.5% padding。推导（slide 自身 80% stage_w）：
- *              视觉左 = 50% + 0.8X% × stage_w；解 50% + 0.8X% = 0.5% → X = -61.875
- *   - next:   `transform-origin: right`，对称 → X = -38.125
- *   - far:    -50%（停在中央，靠 scale + opacity 把它"藏起来"）
+ * x 推导（slide CSS 在 `left: 50%` 上）：
+ *   - active / far：slide 中线对齐 stage 中线 → x = -box.w / 2
+ *   - prev： slide 左边贴 stage 左内 padding → 50% × sw + x = padding × sw
+ *            → x = -(0.5 - padding) × sw
+ *   - next： slide 右边贴 stage 右内 padding → 50% × sw + x + box.w = (1 - padding) × sw
+ *            → x = (0.5 - padding) × sw - box.w
  *
- * 由于 prev/next 用了非 center 的 transform-origin，缩放不再"中央往内收"，
- * 而是"远端不动，朝向 active 的近端向内收"——视觉上更像贴在 stage 边的小
- * 缩略，过渡时近端边缘自然伸缩，不会让人感觉图整体在向中央漂移。
+ * 配合 CSS `transform-origin: left/right center`（仅 prev/next），缩放锚点
+ * 落在 slide 的外侧边 = 图片自身的外侧边（因为 slide 现在等于图片像素 box），
+ * scale 0.85 让近端朝 active 收，远端纹丝不动。
  */
-function targetVariant(rel: 'active' | 'prev' | 'next' | 'far') {
+function targetVariant(rel: 'active' | 'prev' | 'next' | 'far', i: number) {
+  const scale = rel === 'active' ? 1 : rel === 'far' ? 0.6 : 0.85
+  const opacity = rel === 'active' ? 1 : rel === 'far' ? 0 : 0.45
+
+  const box = slideBox(i)
+  // 尚未测量到 stage 尺寸：仅给 motion 一个"安全位"，让 CSS fallback 接管
+  // 宽高，自身不去写 inline width/height（避免初次 paint 把所有 slide 收
+  // 成 0 × 0）。x/y 用 % 让 slide 在 CSS 宽度 / 自然高度下水平 + 垂直居中。
+  if (!box) return { x: '-50%', y: '-50%', scale, opacity: rel === 'active' ? opacity : 0 }
+
+  const sw = stageWidth.value
+  const halfOffset = (0.5 - SAFE_PADDING_RATIO) * sw
+  let x: number
   switch (rel) {
-    case 'active':
-      return { x: '-50%', scale: 1, opacity: 1 }
     case 'prev':
-      return { x: '-61.875%', scale: 0.85, opacity: 0.45 }
+      x = -halfOffset
+      break
     case 'next':
-      return { x: '-38.125%', scale: 0.85, opacity: 0.45 }
-    default:
-      return { x: '-50%', scale: 0.6, opacity: 0 }
+      x = halfOffset - box.w
+      break
+    default: // active / far
+      x = -box.w / 2
+      break
   }
+
+  return { x, y: -box.h / 2, scale, opacity, width: box.w, height: box.h }
 }
 
 /**
@@ -146,26 +200,38 @@ const slideTransition = {
   bounce: 0.18,
 }
 
-function measure() {
-  const slide = slideEls.value[currentIndex.value]
-  if (!slide) return
-  // offsetHeight 不受父容器 transform 影响；slide active 时 scale=1，得到的
-  // 就是"原寸"高度，正好赋给 stage
-  const h = slide.offsetHeight
-  if (h > 0) stageHeight.value = h
+function measureStage() {
+  if (stageEl.value) stageWidth.value = stageEl.value.clientWidth
 }
 
-watch(currentIndex, () => {
-  // currentIndex 变化后等 DOM 把新的 .active 类应用上去再测量
-  nextTick(measure)
-})
+/**
+ * 浏览器缓存命中（或 SSR 阶段已 decode 好）的图片，其 `load` 事件在 Vue 把
+ * 监听器挂上去之前就已经触发完了 —— 单靠 `@load` 拿不到 naturalSize，进而
+ * `activeRatio` 始终为 null、`stageHeight` 退化为 CSS min-height。
+ * 这里在挂载时同步把 stage 里所有 `img.gallery-image` 已经 complete 的尺寸
+ * 一次性写进 `naturalSizes`，作为 @load 之外的补漏。
+ */
+function captureCachedSizes() {
+  if (!stageEl.value) return
+  const imgs = stageEl.value.querySelectorAll<HTMLImageElement>('img.gallery-image')
+  const next = { ...naturalSizes.value }
+  let changed = false
+  imgs.forEach((img, i) => {
+    if (img.complete && img.naturalWidth > 0 && !next[i]) {
+      next[i] = { w: img.naturalWidth, h: img.naturalHeight }
+      changed = true
+    }
+  })
+  if (changed) naturalSizes.value = next
+}
 
 let resizeObserver: ResizeObserver | null = null
 
 onMounted(() => {
-  measure()
+  measureStage()
+  captureCachedSizes()
   if (typeof ResizeObserver !== 'undefined' && stageEl.value) {
-    resizeObserver = new ResizeObserver(() => measure())
+    resizeObserver = new ResizeObserver(measureStage)
     resizeObserver.observe(stageEl.value)
   }
 })
@@ -175,11 +241,13 @@ onBeforeUnmount(() => {
   resizeObserver = null
 })
 
-function onImgLoad(i: number) {
-  // 仅当 active 图片完成解码、得到真实渲染尺寸时刷新 stage 高度。其他图的
-  // load 不影响当前展示项的高度（虽然 ResizeObserver 也兜底，这里直接调
-  // 让首屏更早稳定）。
-  if (i === currentIndex.value) measure()
+function onImgLoad(i: number, ev: Event) {
+  const img = ev.target as HTMLImageElement | null
+  if (!img || !img.naturalWidth || !img.naturalHeight) return
+  naturalSizes.value = {
+    ...naturalSizes.value,
+    [i]: { w: img.naturalWidth, h: img.naturalHeight },
+  }
 }
 </script>
 
@@ -200,9 +268,8 @@ function onImgLoad(i: number) {
       <Motion
         v-for="(img, i) in images"
         :key="img.src"
-        :ref="setSlideRef(i)"
         :initial="false"
-        :animate="targetVariant(relation(i))"
+        :animate="targetVariant(relation(i), i)"
         :transition="slideTransition"
         class="gallery-slide"
         :class="`gallery-slide--${relation(i)}`"
@@ -212,7 +279,7 @@ function onImgLoad(i: number) {
           :src="img.src"
           :alt="img.alt"
           class="gallery-image"
-          @load="onImgLoad(i)"
+          @load="(e: Event) => onImgLoad(i, e)"
         />
       </Motion>
 
@@ -275,67 +342,37 @@ $transition-duration: 0.4s;
 }
 
 // ────────────────────────────────────────────────────────────────────────
-// Slide 几何参数
+// Slide 几何
 // ────────────────────────────────────────────────────────────────────────
 //
-// 设计目标：让 prev / next slide 的"远端边缘"（朝向 stage 外侧那一侧）完整
-// 在 stage 内可见，stage 的 `overflow: hidden` 不再切掉左/右两个圆角。
+// slide 的 width / height 由 motion-v 通过 inline style 写入像素值（脚本侧
+// 的 `slideBox(i)` 根据每张图自然比例 + stage 尺寸算出）。CSS 在这里只兜底
+// pre-measurement / SSR 状态：给个 80% 宽 + 自适应高度避免首屏塌成 0。
 //
-// 推导：
-//   - slide 基础宽度        = 80% of stage
-//   - prev/next 缩放        = 0.85
-//   - prev/next 视觉半宽    = 80% * 0.85 / 2 = 34% (基于 stage 宽)
-//   - 远端边缘到 stage 内边留约 0.5% 安全 padding
-//   - prev 中心位置         ≈ -50% + 34% + 0.5% = -15.5% (基于 stage 宽)
-//   - translateX 系数（相对 slide 自身 80% width） = -15.5% / 80% ≈ -19.4%
-//
-// 注意：transform 由 motion-v `<Motion>` 的 :animate 接管（spring 物理过渡），
-// 这里只声明 width 等 layout 参数。translate / scale / opacity 的目标值在
-// 脚本侧 `targetVariant()` 里定义。
-$slide-width: 80%;
-
+// image 永远 width / height 100% slide —— slide 已经是图片像素 box（比例严
+// 格等于自然比例），所以 100% × 100% 不会拉伸；同时让 transform-origin 锚定
+// 到 slide 边缘就等价于锚定到图片边缘。
 .gallery-slide {
-  @apply absolute top-0 left-1/2;
-  width: $slide-width;
-  // flex 居中让 slide 内的图片在自身 box 中横竖居中；prev/next 的 box 等于
-  // stage 高度，原图过高时 max-height 兜底压到 stage 高度内，原图较矮时
-  // 自然垂直居中——这正是"叠加在后面的图片：高 → 缩到 active 高度，矮 →
-  // 垂直居中"的实现路径
+  @apply absolute left-1/2;
+  top: 50%;
+  width: 80%;
   @apply flex items-center justify-center;
-  // motion-v 接管 transform / opacity 的过渡；但首屏 SSR 阶段 motion 尚未
-  // 介入，给 far 一个初值（透明 + 不阻拦点击）让首屏渲染稳定
   pointer-events: none;
 
   :deep(.gallery-image) {
     @apply block m-0 rounded-2xl select-none;
-  }
-
-  // 远端 / 后续叠图：slide 高度撑满 stage（active 测出的高度），内部图片
-  // 用 max-width / max-height 自适应在 box 内按比例居中
-  &--far,
-  &--prev,
-  &--next {
-    height: 100%;
-
-    :deep(.gallery-image) {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-    }
-  }
-
-  // active：slide 高度由 img 自然高度撑起，反过来 stage 高度跟着 active 走
-  &--active {
+    width: 100%;
+    // height auto + width 100%：image 高度自然由 image_natural_ratio 推算，
+    // 因为 slide 的 box 比例严格等于 image 自然比例（见 slideBox 算法），
+    // height: auto 算出来的就是 slide 高度，避免依赖 slide 的 inline 高度
+    // （pre-measurement 时 slide 还没拿到 inline px 高度，height: 100% 会
+    // 塌成 0）
     height: auto;
+  }
+
+  &--active {
     pointer-events: auto;
     z-index: 2;
-
-    :deep(.gallery-image) {
-      width: 100%;
-      height: auto;
-    }
   }
 
   &--prev,
@@ -343,9 +380,9 @@ $slide-width: 80%;
     z-index: 1;
   }
 
-  // 把缩放锚点放到"朝外侧"的边缘上，让 prev/next 缩放时远端不动、近端朝
-  // active 收缩——比 origin: center 的"两边对称内收"视觉更稳，过渡时也
-  // 不会有"整体向中心漂移"的错觉
+  // prev / next：缩放锚点放在朝外侧的边缘，让"远端不动、近端朝 active 收"。
+  // 因为 slide 已等于图片像素 box，这里的 left/right center 直接锚定图片的
+  // 真实外缘——不会再因为 slide 比图片宽而出现"锚定到空白槽边"。
   &--prev {
     transform-origin: left center;
   }
@@ -361,8 +398,8 @@ $slide-width: 80%;
 //
 // 按钮容器铺满 stage 整个左/右纵向区域，让 hover / 点击在任意垂直高度都能
 // 触发；图标用嵌套的 `.gallery-nav-icon` 圆形片，垂直居中显示，hover 时
-// 透明度提升。背景透明，避免遮挡 active 图片底色；hover 时叠一层从边缘
-// 向内渐隐的浅遮罩，作为"可点击"视觉反馈。
+// 透明度提升。容器自身保持透明，不再叠侧边渐变，避免与 active 图边缘抢
+// 视觉。
 .gallery-nav {
   @apply absolute top-0 bottom-0;
   @apply flex items-center;
@@ -372,40 +409,26 @@ $slide-width: 80%;
   background: transparent;
   border: none;
   padding: 0;
-  transition: background-color 0.2s linear;
 
   &.prev {
     @apply left-0 justify-start pl-2;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.12), transparent);
-    background-size: 0% 100%;
-    background-repeat: no-repeat;
-    transition: background-size 0.25s ease;
   }
 
   &.next {
     @apply right-0 justify-end pr-2;
-    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.12), transparent);
-    background-size: 0% 100%;
-    background-repeat: no-repeat;
-    background-position: right;
-    transition: background-size 0.25s ease;
   }
 
-  &:hover {
-    background-size: 100% 100%;
-
-    .gallery-nav-icon {
-      @apply opacity-100 bg-light dark-bg-dark;
-    }
+  &:hover .gallery-nav-icon {
+    @apply opacity-100 bg-light dark-bg-dark;
   }
 }
 
 .gallery-nav-icon {
-  @apply w-10 h-10 rounded-full;
+  @apply w-6 h-12 rounded-full;
   @apply bg-light/85 dark-bg-dark/75;
   @apply text-primary dark-text-primary-7;
   @apply flex items-center justify-center;
-  @apply shadow-lg shadow-black/10;
+  @apply border border-black/10 dark-border-white/15;
   @apply opacity-80;
   transition: opacity 0.2s linear, background-color 0.2s linear;
   @apply motion-reduce:transition-none;
