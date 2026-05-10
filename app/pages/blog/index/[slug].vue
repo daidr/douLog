@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { IArticleItem } from '~~/server/api/article/[id]'
-
-// import { isDev } from '~/utils/_'
+import type { IPostDetail } from '~~/types/feed'
+import { formatPublishedDate } from '~/utils/date'
 import IconTime from '~icons/mingcute/calendar-2-line'
 
 definePageMeta({
@@ -15,16 +14,16 @@ if (!/^\d+$/.test(slug)) {
 }
 
 const ArticleCacheId = inject('ArticleCacheId') as Ref<number>
-const ArticleCache = inject('ArticleCache') as Ref<IArticleItem>
+const ArticleCache = inject('ArticleCache') as Ref<IPostDetail>
 const ArticleSummaryCache = inject('ArticleSummaryCache') as Ref<string>
 
-const article = ref<IArticleItem | null>(null)
+const article = ref<IPostDetail | null>(null)
 
 if (`${ArticleCacheId.value}` === slug) {
   article.value = ArticleCache.value
 } else {
-  const { data: _article } = await useFetch<IArticleItem>(
-    `/api/article/${slug}`,
+  const { data: _article } = await useFetch<IPostDetail>(
+    `/api/post/${slug}`,
   )
 
   if (!_article.value) {
@@ -37,101 +36,37 @@ if (`${ArticleCacheId.value}` === slug) {
 }
 
 if (article.value && typeof article.value === 'object') {
-  const _metas = []
-  _metas.push({
-    hid: 'og:title',
-    property: 'og:title',
-    content: article.value.title,
-  })
-  _metas.push({
-    hid: 'twitter:creator',
-    property: 'twitter:creator',
-    content: '@imdaidr',
-  })
-  _metas.push({
-    hid: 'twitter:title',
-    property: 'twitter:title',
-    content: article.value.title,
-  })
-  _metas.push({
-    hid: 'og:type',
-    property: 'og:type',
-    content: 'article',
-  })
-  _metas.push({
-    hid: 'og:url',
-    property: 'og:url',
-    content: `https://im.daidr.me/blog/${article.value.id}`,
-  })
-  _metas.push({
-    hid: 'og:category',
-    property: 'og:category',
-    content: article.value.categoryName,
-  })
-  _metas.push({
-    hid: 'og:author',
-    property: 'og:author',
-    content: '戴兜',
-  })
-  _metas.push({
-    hid: 'og:published_time',
-    property: 'og:published_time',
-    content: article.value.date,
-  })
-  _metas.push({
-    hid: 'og:site_name',
-    property: 'og:site_name',
-    content: '戴兜的小屋',
-  })
-  if (article.value.tags) {
-    _metas.push({
-      hid: 'keywords',
-      property: 'keywords',
-      content: article.value.tags.join(','),
-    })
-    _metas.push({
-      hid: 'og:tag',
-      property: 'og:tag',
-      content: article.value.tags.join(','),
-    })
+  const post = article.value
+  const _metas: { hid: string, property: string, content: string }[] = []
+  _metas.push({ hid: 'og:title', property: 'og:title', content: post.title })
+  _metas.push({ hid: 'twitter:creator', property: 'twitter:creator', content: '@imdaidr' })
+  _metas.push({ hid: 'twitter:title', property: 'twitter:title', content: post.title })
+  _metas.push({ hid: 'og:type', property: 'og:type', content: 'article' })
+  _metas.push({ hid: 'og:url', property: 'og:url', content: `https://im.daidr.me/blog/${post.id}` })
+  if (post.categoryName) {
+    _metas.push({ hid: 'og:category', property: 'og:category', content: post.categoryName })
   }
-  if (article.value.image) {
-    _metas.push({
-      hid: 'og:image',
-      property: 'og:image',
-      content: article.value.image,
-    })
-    _metas.push({
-      hid: 'twitter:image',
-      property: 'twitter:image',
-      content: article.value.image,
-    })
-    _metas.push({
-      hid: 'twitter:card',
-      property: 'twitter:card',
-      content: 'summary_large_image',
-    })
+  _metas.push({ hid: 'og:author', property: 'og:author', content: '戴兜' })
+  _metas.push({ hid: 'og:published_time', property: 'og:published_time', content: post.publishedAt })
+  _metas.push({ hid: 'og:site_name', property: 'og:site_name', content: '戴兜的小屋' })
+  if (post.tags.length) {
+    const joined = post.tags.join(',')
+    _metas.push({ hid: 'keywords', property: 'keywords', content: joined })
+    _metas.push({ hid: 'og:tag', property: 'og:tag', content: joined })
   }
-  if (article.value.excerpt) {
-    _metas.push({
-      hid: 'description',
-      property: 'description',
-      content: article.value.excerpt,
-    })
-    _metas.push({
-      hid: 'og:description',
-      property: 'og:description',
-      content: article.value.excerpt,
-    })
-    _metas.push({
-      hid: 'twitter:description',
-      property: 'twitter:description',
-      content: article.value.excerpt,
-    })
+  if (post.heroUrl) {
+    _metas.push({ hid: 'og:image', property: 'og:image', content: post.heroUrl })
+    _metas.push({ hid: 'twitter:image', property: 'twitter:image', content: post.heroUrl })
+    _metas.push({ hid: 'twitter:card', property: 'twitter:card', content: 'summary_large_image' })
+  }
+  if (post.summary) {
+    _metas.push({ hid: 'description', property: 'description', content: post.summary })
+    _metas.push({ hid: 'og:description', property: 'og:description', content: post.summary })
+    _metas.push({ hid: 'twitter:description', property: 'twitter:description', content: post.summary })
   }
 
   useHead({
-    title: article.value.title,
+    title: post.title,
     meta: _metas,
   })
 }
@@ -157,6 +92,8 @@ function setActiveTitle(title: string | null) {
 }
 
 const showSidebar = computed(() => catalogList.value.length > 0)
+
+const formattedDate = computed(() => formatPublishedDate(article.value?.publishedAt))
 </script>
 
 <script lang="ts">
@@ -176,29 +113,22 @@ export default {
           <div class="details">
             <div class="time">
               <IconTime />
-              {{ article.date }}
-            </div>
-            <div class="origin">
-              <a :href="article.link" target="_blank">阅读原文</a>
+              {{ formattedDate }}
             </div>
           </div>
         </div>
-        <UiArticleAISummary :article-id="article.id" :cached-summary="ArticleSummaryCache" />
-        <div v-if="article.image" class="article-image">
-          <!-- <UiLazyImage :src="article.image" :thumbnail="article.thumbnail" /> -->
-          <img
-            :src="article.image" :style="{
-              'aspect-ratio': article.imageSize ? `${article.imageSize.width} / ${article.imageSize.height}` : 'auto',
-            }"
-          >
+        <UiArticleAISummary
+          :article-id="article.id"
+          :article-type="article.type"
+          :cached-summary="ArticleSummaryCache"
+        />
+        <div v-if="article.heroUrl" class="article-image">
+          <img :src="article.heroUrl">
         </div>
         <CommonArticleRender :article="article.content" @active-title="setActiveTitle" />
       </div>
       <div class="comments-wrapper">
-        留言功能还在努力开发中，你可以前往<a
-          :href="`${article.link}#respond`" target="_blank"
-          class="text-primary hover:underline"
-        >旧版博客</a>留下评论
+        留言功能还在努力开发中
       </div>
     </main>
 

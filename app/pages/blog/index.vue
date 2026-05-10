@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { breakpointsTailwind } from '@vueuse/core'
-import type { IArticleItem } from '~~/server/api/article/[id]'
+import type { IPostDetail } from '~~/types/feed'
 import NoWifiIcon from '~icons/mingcute/wifi-off-line'
 
 const { t } = useI18n()
@@ -50,7 +50,7 @@ function toPrevTop() {
 provide('toPrevTop', toPrevTop)
 
 const ArticleCacheId = ref(-1)
-const ArticleCache = ref<IArticleItem>()
+const ArticleCache = ref<IPostDetail>()
 const ArticleSummaryCache = ref<string>('')
 
 provide('ArticleCacheId', ArticleCacheId)

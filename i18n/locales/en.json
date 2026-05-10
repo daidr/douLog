@@ -148,5 +148,10 @@
     "no_summary": "No summary yet",
     "inspired_by": "Inspired by ",
     "based_on": "Based on "
+  },
+  "gallery": {
+    "prev": "Previous",
+    "next": "Next",
+    "go_to": "Go to image {index}"
   }
 }

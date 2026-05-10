@@ -60,6 +60,10 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     'nuxt-umami',
+    // motion-v 提供 <Motion> 组件 + spring/keyframe 过渡，文章正文里的轮播
+    // 用它做切换动画。注册为 nuxt 模块即自动注入 <Motion> 等组件全局可用，
+    // 无需手动 import。
+    'motion-v/nuxt',
     './modules/pwa/index',
     './modules/purge-comments',
   ],
@@ -118,10 +122,11 @@ export default defineNuxtConfig({
     '~/assets/fonts/BEYNO/font.css',
   ],
   runtimeConfig: {
-    apiEntry: process.env.NUXT_BLOG_API_ENTRY || 'https://daidr.me',
+    // story-verse 后端公开 API 的 base URL。本地默认指向 packages/core 的开发端口
+    // (SV_APP_PORT=3005 in packages/core/.env)；线上由 NUXT_BLOG_API_ENTRY 覆盖。
+    apiEntry: process.env.NUXT_BLOG_API_ENTRY || 'http://localhost:3005',
     GithubAPIEntry:
       process.env.NUXT_GITHUB_API_ENTRY || 'https://api.github.com',
-    openAIKey: process.env.NUXT_BLOG_OPENAI_KEY || '',
     app: {
       buildAssetsDir: '/_doulog/',
     },

@@ -148,5 +148,10 @@
     "no_summary": "暂无摘要",
     "inspired_by": "灵感来自：",
     "based_on": "基于："
+  },
+  "gallery": {
+    "prev": "上一张",
+    "next": "下一张",
+    "go_to": "切换到第 {index} 张"
   }
 }

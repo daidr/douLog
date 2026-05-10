@@ -1,50 +1,17 @@
-import qs from 'qs'
-
-import { decode } from 'html-entities'
-import slugify from 'slug'
-
 import type { Element, ElementContent, Root, RootContent } from 'hast'
-import { fromHtmlIsomorphic } from 'hast-util-from-html-isomorphic'
 import { pinyin } from '@napi-rs/pinyin'
+import { fromHtmlIsomorphic } from 'hast-util-from-html-isomorphic'
+import slugify from 'slug'
+import type { ICatalogItem, IPostDetail } from '~~/types/feed'
+import { renderMarkdown } from '../../utils/markdown'
+import type { SvPostDetail } from '../../utils/sv'
+import { buildMediaUrl } from '../../utils/sv'
 import { defineCountableCachedEventHandler } from '../utils/countable-cache-handler'
-import { replaceMediaCDN } from '~/utils/mediaCDN'
 
 const WARN_ICON
   = '<svg xmlns="http://www.w3.org/2000/svg" class="mdui-icon" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a1 1 0 1 0 1 1a1 1 0 0 0-1-1Zm10.67 1.47l-8.05-14a3 3 0 0 0-5.24 0l-8 14A3 3 0 0 0 3.94 22h16.12a3 3 0 0 0 2.61-4.53Zm-1.73 2a1 1 0 0 1-.88.51H3.94a1 1 0 0 1-.88-.51a1 1 0 0 1 0-1l8-14a1 1 0 0 1 1.78 0l8.05 14a1 1 0 0 1 .05 1.02ZM12 8a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V9a1 1 0 0 0-1-1Z"/></svg>'
 
 const { apiEntry } = useRuntimeConfig()
-
-export interface ICatalogItem {
-  key: string
-  title: string
-  level: number
-}
-
-export interface IArticleItem {
-  id: number
-  link: string
-  title: string
-  content: Root
-  excerpt: string
-  titleList: ICatalogItem[]
-  image?: string
-  imageSize?: {
-    width: number
-    height: number
-  }
-  thumbnail?: string
-  commentCount: number
-  viewCount: number
-  categoryName: string
-  previousPostId: number | null
-  previousPostTitle: number | null
-  nextPostId: number | null
-  nextPostTitle: number | null
-  tags: string[]
-  format: string
-  date: string
-  duration?: Record<string, number>
-}
 
 function encodeHtmlAttr(str: string) {
   return str
@@ -55,23 +22,31 @@ function encodeHtmlAttr(str: string) {
     .replace(/>/g, '&gt;')
 }
 
+/**
+ * 对渲染后的 HTML 做几条 douLog 历史保留下来的 patch。
+ *
+ * 这些规则原本是为旧 WP HTML 设计（短代码、TablePress、md-icon），story-verse
+ * 的 markdown 通常不会触发它们；保留是为了：
+ *   - 作者在 markdown 中手写 <table> / <script> 时仍按既定方式包装
+ *   - 兼容历史富文本片段（迁移时直接粘贴 HTML 也能正常呈现）
+ */
 function preHandleArticleContent(html: string) {
   return (
     html
-      // 修改script标签
+      // 把 <script> 包到自定义元素里延迟挂载，避免 SSR 直接执行
       .replaceAll(/(<script[\s\S]*?<\/script>)/g, (_: any, p1: any) => {
         return `<blog-dynamic-inject data-element="${encodeHtmlAttr(
           p1,
         )}"></blog-dynamic-inject>`
       })
-      // 让表格包裹一个容器
+      // TablePress 风格的表格外包一层容器（如果作者贴了原 HTML）
       .replaceAll(
         /(<table id="tablepress-\d+" class="tablepress tablepress-id-\d+">[\s\S]*<\/table>)/g,
         (_: any, p1: any) => {
           return `<div class="table-container">${p1}</div>`
         },
       )
-      // 替换警告图标
+      // 兼容旧文章里 mdui 的 warning 图标语法
       .replaceAll(
         '<i class="mdui-icon material-icons">warning</i><br>',
         WARN_ICON,
@@ -118,7 +93,7 @@ function handleArticleHeading(root: Root) {
   return titleList
 }
 
-// 移除图片外层的a标签
+// 移除图片外层的 a 标签（让点击图片走预览，不被锚跳走）
 function handleExtraImageLink(root: Root) {
   const traverse = (node: ElementContent | RootContent) => {
     if (node.type !== 'element') return
@@ -136,10 +111,15 @@ function handleExtraImageLink(root: Root) {
   root.children.forEach(traverse)
 }
 
+/**
+ * 详情代理 —— 调 story-verse `/api/posts/:id`，把 markdown 正文转成 hast，
+ * 再附上 TOC 和媒体 URL。后端的 getPublic 已强制 status='published' 且非
+ * private，404 / draft / private 都被它吞成 404，这边直接捕获并抛 400。
+ */
 export default defineCountableCachedEventHandler(
   async (event) => {
-    const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
-    if (Number.isNaN(articleID)) {
+    const id = (getRouterParam(event, 'id') as unknown as number) - 0
+    if (Number.isNaN(id)) {
       throw createError({
         statusCode: 400,
         statusMessage: 'ID should be an integer',
@@ -148,78 +128,49 @@ export default defineCountableCachedEventHandler(
 
     const { record, recordAsync, getRecords } = createRecord()
 
-    const query = qs.stringify(
-      {
-        _fields: [
-          'id',
-          'link',
-          'title',
-          'excerpt',
-          'content',
-          'post_full_image',
-          'post_medium_image',
-          'post_date',
-          'category_name',
-          'pageviews',
-          'previous_post_id',
-          'previous_post_title',
-          'next_post_id',
-          'next_post_title',
-          'featured_image_size',
-          'total_comments',
-          '_links.wp:term',
-          '_links.wp:featuredmedia',
-          'format',
-        ],
-        _embed: ['wp:term'],
-      },
-      { encodeValuesOnly: true },
-    )
-
     try {
-      const result = await recordAsync('fetch', () => $fetch(
-        `/wp-json/wp/v2/posts/${articleID}?${query}`,
+      const result = await recordAsync('fetch', () => $fetch<SvPostDetail>(
+        `/api/posts/${id}`,
         {
           baseURL: apiEntry,
         },
-      )) as any
+      ))
 
-      const preHandledHtml = record('preHandle', () => preHandleArticleContent(result.content.rendered))
-
+      const renderedHtml = record('renderMarkdown', () => renderMarkdown(result.content, { apiEntry }))
+      const preHandledHtml = record('preHandle', () => preHandleArticleContent(renderedHtml))
       const parseAst = record('parseTree', () => fromHtmlIsomorphic(preHandledHtml, { fragment: true }))
-
       const titleList = record('toc', () => handleArticleHeading(parseAst))
-
       record('extraImageLink', () => handleExtraImageLink(parseAst))
 
-      const _result: IArticleItem = {
+      const publishedAt = result.publishedAt || result.createdAt
+      const heroUrl = result.heroId
+        ? buildMediaUrl(apiEntry, result.heroId, { webp: true, etag: result.heroEtag })
+        : null
+      const heroThumbnailUrl = result.heroId
+        ? buildMediaUrl(apiEntry, result.heroId, { thumbnail: true, etag: result.heroEtag })
+        : null
+
+      const detail: IPostDetail = {
         id: result.id,
-        link: result.link,
-        title: decode(result.title.rendered),
-        excerpt: htmlToPureText(result.excerpt.rendered),
+        type: result.type,
+        title: result.title,
+        summary: result.summary || '',
+        slug: result.slug,
+        tags: result.tags || [],
+        categoryName: result.categoryName || '',
+        commentsCount: result.commentsCount,
+        viewsCount: result.viewsCount,
+        heroUrl,
+        heroThumbnailUrl,
+        mood: result.mood,
+        weather: result.weather,
+        publishedAt,
         content: parseAst,
         titleList,
-        image: result._links['wp:featuredmedia']
-          ? replaceMediaCDN(result.post_full_image)
-          : undefined,
-        imageSize: result.featured_image_size || undefined,
-        thumbnail: result._links['wp:featuredmedia']
-          ? replaceMediaCDN(result.post_medium_image)
-          : undefined,
-        commentCount: result.total_comments,
-        viewCount: result.pageviews,
-        categoryName: result.category_name,
-        previousPostId: result.previous_post_id,
-        previousPostTitle: result.previous_post_title,
-        nextPostId: result.next_post_id,
-        nextPostTitle: result.next_post_title,
-        tags: result._embedded['wp:term'][1].map((tag: any) => tag.name),
-        format: result.format,
-        date: result.post_date,
         duration: getRecords(),
       }
 
-      return _result
+      return detail
     } catch (e) {
       console.error(e)
       throw createError({

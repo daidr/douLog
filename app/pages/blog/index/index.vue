@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IArticleItem } from '~~/server/api/article/[id]'
+import type { IFlowItem, IPostDetail } from '~~/types/feed'
 import IconAlarm from '~icons/mingcute/notification-line'
 
 preloadRouteComponents('/blog/[id]')
@@ -8,30 +8,39 @@ definePageMeta({
   isInArticlePage: false,
 })
 
+interface FlowResponse {
+  list: IFlowItem[]
+  total: number
+  hasNext: boolean
+}
+
+const PAGE_SIZE = 10
+
 const isFetching = ref(false)
 const isEnded = ref(false)
 
-async function fetchList(page: number = 1) {
+async function fetchPage(page: number = 1): Promise<IFlowItem[]> {
   isFetching.value = true
-  const _articleList = await $fetch('/api/articles', {
-    query: {
-      page,
-    },
-  })
-  isFetching.value = false
-  if (_articleList.length < 10) {
-    isEnded.value = true
+  try {
+    const res = await $fetch<FlowResponse>('/api/flow', {
+      query: { page },
+    })
+    if (!res.hasNext || res.list.length < PAGE_SIZE) {
+      isEnded.value = true
+    }
+    return res.list
+  } finally {
+    isFetching.value = false
   }
-
-  return _articleList
 }
 
-const articles = shallowRef(await fetchList())
+const articles = shallowRef<IFlowItem[]>(await fetchPage())
 
 async function requestFetch() {
   if (isEnded.value || isFetching.value) return
-  const _articleList = await fetchList(articles.value.length / 10 + 1)
-  articles.value.push(..._articleList)
+  const nextPage = Math.floor(articles.value.length / PAGE_SIZE) + 1
+  const nextItems = await fetchPage(nextPage)
+  articles.value.push(...nextItems)
   triggerRef(articles)
 }
 
@@ -60,7 +69,7 @@ onActivated(async () => {
 
 const isPrefetching = ref(false)
 const ArticleCacheId = inject('ArticleCacheId') as Ref<number>
-const ArticleCache = inject('ArticleCache') as Ref<IArticleItem>
+const ArticleCache = inject('ArticleCache') as Ref<IPostDetail>
 const ArticleSummaryCache = inject('ArticleSummaryCache') as Ref<string>
 
 async function onArticleItemClick(postId: number) {
@@ -69,21 +78,20 @@ async function onArticleItemClick(postId: number) {
       isPrefetching.value = true
     }, 100)
 
-    const article = await $fetch<IArticleItem>(
-      `/api/article/${postId}`,
+    const detail = await $fetch<IPostDetail>(
+      `/api/post/${postId}`,
     )
-    if (!article) {
+    if (!detail) {
       clearTimeout(timer)
       isPrefetching.value = false
       navigateTo('/404', { replace: false })
       return
     }
-    const summary = await $fetch<string>(`/api/summary/${postId}`, {
-      query: { cacheonly: '1' },
-    })
-    ArticleSummaryCache.value = summary || 'no cache'
+    // story-verse 没有"只查不生成"的 ai-summary 端点；点击列表项时不再预请求摘要，
+    // 真正进文章页后由 ArticleAISummary 一次性 lazy fetch（命中缓存时仍是常数延时）。
+    ArticleSummaryCache.value = ''
     ArticleCacheId.value = postId
-    ArticleCache.value = article
+    ArticleCache.value = detail
     clearTimeout(timer)
     isPrefetching.value = false
   }
@@ -115,7 +123,7 @@ const { t } = useI18n()
     </div>
     <div class="article-list">
       <SiteArticleItem
-        v-for="article of articles.filter(i => i.format === 'standard')" :key="article.id"
+        v-for="article of articles" :key="article.id"
         :article="article" @click.prevent="onArticleItemClick(article.id)"
       />
       <div v-if="!isEnded && isHydrated" ref="loadMoreRef" class="load-more" :class="{ disabled: isFetching }" @click="requestFetch">

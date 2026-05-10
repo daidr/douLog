@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import type { ICatalogItem } from '~~/server/api/article/[id]'
+import type { ICatalogItem } from '~~/types/feed'
 
 const props = defineProps<{
   catalog: ICatalogItem[]

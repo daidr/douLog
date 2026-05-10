@@ -148,5 +148,10 @@
     "no_summary": "暫無摘要",
     "inspired_by": "靈感來自：",
     "based_on": "基於："
+  },
+  "gallery": {
+    "prev": "上一張",
+    "next": "下一張",
+    "go_to": "切換到第 {index} 張"
   }
 }

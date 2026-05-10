@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import type { IArticleListItem } from '~~/server/api/articles'
+import type { IFlowItem } from '~~/types/feed'
+import { formatPublishedDate } from '~/utils/date'
 import IconEye from '~icons/mingcute/eye-2-line'
 import IconComment from '~icons/mingcute/comment-line'
 
-defineProps<{ article: IArticleListItem }>()
+const props = defineProps<{ article: IFlowItem }>()
+
+// story-verse 的 publishedAt 是 ISO 字符串，用 locale-fixed formatter 输出
+// `YYYY年M月D日`，确保 SSR / client 渲染一致（详见 ~/utils/date 注释）。
+const formattedDate = computed(() => formatPublishedDate(props.article.publishedAt))
 </script>
 
 <template>
@@ -11,7 +16,7 @@ defineProps<{ article: IArticleListItem }>()
     <div class="left">
       <h3 class="title">{{ article.title }}</h3>
       <div class="details">
-        <div class="detail-item">{{ article.date }}</div>
+        <div class="detail-item">{{ formattedDate }}</div>
         <div v-if="article.tags.length" class="detail-item">
           <span
             v-for="tag of article.tags.slice(0, 1)"
@@ -21,17 +26,17 @@ defineProps<{ article: IArticleListItem }>()
         </div>
         <div class="detail-item">
           <IconEye />
-          <span>{{ article.viewCount }}</span>
+          <span>{{ article.viewsCount }}</span>
         </div>
         <div class="detail-item">
           <IconComment />
-          <span>{{ article.commentCount }}</span>
+          <span>{{ article.commentsCount }}</span>
         </div>
       </div>
-      <div class="summary">{{ article.excerpt }}</div>
+      <div v-if="article.summary" class="summary">{{ article.summary }}</div>
     </div>
-    <div v-if="article.image" class="right">
-      <UiLazyImage :src="article.image" />
+    <div v-if="article.heroUrl" class="right">
+      <UiLazyImage :src="article.heroUrl" />
     </div>
   </a>
 </template>
@@ -101,14 +106,6 @@ defineProps<{ article: IArticleListItem }>()
 
       .detail-item {
         @apply flex items-center gap-x-1;
-
-        // .tag-item {
-        //   @apply ml-2 !important;
-
-        //   &:first-child {
-        //     @apply ml-0 !important;
-        //   }
-        // }
       }
     }
     .summary {

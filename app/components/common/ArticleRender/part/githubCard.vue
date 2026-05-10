@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Element } from 'hast'
+import type { Element, ElementContent, RootContent } from 'hast'
 import LoadingIcon from '~icons/mingcute/loading-3-line'
 import ErrorIcon from '~icons/mingcute/forbid-circle-line'
 import LinkIcon from '~icons/mingcute/external-link-line'
@@ -9,24 +9,56 @@ import GitHubIcon from '~icons/mingcute/github-line'
 
 const props = defineProps<{ node: Element }>()
 
-const author = computed(() => {
-  const author = props.node.properties?.dataMdxgithuba
-  return author
+/**
+ * 从 hast 子树里递归找第一个 `<a>` 节点的 href。
+ *
+ * `:::github` 容器内通常是一行 GitHub 仓库 URL，markdown-it 的 linkify 会
+ * 把它解析为 `<p><a href="..."></a></p>`；这里走通用的递归而不是只看
+ * 直接子节点，是为了顺手兼容作者把 URL 写成显式 markdown 链接 `[txt](url)`
+ * 等情况。
+ */
+function findFirstAnchorHref(node: Element): string | null {
+  let found: string | null = null
+  const visit = (n: ElementContent | RootContent): void => {
+    if (found || n.type !== 'element') return
+    if (n.tagName === 'a' && typeof n.properties?.href === 'string') {
+      found = n.properties.href
+      return
+    }
+    if (n.children) n.children.forEach(visit)
+  }
+  node.children.forEach(visit)
+  return found
+}
+
+// 解析容器内的仓库地址；不合法 / 找不到时各 computed 都退化为 null，模板里走 error 分支
+const repoHref = computed(() => findFirstAnchorHref(props.node))
+
+const ownerRepo = computed<{ owner: string, repo: string } | null>(() => {
+  const href = repoHref.value
+  if (!href) return null
+  // 锚定 github.com 域名，避免任何 a[href] 都被识别成 github 仓库
+  const match = href.match(/^https?:\/\/github\.com\/([^/?#]+)\/([^/?#]+)/i)
+  if (!match) return null
+  return { owner: match[1]!, repo: match[2]!.replace(/\.git$/i, '') }
 })
 
-const repo = computed(() => {
-  const repo = props.node.properties?.dataMdxgithubp
-  return repo
-})
+const link = computed(() => ownerRepo.value
+  ? `https://github.com/${ownerRepo.value.owner}/${ownerRepo.value.repo}`
+  : repoHref.value || '#')
 
-const link = computed(() => {
-  const link = `https://github.com/${author.value}/${repo.value}`
-  return link
-})
-
-const { pending, data: result, error } = useFetch(`/api/github/${author.value}/${repo.value}`, {
-  lazy: true,
-})
+// 用 useFetch 让 SSR 阶段也能拉到数据（GitHub API 速率限制充裕，且 doulog 后端
+// 已对该响应做 SWR 缓存 10 分钟）。无效仓库 URL 时跳过请求，模板渲染 error 卡片。
+const { pending, data: result, error } = useFetch(
+  () => ownerRepo.value
+    ? `/api/github/${ownerRepo.value.owner}/${ownerRepo.value.repo}`
+    : '',
+  {
+    lazy: true,
+    immediate: computed(() => !!ownerRepo.value).value,
+    server: true,
+  },
+)
 </script>
 
 <template>

@@ -1,127 +1,64 @@
-import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters'
-import { hastRootToPureText } from '~~/server/utils/stringify'
+import type { IAiSummary } from '~~/types/feed'
+import type { SvAiSummaryResponse } from '../../utils/sv'
 
-const returnLimit = 400
-const chunkSize = 4000
+const { apiEntry } = useRuntimeConfig()
 
-const { openAIKey } = useRuntimeConfig()
+const VALID_TYPES = new Set(['post', 'note', 'page'])
 
-const splitter = new RecursiveCharacterTextSplitter({
-  chunkSize,
-  chunkOverlap: 1,
-})
+/**
+ * AI 摘要 thin proxy。
+ *
+ * 直接转发到 story-verse `/api/ai-summary`，后者负责：
+ *   - 同 (refType, refId, locale) 并发请求去重
+ *   - 命中已存在且 createdAt >= post.updatedAt 的摘要直接返回
+ *   - 全局串行队列控制 LLM 调用频率
+ *   - 站长禁用 / 缺 key / 不存在等错误的 4xx 映射
+ *
+ * 请求形态：`GET /api/summary/:id?type=post|note`，type 默认为 `post`，因为
+ * douLog 历史链接（旧 WordPress 时代）只指向博客文章。失败 / 后端不可达统一
+ * 退化为 `{ content: '' }`，让前端按"暂无摘要"渲染。
+ */
+export default defineEventHandler(async (event): Promise<IAiSummary> => {
+  const id = (getRouterParam(event, 'id') as unknown as number) - 0
+  const typeParam = getQuery(event).type?.toString() || 'post'
+  const refType: 'post' | 'note' | 'page' = VALID_TYPES.has(typeParam)
+    ? typeParam as 'post' | 'note' | 'page'
+    : 'post'
 
-export interface IArticleItem {
-  id: number
-  link: string
-  title: string
-  content: string
-  image: string
-  commentCount: number
-  viewCount: number
-  categoryName: string
-  previousPostId: number | null
-  previousPostTitle: number | null
-  nextPostId: number | null
-  nextPostTitle: number | null
-  tags: string[]
-  format: string
-  date: string
-}
+  // 与 story-verse locale 归一化对齐（lowercase + underscore）
+  const locale = 'zh_cn'
 
-async function segmentedSummary(
-  content: string,
-  lang: string,
-): Promise<string> {
-  const segments = await splitter.createDocuments([content])
-
-  const results: string[] = await Promise.all(
-    segments.map(async (segment) => {
-      const prompt = `Summarize this in ${lang} language in less than ${returnLimit} characters: ${segment.pageContent}`
-
-      const response = (await $fetch(
-        'https://newapi.daidr.me/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${openAIKey}`,
-          },
-          body: JSON.stringify({
-            model: 'gpt-4o-mini',
-            temperature: 1,
-            top_p: 1,
-            frequency_penalty: 1,
-            presence_penalty: 1,
-            messages: [
-              {
-                role: 'user',
-                content: prompt,
-              },
-            ],
-          }),
-        },
-      )) as any
-
-      return response.choices?.[0]?.message?.content?.trim()
-    }),
-  )
-
-  if (results.length > 1) {
-    return segmentedSummary(results.join('\n'), lang)
-  } else {
-    return results[0]
+  const empty: IAiSummary = {
+    refType,
+    refId: id,
+    lang: locale,
+    content: '',
+    createdAt: null,
   }
-}
 
-export async function getSummary(content: string, lang: string = 'zh') {
+  if (Number.isNaN(id)) {
+    return empty
+  }
+
   try {
-    const result = await segmentedSummary(content, lang)
+    const result = await $fetch<SvAiSummaryResponse>('/api/ai-summary', {
+      baseURL: apiEntry,
+      query: {
+        refType,
+        refId: id,
+        locale,
+      },
+    })
 
-    return result
+    return {
+      refType: result.refType,
+      refId: result.refId,
+      lang: result.lang,
+      content: result.content,
+      createdAt: result.createdAt,
+    }
   } catch (error) {
     console.error(error)
-    return undefined
-  }
-}
-
-export default defineEventHandler(async (event) => {
-  const articleID = (getRouterParam(event, 'id') as unknown as number) - 0
-  if (Number.isNaN(articleID)) {
-    return 'not found'
-  }
-
-  const forceCache = getQuery(event).cacheonly?.toString() === '1'
-
-  try {
-    const article = await $fetch(`/api/article/${articleID}`)
-    if (!article) {
-      return 'not found'
-    }
-
-    const lang = 'zh-CN'
-
-    const cacheKey = `redis:article-summary-${articleID}-${lang}`
-
-    let articleSummary = await useStorage().getItem(cacheKey)
-
-    if (!articleSummary) {
-      if (forceCache) {
-        return 'no cache'
-      }
-
-      articleSummary = (await getSummary(hastRootToPureText(article.content), lang)) || ''
-
-      if (articleSummary) {
-        await useStorage().setItem(cacheKey, articleSummary)
-        return articleSummary
-      }
-    } else {
-      return articleSummary
-    }
-
-    return 'not found'
-  } catch (error) {
-    return 'not found'
+    return empty
   }
 })

@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { ContentType, IAiSummary } from '~~/types/feed'
 import IconLightbulb from '~icons/mingcute/bulb-line'
 import IconInfo from '~icons/mingcute/information-line'
 
 const props = defineProps<{
   articleId: number
+  articleType: ContentType
   cachedSummary?: string
 }>()
 
@@ -13,30 +15,29 @@ const { t } = useI18n()
 const summary = ref('')
 
 if (props.cachedSummary) {
+  // 列表→详情切换时复用上次拉到的内容，避免闪烁
   summary.value = props.cachedSummary
-} else {
-  const { data: _summary } = await useFetch<string>(
-    `/api/summary/${props.articleId}`,
-    {
-      query: { cacheonly: '1' },
-    },
-  )
-  summary.value = _summary.value || 'no cache'
-}
-
-if (summary.value === 'no cache') {
+} else if (import.meta.client) {
+  // 仅在浏览器端发请求：story-verse `/api/ai-summary` 后端已做并发去重 + 命中即返，
+  // 一次 fetch 足够。SSR 阶段不发请求，让服务端始终输出 "加载中..." 占位，client
+  // hydrate 时同样初始 isLoading=true，避免 Vue Hydration text mismatch；mount 后
+  // 再异步替换为真实摘要。
   isLoading.value = true
-  const { pending, data: _summary } = useLazyFetch<string>(
-    `/api/summary/${props.articleId}`,
-  )
-
-  watchEffect(() => {
-    isLoading.value = pending.value
-
-    if (!pending.value) {
-      summary.value = _summary.value || t('ai_summary.no_summary')
+  ;(async () => {
+    try {
+      const data = await $fetch<IAiSummary>(`/api/summary/${props.articleId}`, {
+        query: { type: props.articleType },
+      })
+      summary.value = data?.content || t('ai_summary.no_summary')
+    } catch {
+      summary.value = t('ai_summary.no_summary')
+    } finally {
+      isLoading.value = false
     }
-  })
+  })()
+} else {
+  // SSR 阶段：保持 loading 占位形态
+  isLoading.value = true
 }
 </script>
 
