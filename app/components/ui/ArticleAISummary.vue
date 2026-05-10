@@ -98,15 +98,9 @@ if (props.cachedSummary) {
       </div>
       <div class="content">
         <div>
-          {{ $t('ai_summary.inspired_by') }}
-          <a href="https://xlog.app/" target="_blank">
-            <IconsXlog />xLog
-          </a>
-        </div>
-        <div>
           {{ $t('ai_summary.based_on') }}
-          <a href="https://chat.openai.com/" target="_blank">
-            <IconsOpenai />ChatGPT
+          <a href="https://claude.ai/" target="_blank">
+            <IconsClaude />Claude
           </a>
         </div>
       </div>
