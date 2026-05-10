@@ -14,21 +14,21 @@ defineProps({
 
 const { t } = useI18n()
 
-const historyState = useHistoryState()!
+// const historyState = useHistoryState()!
 
-function back() {
-  history.back()
-}
+// function back() {
+//   history.back()
+// }
 </script>
 
 <template>
   <slot v-if="$slots.default" />
-  <ClientOnly>
+  <!-- <ClientOnly>
     <a v-if="historyState.back" class="invert-menu-item" @click="back">
       <IconBack />
       <span>{{ t('main_nav.back') }}</span>
     </a>
-  </ClientOnly>
+  </ClientOnly> -->
   <NuxtLink v-if="!hideSet[0]" :to="{ name: 'index-me' }" class="menu-item">
     <IconBear />
     {{ t('main_nav.me') }}
