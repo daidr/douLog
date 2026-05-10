@@ -22,7 +22,6 @@ if (import.meta.env.DEV) {
 // remove runtime entries
 const runtimePath = [
   'splash/',
-  'images/friends/',
   'images/projects/',
 ]
 
@@ -43,7 +42,6 @@ if (import.meta.env.PROD) {
   denylist = [
     /^\/api\//,
     /^\/splash\//,
-    /^\/images\/friends\//,
     /^\/images\/projects\//,
     // exclude sw: if the user navigates to it, fallback to index.html
     /^\/sw.js$/,
@@ -92,16 +90,13 @@ if (import.meta.env.PROD) {
     }),
   )
 
-  // blog friend images
+  // 友链 gravatar 头像（story-verse 接入后由 cravatar.cn 提供）
   registerRoute(
-    ({ sameOrigin, request, url }) =>
-      sameOrigin
-      && request.destination === 'image'
-      && url.pathname.startsWith('/images/friends'),
+    ({ url }) => url.host === 'cravatar.cn',
     new StaleWhileRevalidate({
-      cacheName: 'doulog-friends',
+      cacheName: 'doulog-friends-gravatar',
       plugins: [
-        new CacheableResponsePlugin({ statuses: [200] }),
+        new CacheableResponsePlugin({ statuses: [0, 200] }),
         // 15 days max
         new ExpirationPlugin({ purgeOnQuotaError: true, maxAgeSeconds: 60 * 60 * 24 * 15 }),
       ],

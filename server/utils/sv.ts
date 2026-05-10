@@ -56,6 +56,20 @@ export interface SvAiSummaryResponse {
 }
 
 /**
+ * 公开端点 `/api/friend-links` 的形态——已在 story-verse 侧把 email 替换为
+ * sha256 hash，原文邮箱不下发；列表一次性返回全量（无分页包裹）。
+ */
+export interface SvFriendLink {
+  id: number
+  name: string
+  description: string | null
+  url: string
+  emailHash: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+/**
  * 由媒体 id 拼出公开访问 URL。
  *
  * story-verse 的图片走 `/api/media/raw/:id`，可附加 `?webp=true` 取衍生品 / `?thumbnail=true`

@@ -57,6 +57,20 @@ export interface IPostDetail extends IFlowItem {
 }
 
 /**
+ * 友链项 —— `/api/friends` 的返回形态。story-verse `friend_links.email` 在
+ * douLog 服务端 proxy 里被 sha256 后拼成 gravatar URL，浏览器侧只看到 URL，
+ * 拿不到原文邮箱。`avatarUrl` 一定是字符串：邮箱缺失时仍指向 cravatar 空 hash，
+ * 由远端返回 mystery person 占位。
+ */
+export interface IFriendItem {
+  id: number
+  name: string
+  description: string
+  url: string
+  avatarUrl: string
+}
+
+/**
  * AI 摘要响应——透传 story-verse `/api/ai-summary` 的字段形态。
  *
  * 失败 / 缺失时返回 `{ content: '' }` 形态，调用方据此决定是否兜底渲染

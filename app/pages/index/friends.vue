@@ -1,13 +1,14 @@
-<script setup>
-import { FriendsList } from '~~/config/friends.js'
+<script setup lang="ts">
+import type { IFriendItem } from '~~/types/feed'
 import { shuffle } from '@/utils/_'
 import IconSubway from '~icons/mingcute/train-3-line'
 
 const showTopShadow = ref(false)
 const showBottomShadow = ref(true)
 
-function onScroll(e) {
-  const { scrollTop, scrollHeight, clientHeight } = e.target
+function onScroll(e: Event) {
+  const target = e.target as HTMLElement
+  const { scrollTop, scrollHeight, clientHeight } = target
   showTopShadow.value = scrollTop > 3
   showBottomShadow.value = scrollHeight - scrollTop > clientHeight
 }
@@ -18,7 +19,14 @@ useHead({
   title: computed(() => t('main_nav.friends')),
 })
 
-const shuffledFriendsList = shuffle(FriendsList)
+const { data: friends } = await useFetch<IFriendItem[]>('/api/friends', {
+  default: () => [] as IFriendItem[],
+})
+
+// SSR 渲染按后端返回的 id 升序，hydrate 后再洗牌一次，避免每次进入页面都是同一顺序
+const displayList = computed(() =>
+  isHydrated.value ? shuffle(friends.value) : friends.value,
+)
 </script>
 
 <template>
@@ -40,18 +48,18 @@ const shuffledFriendsList = shuffle(FriendsList)
           </div>
         </a>
         <a
-          v-for="item of isHydrated ? shuffledFriendsList : FriendsList" :key="item.url" class="friend-item" :href="item.url" target="_blank"
+          v-for="item of displayList" :key="item.id" class="friend-item" :href="item.url" target="_blank"
           rel="noopener noreferrer"
         >
-          <div class="avatar" :style="{ backgroundColor: item.color }">
-            <UiLazyImage :src="`/images/friends/${item.avatar}`" :alt="item.name" />
+          <div class="avatar">
+            <UiLazyImage :src="item.avatarUrl" :alt="item.name" />
           </div>
           <div class="detail">
             <div class="name">
               {{ item.name }}
             </div>
             <div class="motto">
-              {{ item.motto }}
+              {{ item.description }}
             </div>
           </div>
         </a>
@@ -126,6 +134,7 @@ const shuffledFriendsList = shuffle(FriendsList)
       .avatar {
         @apply w-13 h-13 rounded-xl mr-2 select-none;
         @apply flex-shrink-0;
+        @apply bg-primary-2 dark-bg-primary-4;
 
         .lazy-image {
           @apply rounded-xl;
