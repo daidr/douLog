@@ -38,11 +38,22 @@ export function isDev() {
 
 export const wait = (ms: number) => new Promise(r => setTimeout(r, ms))
 
-export function normalizeProperties(properties: Record<string, any>) {
-  const normalized = {
-    ...properties,
-    class: properties.className,
-  } as Record<string, any>
-  delete normalized.className
+export function normalizeProperties(properties: Record<string, any> | null | undefined) {
+  const normalized: Record<string, any> = {}
+  if (!properties) return normalized
+  for (const [k, v] of Object.entries(properties)) {
+    if (k === 'className') {
+      // hast 用 className（数组），DOM 上写 class（空格分隔字符串）
+      normalized.class = Array.isArray(v) ? v.join(' ') : v
+    } else if (Array.isArray(v)) {
+      // hast 把 list-typed HTML 属性（rel / accept / itemProp / sandbox …）存为
+      // string[]，但浏览器期望空格分隔的字符串。Vue 透传 array 时会用 toString
+      // 默认行为得到逗号分隔的值（浏览器不识别），最终 attribute 直接消失——
+      // 必须在这里 join 一次让 setAttribute 能正确生效。
+      normalized[k] = v.join(' ')
+    } else {
+      normalized[k] = v
+    }
+  }
   return normalized
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ContentType, IAiSummary } from '~~/types/feed'
+import { AnimatePresence, Motion } from 'motion-v'
 import IconLightbulb from '~icons/mingcute/bulb-line'
 import IconInfo from '~icons/mingcute/information-line'
 
@@ -18,10 +19,10 @@ if (props.cachedSummary) {
   // 列表→详情切换时复用上次拉到的内容，避免闪烁
   summary.value = props.cachedSummary
 } else if (import.meta.client) {
-  // 仅在浏览器端发请求：story-verse `/api/ai-summary` 后端已做并发去重 + 命中即返，
-  // 一次 fetch 足够。SSR 阶段不发请求，让服务端始终输出 "加载中..." 占位，client
-  // hydrate 时同样初始 isLoading=true，避免 Vue Hydration text mismatch；mount 后
-  // 再异步替换为真实摘要。
+  // 仅在浏览器端发请求：story-verse `/api/ai-summary` 后端已做并发去重 +
+  // 命中即返，一次 fetch 足够。SSR 阶段不发请求，让服务端始终输出 "加载中..."
+  // 占位，client hydrate 时同样初始 isLoading=true，避免 Vue Hydration text
+  // mismatch；mount 后再异步替换为真实摘要。
   isLoading.value = true
   ;(async () => {
     try {
@@ -47,14 +48,50 @@ if (props.cachedSummary) {
       <IconLightbulb />
       <span>{{ $t('ai_summary.title') }}</span>
     </div>
-    <div class="block-content">
-      <div v-if="isLoading">
-        {{ $t('ai_summary.loading') }}
+    <!--
+      过渡链路：
+        - motion-v 的 `<AnimatePresence mode="wait">` 串行 fade：旧状态 exit
+          完成后才让新状态 enter，避免两段文字短暂同时存在撑大高度
+        - `<Motion>` 用 spring 跑 opacity + 微小垂直位移，让 loading → summary
+          切换有"内容上浮入场"的感觉
+        - 容器自身不做 height transition：实测 motion-v 当前版本对 `height`
+          这种 layout 属性不做 spring 插值（`<Motion :animate.height>`、
+          `useSpring`、顶层 `animate(motionValue, …)` 都没驱动），且本页面
+          上 inline `height` + `transition: height` 也会出现
+          `getAnimations().currentTime` 永久卡在 0 的怪状（CSS transition
+          `running` 但实际没在跑）。所以容器高度由 vue v-if 的自然 reflow
+          承担，从加载中（短）到摘要（多行）瞬间变化，由 motion-v fade
+          视觉软化
+
+      ClientOnly 包裹原因：motion-v `<AnimatePresence>` 在 SSR 阶段会抛 500，
+      用 fallback 输出静态 "加载中..." 占位保证 SSR 可用，hydrate 后切到
+      motion 接管
+    -->
+    <ClientOnly>
+      <div class="block-content">
+        <AnimatePresence mode="wait" initial>
+          <Motion
+            :key="isLoading ? 'loading' : 'summary'"
+            :initial="{ opacity: 0, y: 6 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :exit="{ opacity: 0, y: -6 }"
+            :transition="{ type: 'spring', visualDuration: 0.32, bounce: 0.18 }"
+          >
+            <div v-if="isLoading">
+              {{ $t('ai_summary.loading') }}
+            </div>
+            <div v-else>
+              {{ summary }}
+            </div>
+          </Motion>
+        </AnimatePresence>
       </div>
-      <div v-else>
-        {{ summary }}
-      </div>
-    </div>
+      <template #fallback>
+        <div class="block-content">
+          {{ $t('ai_summary.loading') }}
+        </div>
+      </template>
+    </ClientOnly>
     <div class="tips">
       <div class="icon">
         <IconInfo />

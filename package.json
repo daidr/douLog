@@ -60,7 +60,12 @@
     "slug": "^11.0.1",
     "std-env": "^4.1.0",
     "twoslash-cdn": "^0.3.8",
-    "unplugin-icons": "^23.0.1"
+    "unplugin-icons": "^23.0.1",
+    "workbox-cacheable-response": "7.4.1",
+    "workbox-expiration": "7.4.1",
+    "workbox-precaching": "7.4.1",
+    "workbox-routing": "7.4.1",
+    "workbox-strategies": "7.4.1"
   },
   "pnpm": {
     "overrides": {

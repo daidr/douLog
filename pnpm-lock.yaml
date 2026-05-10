@@ -150,6 +150,21 @@ importers:
       unplugin-icons:
         specifier: ^23.0.1
         version: 23.0.1(@vue/compiler-sfc@3.5.34)
+      workbox-cacheable-response:
+        specifier: 7.4.1
+        version: 7.4.1
+      workbox-expiration:
+        specifier: 7.4.1
+        version: 7.4.1
+      workbox-precaching:
+        specifier: 7.4.1
+        version: 7.4.1
+      workbox-routing:
+        specifier: 7.4.1
+        version: 7.4.1
+      workbox-strategies:
+        specifier: 7.4.1
+        version: 7.4.1
 
 packages:
 

@@ -1,6 +1,13 @@
+@use "sass:color";
 @use "sass:list";
 @use "sass:map";
-@import "tinycolor";
+@use "sass:math";
+@use "tinycolor";
+
+
+@function get-color-value($color) {
+  @return #{color.channel($color, "red", $space: rgb)}, #{color.channel($color, "green", $space: rgb)}, #{color.channel($color, "blue", $space: rgb)};
+}
 
 $hue-step: 1;
 $saturation-step1: 14;
@@ -13,17 +20,17 @@ $dark-color-count: 4;
 @function calc-hue($h, $index, $light) {
     $hue: 0;
 
-    @if round($h) >=60 and round($h) <=240 {
+    @if math.round($h) >=60 and math.round($h) <=240 {
         @if $light {
-            $hue: round($h) - $hue-step * $index;
+            $hue: math.round($h) - $hue-step * $index;
         } @else {
-            $hue: round($h) + $hue-step * $index;
+            $hue: math.round($h) + $hue-step * $index;
         }
     } @else {
         @if $light {
-            $hue: round($h) + $hue-step * $index;
+            $hue: math.round($h) + $hue-step * $index;
         } @else {
-            $hue: round($h) - $hue-step * $index;
+            $hue: math.round($h) - $hue-step * $index;
         }
     }
 
@@ -63,7 +70,7 @@ $dark-color-count: 4;
         $saturation: 5;
     }
 
-    @return round($saturation);
+    @return math.round($saturation);
 }
 
 @function calc-value($v, $index, $light) {
@@ -79,49 +86,49 @@ $dark-color-count: 4;
         $value: 100%;
     }
 
-    @return round($value);
+    @return math.round($value);
 }
 
 @function generate($theme-color) {
     $patterns: ();
     $dark-patterns: ();
-    $hsv: ch-color-to-hsv($theme-color);
+    $hsv: tinycolor.ch-color-to-hsv($theme-color);
     $h: list.nth($hsv, 1);
     $s: list.nth($hsv, 2);
     $v: list.nth($hsv, 3);
 
     // generate light color
     @for $i from $light-color-count through 1 {
-        $final-hue: round(calc-hue($h, $i, true));
+        $final-hue: math.round(calc-hue($h, $i, true));
         $final-saturation: calc-saturation($h, $s, $i, true);
         $final-value: calc-value($v, $i, true);
-        $color: ch-hsv-to-color($final-hue, $final-saturation, $final-value);
-        $patterns: append($patterns, $color);
+        $color: tinycolor.ch-hsv-to-color($final-hue, $final-saturation, $final-value);
+        $patterns: list.append($patterns, $color);
     }
 
     // append original color
-    $patterns: append($patterns, $theme-color);
+    $patterns: list.append($patterns, $theme-color);
 
     // generate dark color
     @for $i from 1 through $dark-color-count {
-        $final-hue: round(calc-hue($h, $i, false));
+        $final-hue: math.round(calc-hue($h, $i, false));
         $final-saturation: calc-saturation($h, $s, $i, false);
         $final-value: calc-value($v, $i, false);
-        $color: ch-hsv-to-color($final-hue, $final-saturation, $final-value);
-        $patterns: append($patterns, $color);
+        $color: tinycolor.ch-hsv-to-color($final-hue, $final-saturation, $final-value);
+        $patterns: list.append($patterns, $color);
     }
 
     $total: $dark-color-count + $light-color-count + 1;
 
     // dark theme patterns
     @for $i from 1 through $total {
-        $hsv: ch-color-to-hsv(list.nth($patterns, $total - $i + 1));
+        $hsv: tinycolor.ch-color-to-hsv(list.nth($patterns, $total - $i + 1));
         $h: list.nth($hsv, 1);
         $s: list.nth($hsv, 2);
         $v: list.nth($hsv, 3);
-        $color: ch-hsv-to-color($h, $s * 0.6, min(max($v - 10%, 0%), 9% * $i));
+        $color: tinycolor.ch-hsv-to-color($h, $s * 0.6, min(max($v - 10%, 0%), 9% * $i));
 
-        $dark-patterns: append($dark-patterns, $color);
+        $dark-patterns: list.append($dark-patterns, $color);
     }
 
     @return (light: $patterns, dark: $dark-patterns);
@@ -130,12 +137,12 @@ $dark-color-count: 4;
 @mixin color-palette($palette, $dark: false) {
     opacity: 1;
 
-    @for $j from 1 through length($palette) {
-        $color: nth($palette, $j);
+    @for $j from 1 through list.length($palette) {
+        $color: list.nth($palette, $j);
         #{"--color-primary-"+$j}: get-color-value($color);
     }
 
-    #{"--color-primary"}: if($dark, get-color-value(nth($palette, 6)), get-color-value(nth($palette, 5)));
-    #{"--color-primary-text"}: if($dark, get-color-value(nth($palette, 7)), get-color-value(nth($palette, 4)));
-    #{"--color-primary-shadow"}: if($dark, get-color-value(nth($palette, 3)), get-color-value(nth($palette, 1)));
+    #{"--color-primary"}: if(sass($dark): get-color-value(list.nth($palette, 6)); else: get-color-value(list.nth($palette, 5)));
+    #{"--color-primary-text"}: if(sass($dark): get-color-value(list.nth($palette, 7)); else: get-color-value(list.nth($palette, 4)));
+    #{"--color-primary-shadow"}: if(sass($dark): get-color-value(list.nth($palette, 3)); else: get-color-value(list.nth($palette, 1)));
 }

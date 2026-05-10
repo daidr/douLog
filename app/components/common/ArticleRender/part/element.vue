@@ -6,10 +6,8 @@ defineProps<{ node: Element }>()
 
 <template>
   <component
-    :is="node.tagName" v-bind="{
-      ...node.properties,
-      class: node.properties?.className,
-    }"
+    :is="node.tagName"
+    v-bind="normalizeProperties(node.properties)"
   >
     <CommonArticleRenderPartEntry v-if="node.children" :nodes="node.children" />
   </component>

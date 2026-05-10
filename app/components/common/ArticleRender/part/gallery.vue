@@ -109,21 +109,26 @@ function setSlideRef(i: number) {
  * mixer（数字插值 + 单位保持），不要把 calc 表达式塞进 transform 字符串
  * ——motion 内部不会逐项解析 calc，那样会退回到 CSS transition。
  *
- * `x` 是 translateX，相对 slide 自身宽度（slide 自身是 stage 宽的 80%）：
- *   - active: -50%（中心对齐 stage 中央）
- *   - prev:   -50% - 19.4% = -69.4%（再向左偏移 19.4% slide-width
- *             ≈ 15.5% stage-width，使 prev 远端贴 stage 内边）
- *   - next:   -50% + 19.4% = -30.6%
+ * `x` 是 translateX，相对 slide 自身宽度（slide 自身 = stage 宽 × 80%）：
+ *   - active: -50%（中心对齐 stage 中央，origin 默认 center）
+ *   - prev:   `transform-origin: left` 锚定左边缘缩放，translate 让左边缘贴
+ *            stage 左内 ~0.5% padding。推导（slide 自身 80% stage_w）：
+ *              视觉左 = 50% + 0.8X% × stage_w；解 50% + 0.8X% = 0.5% → X = -61.875
+ *   - next:   `transform-origin: right`，对称 → X = -38.125
  *   - far:    -50%（停在中央，靠 scale + opacity 把它"藏起来"）
+ *
+ * 由于 prev/next 用了非 center 的 transform-origin，缩放不再"中央往内收"，
+ * 而是"远端不动，朝向 active 的近端向内收"——视觉上更像贴在 stage 边的小
+ * 缩略，过渡时近端边缘自然伸缩，不会让人感觉图整体在向中央漂移。
  */
 function targetVariant(rel: 'active' | 'prev' | 'next' | 'far') {
   switch (rel) {
     case 'active':
       return { x: '-50%', scale: 1, opacity: 1 }
     case 'prev':
-      return { x: '-69.4%', scale: 0.85, opacity: 0.45 }
+      return { x: '-61.875%', scale: 0.85, opacity: 0.45 }
     case 'next':
-      return { x: '-30.6%', scale: 0.85, opacity: 0.45 }
+      return { x: '-38.125%', scale: 0.85, opacity: 0.45 }
     default:
       return { x: '-50%', scale: 0.6, opacity: 0 }
   }
@@ -336,6 +341,17 @@ $slide-width: 80%;
   &--prev,
   &--next {
     z-index: 1;
+  }
+
+  // 把缩放锚点放到"朝外侧"的边缘上，让 prev/next 缩放时远端不动、近端朝
+  // active 收缩——比 origin: center 的"两边对称内收"视觉更稳，过渡时也
+  // 不会有"整体向中心漂移"的错觉
+  &--prev {
+    transform-origin: left center;
+  }
+
+  &--next {
+    transform-origin: right center;
   }
 }
 

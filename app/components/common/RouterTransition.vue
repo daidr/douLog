@@ -254,6 +254,12 @@ function onBeforeEnter(el) {
   if (firstTime) firstTime = false
   const _el = getTransitionContainer(el)
   if (_el && _el.classList) _el.classList.add(ENTERING_CLASS)
+  // Slow path 下 onEnter 会立刻 done()，新页面挂上 DOM 就处于自然终态；要等
+  // 到 router.afterEach 的 phase-2 setTimeout 触发 fromAnimation 才会被拉回
+  // loader 位置反向播。这中间最长 ~1300-Δ ms，肉眼会看到"新页面在终态位置闪
+  // 一下又被甩回去"。提前 opacity:0 把这段空窗盖住，phase-2 的 fromAnimation
+  // 会先把 opacity 重置为 0 再过渡到 1，所以这里设的值会被自然接管。
+  if (!enableTransition.value && _el) _el.style.opacity = '0'
   // Clone off-screen to measure where the entering element will land
   if (!el || !el.cloneNode) return
   const toWrapper = el.cloneNode(true)
@@ -435,7 +441,7 @@ router.beforeEach((to, from) => {
       toAnimation(_slotEl, _toWrapperStyle, _fromWrapperStyle)
     }
     fromAnimation(_loadingEl, _fromWrapperStyle, _toWrapperStyle)
-  }, 100)
+  }, 50)
 })
 
 router.afterEach((to, from) => {
@@ -485,7 +491,14 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="LoadingEl" class="loading">
+  <!--
+    is-loading 只在 slow path 期间挂上：enableTransition 在 beforeEach 的
+    grace 计时器（10ms）触发后被翻成 false，phase-2 的 fromAnimation
+    transitionend 里再翻回 true。配合 SCSS 里 animation-play-state，让
+    满屏每页常驻的这 4 个 ball 平时不跑动画，避免它们的 top/left keyframe
+    每帧 invalidate layout（之前 trace 里"所有页面持续 CPU"就是这个）。
+  -->
+  <div ref="LoadingEl" class="loading" :class="{ 'is-loading': !enableTransition }">
     <div class="loading-container">
       <div />
       <div />
@@ -533,6 +546,10 @@ defineExpose({
       animation:
         ball-atom-position 1.5s 0s infinite ease-in-out,
         ball-atom-size 1.5s 0s infinite ease-in-out;
+      // ball-atom-position 动画里改的是 top/left 这种 layout 属性，每帧都会
+      // 触发 #document 重排。loader 大多数时间是隐藏的，没必要让动画跑：默认
+      // paused，在 .is-loading（slow path 期间）才 running
+      animation-play-state: paused;
     }
 
     div:nth-child(2) {
@@ -567,6 +584,10 @@ defineExpose({
         -0.125s;
     }
   }
+}
+
+.loading.is-loading .loading-container div:not(:nth-child(1)):before {
+  animation-play-state: running;
 }
 
 @keyframes ball-atom-position {

@@ -153,5 +153,35 @@
     "prev": "Previous",
     "next": "Next",
     "go_to": "Go to image {index}"
+  },
+  "comment": {
+    "title": "Comments",
+    "loading": "Loading comments...",
+    "empty": "No comments yet. Be the first!",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "cancel": "Cancel",
+    "reply": "Reply",
+    "replied_to": "in reply to",
+    "reply_to": "Reply to {'@'}{name}…",
+    "anonymous": "Anonymous",
+    "show_more_replies": "Show {count} more replies",
+    "collapse_replies": "Collapse replies",
+    "placeholder": "Leave your thoughts...",
+    "reply_placeholder": "Write your reply...",
+    "hint_pending": "Comment submitted, pending review.",
+    "hint_approved": "Comment posted!",
+    "field": {
+      "name": "Name*",
+      "email": "Email* (won't be public)",
+      "website": "Website (optional)"
+    },
+    "errors": {
+      "content_required": "Please enter comment content",
+      "content_too_long": "Comment too long (max 2000 chars)",
+      "name_required": "Please enter a name",
+      "email_invalid": "Please enter a valid email",
+      "submit_failed": "Submit failed, please try again later"
+    }
   }
 }

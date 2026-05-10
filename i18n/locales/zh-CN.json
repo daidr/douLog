@@ -153,5 +153,35 @@
     "prev": "上一张",
     "next": "下一张",
     "go_to": "切换到第 {index} 张"
+  },
+  "comment": {
+    "title": "评论",
+    "loading": "评论加载中...",
+    "empty": "还没有评论，快来抢沙发！",
+    "submit": "提交",
+    "submitting": "提交中...",
+    "cancel": "取消",
+    "reply": "回复",
+    "replied_to": "回复",
+    "reply_to": "回复 {'@'}{name}…",
+    "anonymous": "匿名",
+    "show_more_replies": "查看其余 {count} 条回复",
+    "collapse_replies": "收起回复",
+    "placeholder": "说点什么吧...",
+    "reply_placeholder": "写下你的回复...",
+    "hint_pending": "评论已提交，正在等待审核~",
+    "hint_approved": "评论发布成功！",
+    "field": {
+      "name": "昵称*",
+      "email": "邮箱*（不会公开）",
+      "website": "网站（选填）"
+    },
+    "errors": {
+      "content_required": "请输入评论内容",
+      "content_too_long": "评论内容过长，最多 2000 字",
+      "name_required": "请输入昵称",
+      "email_invalid": "请输入有效的邮箱地址",
+      "submit_failed": "提交失败，请稍后重试"
+    }
   }
 }

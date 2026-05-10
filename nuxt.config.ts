@@ -1,4 +1,6 @@
+import { fileURLToPath } from 'node:url'
 import Icons from 'unplugin-icons/vite'
+import { resolve } from 'pathe'
 import { currentLocales } from './config/i18n'
 import type { BuildInfo } from './types'
 
@@ -101,7 +103,7 @@ export default defineNuxtConfig({
   },
   pwa: {
     scope: '/',
-    srcDir: './service-worker',
+    srcDir: resolve(fileURLToPath(new URL('.', import.meta.url)), 'service-worker'),
     filename: 'sw.ts',
     strategies: 'injectManifest',
     injectRegister: false,
@@ -129,6 +131,14 @@ export default defineNuxtConfig({
       process.env.NUXT_GITHUB_API_ENTRY || 'https://api.github.com',
     app: {
       buildAssetsDir: '/_doulog/',
+    },
+    public: {
+      // 评论 / 媒体等需要在浏览器直接访问 SV 公开端点（评论提交时 SV 从 socket
+      // 取真实客户端 IP 用于限速，绕开 douLog 代理才能拿到正确 IP）。
+      // 默认值与服务端 apiEntry 同源；如需公网部署需要单独配置 SV_PUBLIC_BASE_URL。
+      apiEntry: process.env.NUXT_PUBLIC_API_ENTRY
+        || process.env.NUXT_BLOG_API_ENTRY
+        || 'http://localhost:3005',
     },
   },
   nitro: {

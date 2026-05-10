@@ -94,6 +94,28 @@ function setActiveTitle(title: string | null) {
 const showSidebar = computed(() => catalogList.value.length > 0)
 
 const formattedDate = computed(() => formatPublishedDate(article.value?.publishedAt))
+
+/**
+ * 把外层滚动容器（`.articles-page-wrapper`，文章页 fixed 容器内的 y 滚动）
+ * 跳到评论区顶部。
+ *
+ * 不用 element.scrollIntoView：嵌套滚动容器 + fixed wrapper 下其行为不稳，
+ * 有时会同时滚动 window，让页面布局抖动。直接拿 `getBoundingClientRect()`
+ * 算两个矩形的 top 差，再补 -16px 顶部留白，得到容器内目标 scrollTop。
+ *
+ * `behavior: 'auto'` 即时跳：本页跨度大（一篇文章可能滚到 7000px+），smooth
+ * 动画在中途常被 sticky 重排 / 图片懒加载触发的 layout 变化打断，落点不准；
+ * 与同页 `toTop` / `toPrevTop` 行为风格也保持一致。
+ */
+function scrollToComments() {
+  const target = document.querySelector('.comment-section') as HTMLElement | null
+  const container = document.querySelector('.articles-page-wrapper') as HTMLElement | null
+  if (!target || !container) return
+  const targetRect = target.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
+  const top = container.scrollTop + targetRect.top - containerRect.top - 16
+  container.scrollTo({ top, behavior: 'auto' })
+}
 </script>
 
 <script lang="ts">
@@ -128,12 +150,18 @@ export default {
         <CommonArticleRender :article="article.content" @active-title="setActiveTitle" />
       </div>
       <div class="comments-wrapper">
-        留言功能还在努力开发中
+        <SiteCommentSection :post-id="article.id" />
       </div>
     </main>
 
     <div v-if="showSidebar" class="sidebar">
-      <CommonArticleCatalog v-if="catalogList.length" :catalog="catalogList" :active-title="activeTitleId" />
+      <CommonArticleCatalog
+        v-if="catalogList.length"
+        :catalog="catalogList"
+        :active-title="activeTitleId"
+        show-comment-entry
+        @jump-to-comments="scrollToComments"
+      />
     </div>
 
     <ClientOnly>
@@ -215,7 +243,9 @@ export default {
 
   .sidebar {
     @apply pl-4 flex-shrink-0 w-80;
-    @apply block;
+    // 整列 sticky 让侧栏贴在视口顶部；ArticleSideItem 自身不再 sticky，
+    // 由父容器统一控制（未来若再追加 SideItem 不会出现多 sticky 抢位）
+    @apply sticky top-4 self-start;
     view-transition-name: article-sidebar;
   }
 

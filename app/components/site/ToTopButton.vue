@@ -7,13 +7,7 @@ const props = defineProps<{
   boundingEl?: string
 }>()
 
-function toTop() {
-  document.querySelector(props.scrollEl)?.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  })
-}
-
+const scrollY = ref(0)
 const pathTotalLength = ref(148)
 const pathCurrentLength = ref(0)
 
@@ -21,31 +15,72 @@ function setPathTotalLength(length: number) {
   pathTotalLength.value = length
 }
 
-const { y: scrollY } = useScroll(
-  document.querySelector(props.scrollEl) as HTMLElement,
-)
+let scrollTarget: HTMLElement | null = null
+let boundingTarget: HTMLElement | null = null
 
-if (props.showProcess && props.boundingEl) {
-  const { y, height } = useElementBounding(
-    document.querySelector(props.boundingEl) as HTMLElement,
-  )
-
-  const scrollThrottle = useThrottleFn((newVal) => {
-    const totalHeight = height.value
-    const clientHeight
-      = document.querySelector(props.scrollEl)?.clientHeight || 0
-
-    pathCurrentLength.value
-      = (newVal / (totalHeight - clientHeight) + 1) * pathTotalLength.value
-    if (pathCurrentLength.value > pathTotalLength.value - 1) {
-      pathCurrentLength.value = pathTotalLength.value - 1
-    } else if (pathCurrentLength.value < 0) {
-      pathCurrentLength.value = 0
-    }
-  }, 10)
-
-  watch(y, scrollThrottle, { immediate: true })
+function refreshScrollY() {
+  scrollY.value = scrollTarget?.scrollTop ?? 0
 }
+
+function refreshProcess() {
+  // 进度环驱动量：boundingEl 相对 viewport 的 top（rect.top）。
+  //   - 一开始 boundingEl 还在 scrollTarget 内可见时 → rect.top >= 0 → 整个表达式
+  //     大于 1*total → clamp 到 (total - 1) → `.hide` 类隐藏环
+  //   - 容器滚动后 boundingEl 顶部移出 viewport → rect.top 变负 → 表达式落到
+  //     [0, total-1] 区间 → strokeDashoffset 从大变小，环从无到全
+  //   - boundingEl 完全滚过去 → rect.top ≈ -(rect.height - clientHeight) → 表达式
+  //     ≈ 0 → 环填满
+  // 用 rect.top 而不是 scrollTarget.scrollTop 是因为 boundingEl 通常不是
+  // scrollTarget 自身（这里是文章主体容器 .blog-article-wrapper），它在容器内
+  // 起始有自己的 offset，不能用整页 scrollTop 替代。
+  if (!props.showProcess || !boundingTarget || !scrollTarget) return
+  const rect = boundingTarget.getBoundingClientRect()
+  const totalHeight = rect.height
+  const y = rect.top
+  const clientHeight = scrollTarget.clientHeight
+  const denom = Math.max(1, totalHeight - clientHeight)
+  let next = (y / denom + 1) * pathTotalLength.value
+  if (next > pathTotalLength.value - 1) next = pathTotalLength.value - 1
+  if (next < 0) next = 0
+  pathCurrentLength.value = next
+}
+
+function onScroll() {
+  refreshScrollY()
+  refreshProcess()
+}
+
+function toTop() {
+  scrollTarget?.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+/**
+ * 在 onMounted 里再取 DOM。这是相对原版 setup 阶段直接 querySelector 的关键
+ * 修复点：原版假设父级 `.articles-page-wrapper` 在 setup 时就已挂载，但本组件
+ * 包在 `<ClientOnly><Teleport to="body">` 里，client hydrate 时间序很微妙——
+ * 一旦 querySelector 拿到 null，useScroll 就永远监听不到 scroll，按钮不出现。
+ *
+ * 这里把订阅推迟到 onMounted（此时父 layout 一定已 hydrate），并用原生
+ * `scroll` 事件 + ResizeObserver 兜底，行为简单可控。
+ */
+onMounted(() => {
+  scrollTarget = document.querySelector(props.scrollEl) as HTMLElement | null
+  boundingTarget = props.boundingEl
+    ? document.querySelector(props.boundingEl) as HTMLElement | null
+    : null
+
+  if (!scrollTarget) return
+
+  refreshScrollY()
+  refreshProcess()
+  scrollTarget.addEventListener('scroll', onScroll, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  scrollTarget?.removeEventListener('scroll', onScroll)
+  scrollTarget = null
+  boundingTarget = null
+})
 </script>
 
 <template>

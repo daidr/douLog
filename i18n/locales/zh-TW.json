@@ -153,5 +153,35 @@
     "prev": "上一張",
     "next": "下一張",
     "go_to": "切換到第 {index} 張"
+  },
+  "comment": {
+    "title": "留言",
+    "loading": "留言載入中...",
+    "empty": "還沒有留言，快來搶沙發！",
+    "submit": "提交",
+    "submitting": "提交中...",
+    "cancel": "取消",
+    "reply": "回覆",
+    "replied_to": "回覆",
+    "reply_to": "回覆 {'@'}{name}…",
+    "anonymous": "匿名",
+    "show_more_replies": "查看其餘 {count} 條回覆",
+    "collapse_replies": "收起回覆",
+    "placeholder": "說點什麼吧...",
+    "reply_placeholder": "寫下你的回覆...",
+    "hint_pending": "留言已提交，正在等待審核~",
+    "hint_approved": "留言發佈成功！",
+    "field": {
+      "name": "暱稱*",
+      "email": "信箱*（不會公開）",
+      "website": "網站（選填）"
+    },
+    "errors": {
+      "content_required": "請輸入留言內容",
+      "content_too_long": "留言內容過長，最多 2000 字",
+      "name_required": "請輸入暱稱",
+      "email_invalid": "請輸入有效的信箱地址",
+      "submit_failed": "提交失敗，請稍後重試"
+    }
   }
 }

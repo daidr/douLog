@@ -5,7 +5,14 @@ import type { ICatalogItem } from '~~/types/feed'
 const props = defineProps<{
   catalog: ICatalogItem[]
   activeTitle: string
+  /** 是否在目录最底部追加一个"评论区"入口（点击触发 jumpToComments）。 */
+  showCommentEntry?: boolean
 }>()
+
+defineEmits<{
+  jumpToComments: []
+}>()
+
 const catalogContainerRef = ref(null) as Ref<HTMLDivElement | null>
 const catalogRef = reactive({} as Record<string, HTMLDivElement>)
 // 激活的标题改变时，将容器滚动，使得其刚好位于目录容器的中间位置
@@ -21,6 +28,8 @@ watch(
     }
   },
 )
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -44,6 +53,20 @@ watch(
           <a :class="[`level-${item.level}`]" :href="`#${item.key}`">{{
             item.title
           }}</a>
+        </div>
+        <!--
+          评论区入口：直接复用 .item-container + level-0 的样式，与目录的
+          顶层标题视觉一致；href 给个 # 占位，click.prevent 后由父级
+          scrollToComments 接管，避免 URL 留下 hash。
+        -->
+        <div v-if="showCommentEntry" class="item-container">
+          <a
+            class="level-0"
+            href="#"
+            @click.prevent="$emit('jumpToComments')"
+          >
+            {{ t('comment.title') }}
+          </a>
         </div>
       </div>
     </template>
