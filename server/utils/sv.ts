@@ -70,6 +70,42 @@ export interface SvFriendLink {
 }
 
 /**
+ * 公开端点 `/api/projects` 的形态——一次性全量数组（按 id 倒序）。
+ *
+ * 字段含义对齐 story-verse `ProjectService.listAllPublic` 的 select：
+ *   - `categoryTitle`：从 project_categories 表 left-join 出的分类名；项目
+ *     未分配分类（projectCategoryId=null）或分类已被删除（cascade set null）
+ *     时为 null
+ *   - `imageEtag`：封面图的 etag，用于拼 `?v=` 缓存破坏参数；imageId 为
+ *     null（未设置封面）时本字段同样为 null
+ */
+export interface SvProject {
+  id: number
+  title: string
+  description: string | null
+  projectCategoryId: number | null
+  imageId: number | null
+  repoLink: string | null
+  homepageLink: string | null
+  createdAt: string
+  updatedAt: string
+  categoryTitle: string | null
+  imageEtag: string | null
+}
+
+/**
+ * 公开端点 `/api/project-categories` 的形态——一次性全量数组（按 id 升序）。
+ */
+export interface SvProjectCategory {
+  id: number
+  title: string
+  description: string | null
+  slug: string
+  createdAt: string
+  updatedAt: string
+}
+
+/**
  * 由媒体 id 拼出公开访问 URL。
  *
  * story-verse 的图片走 `/api/media/raw/:id`，可附加 `?webp=true` 取衍生品 / `?thumbnail=true`

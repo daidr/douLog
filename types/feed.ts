@@ -72,6 +72,36 @@ export interface IFriendItem {
 }
 
 /**
+ * 单个项目展示形态——`/api/projects` 在 douLog 服务端聚合后的产物。
+ *
+ * - `repoLink` / `homepageLink`：两条独立的外链，模板里各对应一个图标按钮。
+ *   两者都为 null 的项目仍会出现在列表里（保留 hover 视觉），只是没有可点
+ *   击的入口
+ * - `imageUrl`：媒体 raw URL（带 etag 破坏参数）；项目未设置封面时为 null，
+ *   渲染端展示占位
+ */
+export interface IProjectItem {
+  id: number
+  title: string
+  description: string
+  imageUrl: string | null
+  repoLink: string | null
+  homepageLink: string | null
+}
+
+/**
+ * 项目页一行分组——对应一个项目分类，含该分类下按 id 倒序排列的项目。
+ *
+ * 由 douLog 服务端把 story-verse 的两份全量数据（projects + categories）做
+ * 内存 group-by 而来；只输出至少含一条可展示项目的分类。
+ */
+export interface IProjectSection {
+  id: number
+  title: string
+  projects: IProjectItem[]
+}
+
+/**
  * AI 摘要响应——透传 story-verse `/api/ai-summary` 的字段形态。
  *
  * 失败 / 缺失时返回 `{ content: '' }` 形态，调用方据此决定是否兜底渲染

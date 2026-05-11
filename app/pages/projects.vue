@@ -1,10 +1,18 @@
-<script setup>
-import { BlockDefination } from '~~/config/projects'
+<script setup lang="ts">
+import type { IProjectSection } from '~~/types/feed'
+import IconGithub from '~icons/mingcute/github-line'
+import IconHomepage from '~icons/mingcute/earth-line'
 
 const { t } = useI18n()
 
 useHead({
   title: computed(() => t('main_nav.projects')),
+})
+
+// 服务端聚合好的 section 列表（按 story-verse project-categories id 升序，每
+// 个分类下的项目按 id 倒序）。空分类已在服务端剔除，这里直接渲染。
+const { data: sections } = await useFetch<IProjectSection[]>('/api/projects', {
+  default: () => [] as IProjectSection[],
 })
 </script>
 
@@ -15,23 +23,35 @@ useHead({
         <SiteMainNav />
       </div>
       <div class="block-wrapper-group transition-extra-wrapper">
-        <div v-for="block of BlockDefination" :key="block.blockId" class="block-wrapper">
-          <div v-for="section of block.sections" :key="section.sectionId" class="section-wrapper">
+        <div class="block-wrapper">
+          <div v-for="section of sections" :key="section.id" class="section-wrapper">
             <div class="title">
               {{ section.title }}
             </div>
             <UiXScrollBox class="projects-group">
-              <a
-                v-for="project of section.projects" :key="project.url" class="project-wrapper" :href="project.url"
-                target="_blank"
-              >
+              <div v-for="project of section.projects" :key="project.id" class="project-wrapper">
                 <div class="project-image">
-                  <UiLazyImage :src="project.image" />
+                  <UiLazyImage v-if="project.imageUrl" :src="project.imageUrl" />
                 </div>
 
                 <div class="project-title">{{ project.title }}</div>
                 <div class="project-description">{{ project.description }}</div>
-              </a>
+
+                <div v-if="project.repoLink || project.homepageLink" class="project-links">
+                  <a
+                    v-if="project.repoLink" :href="project.repoLink" target="_blank" rel="noopener noreferrer"
+                    class="project-link" title="GitHub"
+                  >
+                    <IconGithub />
+                  </a>
+                  <a
+                    v-if="project.homepageLink" :href="project.homepageLink" target="_blank" rel="noopener noreferrer"
+                    class="project-link" title="Homepage"
+                  >
+                    <IconHomepage />
+                  </a>
+                </div>
+              </div>
             </UiXScrollBox>
           </div>
         </div>
@@ -117,7 +137,6 @@ useHead({
             @apply p-2 rounded-3xl bg-primary-1/20 dark-bg-primary-1 transform-gpu;
             @apply w-266px relative;
             @apply border-1 border-gray-200 dark-border-gray-700;
-            @apply cursor-pointer;
             @apply duration-500 transition-margin, transform, box-shadow, border-color;
             transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
 
@@ -134,6 +153,7 @@ useHead({
               @apply border-1 dark-border-gray-700;
               @apply transition duration-500 transform-gpu;
               transition-timing-function: cubic-bezier(0.36, 1.1, 0.2, 1.2);
+              @apply bg-primary-1 dark-bg-primary-2;
 
               :deep(.lazy-image) {
                 @apply h-auto min-h-full;
@@ -171,6 +191,25 @@ useHead({
             .project-description {
               @apply text-primary-4 dark-text-primary-7 text-sm;
               @apply px-2;
+            }
+
+            // 按钮贴卡片 p-2 内圈，圆角 16px (= 卡片外 24px − 8px 内边距) 与
+            // 外角同心；跟 .project-image 同一尺度。
+            .project-links {
+              @apply mt-2 flex justify-end gap-x-1;
+
+              .project-link {
+                @apply w-9 h-9 flex items-center justify-center;
+                @apply text-primary-4 dark-text-primary-7 text-base;
+                @apply rounded-2xl;
+                @apply transition duration-200;
+                @apply cursor-pointer;
+
+                &:hover {
+                  @apply bg-primary-2 dark-bg-primary-3;
+                  @apply text-primary-7 dark-text-primary-9;
+                }
+              }
             }
           }
         }

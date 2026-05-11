@@ -22,7 +22,6 @@ if (import.meta.env.DEV) {
 // remove runtime entries
 const runtimePath = [
   'splash/',
-  'images/projects/',
 ]
 
 precacheAndRoute(entries.filter(entry => !runtimePath.some(path => (<PrecacheEntry>entry).url.includes(path))))
@@ -42,7 +41,6 @@ if (import.meta.env.PROD) {
   denylist = [
     /^\/api\//,
     /^\/splash\//,
-    /^\/images\/projects\//,
     // exclude sw: if the user navigates to it, fallback to index.html
     /^\/sw.js$/,
     // exclude webmanifest: has its own cache
@@ -97,22 +95,6 @@ if (import.meta.env.PROD) {
       cacheName: 'doulog-friends-gravatar',
       plugins: [
         new CacheableResponsePlugin({ statuses: [0, 200] }),
-        // 15 days max
-        new ExpirationPlugin({ purgeOnQuotaError: true, maxAgeSeconds: 60 * 60 * 24 * 15 }),
-      ],
-    }),
-  )
-
-  // blog project images
-  registerRoute(
-    ({ sameOrigin, request, url }) =>
-      sameOrigin
-      && request.destination === 'image'
-      && url.pathname.startsWith('/images/projects'),
-    new StaleWhileRevalidate({
-      cacheName: 'doulog-projects',
-      plugins: [
-        new CacheableResponsePlugin({ statuses: [200] }),
         // 15 days max
         new ExpirationPlugin({ purgeOnQuotaError: true, maxAgeSeconds: 60 * 60 * 24 * 15 }),
       ],
