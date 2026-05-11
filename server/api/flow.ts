@@ -31,6 +31,7 @@ function mapFlowItem(item: SvPostListItem): IFlowItem {
     tags: item.tags || [],
     categoryName: item.categoryName || '',
     commentsCount: item.commentsCount,
+    likesCount: item.likesCount,
     viewsCount: item.viewsCount,
     heroUrl,
     mood: item.mood,

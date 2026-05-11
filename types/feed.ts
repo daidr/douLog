@@ -29,6 +29,7 @@ export interface IFlowItem {
   tags: string[]
   categoryName: string
   commentsCount: number
+  likesCount: number
   viewsCount: number
   heroUrl: string | null
   mood: string | null

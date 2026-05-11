@@ -3,6 +3,7 @@ import type { IFlowItem } from '~~/types/feed'
 import { formatPublishedDate } from '~/utils/date'
 import IconEye from '~icons/mingcute/eye-2-line'
 import IconComment from '~icons/mingcute/comment-line'
+import IconHeart from '~icons/mingcute/heart-line'
 
 const props = defineProps<{ article: IFlowItem }>()
 
@@ -27,6 +28,10 @@ const formattedDate = computed(() => formatPublishedDate(props.article.published
         <div class="detail-item">
           <IconEye />
           <span>{{ article.viewsCount }}</span>
+        </div>
+        <div class="detail-item">
+          <IconHeart />
+          <span>{{ article.likesCount }}</span>
         </div>
         <div class="detail-item">
           <IconComment />

@@ -148,6 +148,9 @@ export default {
           <img :src="article.heroUrl">
         </div>
         <CommonArticleRender :article="article.content" @active-title="setActiveTitle" />
+        <div class="article-actions">
+          <SiteLikeButton :post-id="article.id" :initial-count="article.likesCount" />
+        </div>
       </div>
       <div class="comments-wrapper">
         <SiteCommentSection :post-id="article.id" />
@@ -224,6 +227,10 @@ export default {
       .origin:hover {
         @apply text-primary dark-text-primary-7;
       }
+    }
+
+    .article-actions {
+      @apply mt-2 flex items-center justify-center;
     }
 
     .article-image {

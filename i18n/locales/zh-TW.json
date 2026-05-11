@@ -153,6 +153,12 @@
     "next": "下一張",
     "go_to": "切換到第 {index} 張"
   },
+  "like": {
+    "like": "喜歡",
+    "liked": "已喜歡",
+    "like_aria": "點讚這篇文章",
+    "unlike_aria": "取消點讚"
+  },
   "comment": {
     "title": "留言",
     "loading": "留言載入中...",

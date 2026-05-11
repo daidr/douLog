@@ -159,6 +159,7 @@ export default defineCountableCachedEventHandler(
         tags: result.tags || [],
         categoryName: result.categoryName || '',
         commentsCount: result.commentsCount,
+        likesCount: result.likesCount,
         viewsCount: result.viewsCount,
         heroUrl,
         heroThumbnailUrl,

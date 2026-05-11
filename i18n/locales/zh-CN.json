@@ -153,6 +153,12 @@
     "next": "下一张",
     "go_to": "切换到第 {index} 张"
   },
+  "like": {
+    "like": "喜欢",
+    "liked": "已喜欢",
+    "like_aria": "点赞这篇文章",
+    "unlike_aria": "取消点赞"
+  },
   "comment": {
     "title": "评论",
     "loading": "评论加载中...",

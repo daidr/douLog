@@ -153,6 +153,12 @@
     "next": "Next",
     "go_to": "Go to image {index}"
   },
+  "like": {
+    "like": "Like",
+    "liked": "Liked",
+    "like_aria": "Like this post",
+    "unlike_aria": "Remove like"
+  },
   "comment": {
     "title": "Comments",
     "loading": "Loading comments...",
