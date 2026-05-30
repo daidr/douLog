@@ -34,6 +34,7 @@ function mapFlowItem(item: SvPostListItem): IFlowItem {
     likesCount: item.likesCount,
     viewsCount: item.viewsCount,
     heroUrl,
+    heroBlurHash: item.heroId ? item.heroBlurHash : null,
     mood: item.mood,
     weather: item.weather,
     publishedAt,

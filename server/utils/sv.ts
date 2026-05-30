@@ -32,6 +32,8 @@ export interface SvPostListItem {
   categorySlug: string | null
   authorName: string | null
   heroEtag: string | null
+  /** 封面图的 BlurHash 字符串（用于列表封面的渐进式模糊占位）；无封面时为 null */
+  heroBlurHash: string | null
 }
 
 export interface SvPostDetail extends SvPostListItem {

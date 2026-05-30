@@ -32,6 +32,8 @@ export interface IFlowItem {
   likesCount: number
   viewsCount: number
   heroUrl: string | null
+  /** 封面图 BlurHash，列表封面渐进式模糊占位用；无封面时为 null */
+  heroBlurHash: string | null
   mood: string | null
   weather: string | null
   publishedAt: string

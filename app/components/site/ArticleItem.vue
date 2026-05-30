@@ -41,7 +41,7 @@ const formattedDate = computed(() => formatPublishedDate(props.article.published
       <div v-if="article.summary" class="summary">{{ article.summary }}</div>
     </div>
     <div v-if="article.heroUrl" class="right">
-      <UiLazyImage :src="article.heroUrl" />
+      <UiLazyImage :src="article.heroUrl" :blurhash="article.heroBlurHash ?? ''" />
     </div>
   </a>
 </template>

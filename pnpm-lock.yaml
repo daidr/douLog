@@ -20,6 +20,9 @@ importers:
       '@unocss/reset':
         specifier: ^66.6.8
         version: 66.6.8
+      blurhash:
+        specifier: ^2.0.5
+        version: 2.0.5
       markdown-it:
         specifier: ^14.1.1
         version: 14.1.1
@@ -3937,6 +3940,9 @@ packages:
 
   birpc@4.0.0:
     resolution: {integrity: sha512-LShSxJP0KTmd101b6DRyGBj57LZxSDYWKitQNW/mi8GRMvZb078Uf9+pveax1DrVL89vm7mWe+TovdI/UDOuPw==}
+
+  blurhash@2.0.5:
+    resolution: {integrity: sha512-cRygWd7kGBQO3VEhPiTgq4Wc43ctsM+o46urrmPOiuAe+07fzlSB9OJVdpgDL0jPqXUVQ9ht7aq7kxOeJHRK+w==}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -11651,6 +11657,8 @@ snapshots:
   birpc@2.9.0: {}
 
   birpc@4.0.0: {}
+
+  blurhash@2.0.5: {}
 
   boolbase@1.0.0: {}
 

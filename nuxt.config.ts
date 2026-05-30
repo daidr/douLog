@@ -179,6 +179,11 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [],
+    // blurhash 仅在 LazyImage 里按需导入，预打包它避免 dev 首次访问时
+    // 「运行时发现新依赖 → 重新优化 → 整页 reload」。
+    optimizeDeps: {
+      include: ['blurhash'],
+    },
     vue: {
       template: {
         compilerOptions: {
