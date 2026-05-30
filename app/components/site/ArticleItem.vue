@@ -130,8 +130,14 @@ const formattedDate = computed(() => formatPublishedDate(props.article.published
       @apply mt-2 w-full;
     }
 
+    // 封面图与 blurhash 占位统一圆角，避免占位露出方角
+    :deep(img),
+    :deep(.blurhash) {
+      @apply rounded-xl;
+    }
+
     :deep(img) {
-      @apply rounded-xl object-cover;
+      @apply object-cover;
     }
   }
 }
