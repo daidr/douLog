@@ -3,6 +3,12 @@ import RealtimeActionView from '~/components/common/RealtimeActionView.vue'
 
 const { t } = useI18n()
 
+// 博主信息优先取后端 metadata（server-state 注水），i18n 作为兜底
+const metadata = useSiteMetadata()
+const bloggerName = computed(() => metadata.value?.profile?.name || t('global.name'))
+const bloggerEnName = computed(() => metadata.value?.profile?.enName || t('global.en_name'))
+const bloggerMotto = computed(() => metadata.value?.profile?.motto || t('global.desc'))
+
 useHead({
   title: computed(() => t('main_nav.me')),
 })
@@ -18,10 +24,10 @@ useHead({
       </ClientOnly>
       <UiMainAvatar />
       <div class="name">
-        {{ t('global.name') }} <span>@{{ t('global.en_name') }}</span>
+        {{ bloggerName }} <span>@{{ bloggerEnName }}</span>
       </div>
       <div class="motto">
-        {{ t('global.desc') }}
+        {{ bloggerMotto }}
       </div>
       <UiSocialMediaNav class="socialmedia-wrapper" />
     </div>

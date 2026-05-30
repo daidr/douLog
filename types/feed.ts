@@ -135,6 +135,8 @@ export interface ICommentAuthor {
   name: string
   emailHash: string | null
   username: string | null
+  /** 是否为博主（story-verse 据绑定用户 / admin 回退判定），用于展示「博主」徽章 */
+  isBlogger?: boolean
 }
 
 export interface ICommentGuest {

@@ -1,12 +1,17 @@
 <script setup>
-import IconRss from '~icons/mingcute/rss-2-line'
-import IconBilibili from '~icons/mingcute/tv-2-line'
-import IconTwitter from '~icons/mingcute/social-x-line'
 import IconGithub from '~icons/mingcute/github-line'
 import IconHeart from '~icons/mingcute/heart-line'
+import IconRss from '~icons/mingcute/rss-2-line'
+import IconTwitter from '~icons/mingcute/social-x-line'
 import IconSubway from '~icons/mingcute/train-3-line'
+import IconBilibili from '~icons/mingcute/tv-2-line'
 
 const { t } = useI18n()
+
+// 优先用后端 metadata 的社交链接（图标为已解析的 SVG 字符串）；
+// metadata 未配置时回退到下方内置静态项。
+const metadata = useSiteMetadata()
+const socialLinks = computed(() => metadata.value?.social ?? [])
 
 const urls = computed(() => [
   {
@@ -44,13 +49,27 @@ const urls = computed(() => [
 
 <template>
   <div class="socialmedia-nav-wrapper">
-    <a
-      v-for="item in urls" :key="item.url" :href="item.url" target="_blank" class="nav-item" :data-name="item.name"
-      @click="umTrackEvent('social-link', { name: item.name })"
-    >
-      <Component :is="item.icon" />
-      <span class="sr-only">{{ item.name }}</span>
-    </a>
+    <!-- 动态：来自后端 metadata，图标是已解析的 SVG 字符串（v-html 渲染） -->
+    <template v-if="socialLinks.length > 0">
+      <a
+        v-for="item in socialLinks" :key="item.url" :href="item.url" target="_blank" class="nav-item"
+        :data-name="item.label"
+        @click="umTrackEvent('social-link', { name: item.label })"
+      >
+        <span class="nav-icon" v-html="item.icon" />
+        <span class="sr-only">{{ item.label }}</span>
+      </a>
+    </template>
+    <!-- 兜底：metadata 未配置社交链接时用内置静态项 -->
+    <template v-else>
+      <a
+        v-for="item in urls" :key="item.url" :href="item.url" target="_blank" class="nav-item" :data-name="item.name"
+        @click="umTrackEvent('social-link', { name: item.name })"
+      >
+        <Component :is="item.icon" />
+        <span class="sr-only">{{ item.name }}</span>
+      </a>
+    </template>
   </div>
 </template>
 
@@ -94,6 +113,16 @@ const urls = computed(() => [
 
     &:hover::after {
       @apply translate-y-0 opacity-100;
+    }
+
+    .nav-icon {
+      @apply inline-flex items-center justify-center;
+
+      :deep(svg) {
+        @apply block;
+        width: 1em;
+        height: 1em;
+      }
     }
   }
 }

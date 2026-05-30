@@ -170,6 +170,7 @@
     "replied_to": "in reply to",
     "reply_to": "Reply to {'@'}{name}…",
     "anonymous": "Anonymous",
+    "blogger": "Blogger",
     "show_more_replies": "Show {count} more replies",
     "collapse_replies": "Collapse replies",
     "placeholder": "Leave your thoughts...",

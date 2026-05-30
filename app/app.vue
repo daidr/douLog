@@ -9,6 +9,10 @@ const colorMode = useColorMode()
 
 const { locale, locales, t } = useI18n()
 
+// 站点 metadata（server-state 注水）：SEO 标题/描述/关键词优先取它，i18n / CONFIG 兜底。
+// 在 app 根组件调用即触发 SSR 拉取，供首页 / 社交栏等共享同一份数据。
+const siteMetadata = useSiteMetadata()
+
 const localeMap = (locales.value as LocaleObject[]).reduce((acc, l) => {
   acc[l.code!] = l.dir ?? 'ltr'
   return acc
@@ -115,7 +119,7 @@ useHead({
       titleTemplate = `${titleTemplate.slice(0, 60)}...${titleTemplate.endsWith('"') ? '"' : ''}`
     }
 
-    const site_name = t('global.site_name')
+    const site_name = siteMetadata.value?.site?.title || t('global.site_name')
 
     if (titleTemplate.length && site_name.length) {
       titleTemplate += ' | '
@@ -128,12 +132,14 @@ useHead({
     {
       hid: 'description',
       name: 'description',
-      content: t('global.desc'),
+      content: siteMetadata.value?.site?.description || t('global.desc'),
     },
     {
       hid: 'keywords',
       name: 'keywords',
-      content: CONFIG.keywords.join(','),
+      content: siteMetadata.value?.site?.keywords?.length
+        ? siteMetadata.value.site.keywords.join(',')
+        : CONFIG.keywords.join(','),
     },
     {
       name: 'viewport',
