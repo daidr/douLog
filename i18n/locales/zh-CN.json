@@ -170,7 +170,6 @@
     "replied_to": "回复",
     "reply_to": "回复 {'@'}{name}…",
     "anonymous": "匿名",
-    "blogger": "博主",
     "show_more_replies": "查看其余 {count} 条回复",
     "collapse_replies": "收起回复",
     "placeholder": "说点什么吧...",

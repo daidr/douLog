@@ -50,8 +50,6 @@ const websiteHref = computed(() => {
 const emailHash = computed(() =>
   props.comment.author?.emailHash || props.comment.guest?.emailHash || '',
 )
-// 博主徽章：仅登录作者侧 isBlogger 为真时显示
-const isBlogger = computed(() => props.comment.author?.isBlogger === true)
 // 国内 gravatar 镜像；mp 是 mystery person fallback
 const avatarUrl = computed(() =>
   `https://cravatar.cn/avatar/${emailHash.value}?d=mp&s=80`,
@@ -183,7 +181,6 @@ function onReplySubmitted(reply: IReply | null) {
           {{ displayName }}
         </a>
         <span v-else class="comment-item__author">{{ displayName }}</span>
-        <span v-if="isBlogger" class="comment-item__blogger-badge">{{ t('comment.blogger') }}</span>
         <span class="comment-item__time">{{ formattedTime }}</span>
       </div>
       <!--
@@ -296,13 +293,6 @@ function onReplySubmitted(reply: IReply | null) {
   &:where(a):hover {
     @apply underline;
   }
-}
-
-.comment-item__blogger-badge {
-  @apply inline-flex items-center;
-  @apply px-1.5 py-0.5 rounded-md;
-  @apply text-xs font-medium leading-none;
-  @apply text-white bg-primary-4 dark-text-primary-9;
 }
 
 .comment-item__time {
