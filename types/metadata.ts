@@ -11,8 +11,9 @@ export interface SiteMetadataSocial {
 export interface SiteMetadata {
   profile: {
     name: string
-    enName: string
+    handle: string
     motto: string
+    bio: string
   }
   social: SiteMetadataSocial[]
   site: {

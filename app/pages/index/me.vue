@@ -6,7 +6,7 @@ const { t } = useI18n()
 // 博主信息优先取后端 metadata（server-state 注水），i18n 作为兜底
 const metadata = useSiteMetadata()
 const bloggerName = computed(() => metadata.value?.profile?.name || t('global.name'))
-const bloggerEnName = computed(() => metadata.value?.profile?.enName || t('global.en_name'))
+const bloggerHandle = computed(() => metadata.value?.profile?.handle || t('global.en_name'))
 const bloggerMotto = computed(() => metadata.value?.profile?.motto || t('global.desc'))
 
 useHead({
@@ -24,7 +24,7 @@ useHead({
       </ClientOnly>
       <UiMainAvatar />
       <div class="name">
-        {{ bloggerName }} <span>@{{ bloggerEnName }}</span>
+        {{ bloggerName }} <span>@{{ bloggerHandle }}</span>
       </div>
       <div class="motto">
         {{ bloggerMotto }}

@@ -5,6 +5,10 @@ import NoWifiIcon from '~icons/mingcute/wifi-off-line'
 
 const { t } = useI18n()
 
+// 个人简介优先取后端 metadata（server-state 注水），i18n 的 blog_desc 作为兜底
+const metadata = useSiteMetadata()
+const authorBio = computed(() => metadata.value?.profile?.bio || t('global.blog_desc'))
+
 useHead({
   title: computed(() => t('main_nav.posts')),
 })
@@ -90,7 +94,7 @@ const isOnlineOnce = computed(() => {
               {{ t('global.name') }} <span>@{{ t('global.en_name') }}</span>
             </div>
             <div class="author-description">
-              {{ t('global.blog_desc') }}
+              {{ authorBio }}
             </div>
           </div>
         </div>
