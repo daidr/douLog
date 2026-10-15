@@ -129,6 +129,8 @@ export default defineNuxtConfig({
     apiEntry: process.env.NUXT_BLOG_API_ENTRY || 'http://localhost:3005',
     GithubAPIEntry:
       process.env.NUXT_GITHUB_API_ENTRY || 'https://api.github.com',
+    // /api/clean_cache 的 Bearer token（仅服务端）。留空 = 接口关闭
+    cachePurgeToken: process.env.NUXT_CACHE_PURGE_TOKEN || '',
     app: {
       buildAssetsDir: '/_doulog/',
     },
